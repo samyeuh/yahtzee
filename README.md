@@ -2,11 +2,14 @@
 
 ## Introduction
 
+Ce projet Github est une version du célèbre jeu de dés **"Yam's"** où le joueur cherche à obtenir le meilleur score possible en remplissant différentes catégories sur un tableau de score. Chaque partie consiste en treize tours durant lesquels le joueur lance cinq dés jusqu'à trois fois pour tenter de réaliser des combinaisons spécifiques, telles qu'un brelan, un carré, une suite, ou un Yam (cinq dés identiques).
+
+Le joueur choisit après chaque premier et deuxième lancer quels dés garder et quels dés relancer pour optimiser ses chances de former les combinaisons désirées. Une fois une combinaison obtenue, il l'inscrit dans la catégorie correspondante sur le tableau de score. Chaque catégorie ne peut être utilisée qu'une seule fois par partie, donc la stratégie et la prise de décision sont cruciales. Le jeu se termine après le treizième tour, et le joueur calcule son score total pour évaluer sa performance.
 
 ## Technologies utilisés
 
-**Front:** React TypeScript
-**Back:** Python
+**Front:** React + TypeScript + Vite
+**Back:** Python + Flask
 
 ## Installation du jeu
 
