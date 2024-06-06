@@ -1,0 +1,27 @@
+.fullpage{
+    gap: '10px';
+    color: black;
+}
+
+.title{
+    margin-top: 10%;
+    margin-bottom: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 10px;
+}
+
+.buttons{
+    color: black;
+    background-color: skyblue;
+}
+
+.errorMessage{
+    background-color: 'red';
+}
