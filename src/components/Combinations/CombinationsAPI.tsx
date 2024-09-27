@@ -3,9 +3,10 @@ import { useCallback } from 'react';
 
 interface APIFunctions {
     getCombinations(): Promise<any>;
+    getTooltipDices(): Promise<any>;
     setCombinations(combinations: any): Promise<any>;
     updateScore(score: number): Promise<any>;
-    savePlayerScore(playerName: String, score: number): Promise<any>;
+    restartGame(): Promise<any>;
 }
 
 export function CombinationsAPI(): APIFunctions {
@@ -18,6 +19,16 @@ export function CombinationsAPI(): APIFunctions {
       }).catch((error) => {
         console.error("Error:", error);
       });
+  }, []);
+
+  const getTooltipDices = useCallback(() => {
+    return axios.get('http://localhost:5000/getTooltipDices')
+    .then((response) => {
+      const data = response.data;
+      return data;
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
   }, []);
 
   const setCombinations = useCallback((combinations: any) => {
@@ -42,17 +53,16 @@ export function CombinationsAPI(): APIFunctions {
     });
   }, []);
 
-  const savePlayerScore = useCallback((playerName: String, score: number) => {
-    return axios.post(`http://localhost:5000/saveScore`, {
-      playerName: playerName,
-      score: score
-    }).then((response) => {
+  const restartGame = useCallback(() => {
+    return axios.post(`http://localhost:5000/restartGame`)
+    .then((response) => {
       const data = response.data;
       return data;
-    }).catch((error) => {
-      console.error("Erreur: " + error);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
-  }, []);
+}, []);
 
-  return { getCombinations, setCombinations, updateScore, savePlayerScore };
+  return { getCombinations, getTooltipDices, setCombinations, updateScore, restartGame };
 }

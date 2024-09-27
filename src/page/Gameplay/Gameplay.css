@@ -1,0 +1,51 @@
+/* Style de base pour la page */
+.GameplayPage {
+    transition: all 0.3s ease;
+    background-color: #f5f0db;
+}
+
+.navBar{
+    background-color: #f5f0db;
+}
+
+
+  
+  /* Appliquer un effet de flou et de réduction de luminosité uniquement au fond */
+  .blur-background {
+    filter: blur(15px);
+    pointer-events: none;
+  }
+  
+  /* Conteneur pour toute la page */
+  .GameplayContainer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Style de la modale */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent derrière la modale */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .rulesBox {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1001; /* Assure-toi que la modale est au-dessus du fond flou */
+  }
+  
+  /* Empêche le défilement du body lorsque la modale est ouverte */
+  body.modal-open {
+    overflow: hidden;
+  }
+  

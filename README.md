@@ -1,30 +1,41 @@
-# React + TypeScript + Vite
+# Yams Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+Yams is a dice game where players roll five dice to make certain combinations and score points. This application allows users to play Yams digitally, keeping track of scores and providing an interactive experience.
 
-Currently, two official plugins are available:
+## Features
+- Roll five dice and get random results
+- Score combinations such as Three of a Kind, Four of a Kind, Full House, Small Straight, Large Straight, and Yams
+- Keep track of player scores
+- User-friendly interface
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+1. Clone the repository:
+  ```sh
+  git clone https://github.com/samyeuh/Yams.git
+  ```
+2. Navigate to the project directory:
+  ```sh
+  cd Yams
+  ```
+3. Install the required dependencies:
+  ```sh
+  npm install
+  ```
 
-## Expanding the ESLint configuration
+## Usage
+1. Start the application:
+  ```sh
+  npm start
+  ```
+2. Open your browser and navigate to `http://localhost:3000` to start playing.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Contributing
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature-branch`)
+5. Create a new Pull Request
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Contact
+For any questions or feedback, please contact [samybouhamidi2@gmail.com](mailto:samybouhamidi2@gmail.com).

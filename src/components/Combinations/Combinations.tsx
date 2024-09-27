@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import Tableau, { Combi } from "../Tableau/Tableau";
+import Tableau from "../Tableau/Tableau";
 import { useGameplayContext } from "../../context/GameplayContext/GameplayContext";
 import { CombinationsAPI } from "./CombinationsAPI";
+import { Combi } from "../../class/Combi";
 
 interface Combinations {
     simple: Combi[];
@@ -11,38 +12,54 @@ interface Combinations {
 
 export function Combinations() {
 
-    var dice_one = "/dice1.jpg";
-    var dice_two = "/dice2.jpg";
-    var dice_three = "/dice3.jpg";
-    var dice_four = "/dice4.jpg";
-    var dice_five = "/dice5.jpg";
-    var dice_six = "/dice6.jpg";
+    const { roundActive, setRoundActive, gameActive, setGameActive, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal, defaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
+    const { getCombinations, getTooltipDices, setCombinations, updateScore } = CombinationsAPI();
 
-    const { roundActive, setRoundActive, gameActive, setGameActive, playerName, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal } = useGameplayContext();
-    const { getCombinations, setCombinations, updateScore, savePlayerScore } = CombinationsAPI();
+    // todo: blabla à faire corriger par mathilde
+    const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
 
-    const [combiComplexes, setCombiComplexes] = useState<Combi[]>( [
-        {nom: 'Brelan', imageUrls: [dice_three, dice_three, dice_three, dice_one, dice_five], score: -1 },
-        {nom: 'Carré', imageUrls: [dice_four, dice_four, dice_four, dice_four, dice_six], score: -1 },
-        {nom: 'Full', imageUrls: [dice_two, dice_two, dice_two, dice_six, dice_six], score: -1 },
-        {nom: 'Petite Suite', imageUrls: [dice_one, dice_two, dice_three, dice_four, dice_six], score: -1 },
-        {nom: 'Grande Suite', imageUrls: [dice_one, dice_two, dice_three, dice_four, dice_five], score: -1 },
-        {nom: 'Yams', imageUrls: [dice_five, dice_five, dice_five, dice_five, dice_five], score: -1 },
-        {nom: 'Chance', imageUrls: [], score: -1}
-    ]);
 
-    const [combiSimples, setCombiSimples] =  useState<Combi[]>([
-        {nom: 'Un', imageUrls: [dice_one], score: -1 },
-        {nom: 'Deux', imageUrls: [dice_two], score: -1 },
-        {nom: 'Trois', imageUrls: [dice_three], score: -1 },
-        {nom: 'Quatre', imageUrls: [dice_four], score: -1 },
-        {nom: 'Cinq', imageUrls: [dice_five], score: -1 },
-        {nom: 'Six', imageUrls: [dice_six], score: -1 }
-    ]);
-
+    const [combiComplexes, setCombiComplexes] = useState<Combi[]>(defaultCombiComplexes);
+    const [combiSimples, setCombiSimples] =  useState<Combi[]>(defaultCombiSimples);
     const [ combiSimpleToDisplay, setCombiSimpleToDisplay ] = useState<Combi[]>(combiSimples);
     const [ combiComplexeToDisplay, setCombiComplexeToDisplay ] = useState<Combi[]>(combiComplexes);
     const [ combiSelected, setCombiSelected ] = useState<String[]>([]);
+    const [resetTab, setResetTab] = useState(true);
+
+    const handleToolTip = async (): Promise<void> => {
+        try {
+          const tooltip = await getTooltipDices();
+          console.log(tooltip);
+          var combiComplexeCopy = defaultCombiComplexes;
+          const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
+              switch (combi.nom){
+                  case 'three of a kind':
+                      return {...combi, hoverDices: tooltip.threeOfAKind};
+                  case 'four of a kind':
+                      return {...combi, hoverDices: tooltip.fourOfAKind};
+                  case 'full house':
+                      return {...combi, hoverDices: tooltip.fullHouse};
+                  case 'small straight':
+                      return {...combi, hoverDices: tooltip.smallStraight};
+                  case 'large straight':
+                      return {...combi, hoverDices: tooltip.largeStraight};
+                  case 'yahtzee':
+                      return {...combi, hoverDices: tooltip.yahtzee};
+                  case 'chance':
+                      return {...combi, hoverDices: tooltip.chance};
+                  default:
+                      return combi;
+              }
+          });
+          setCombiComplexes(updatedCombiComplexes)
+          } catch (error) {
+            console.error("error" + error);
+          }
+        }
+        
+        useEffect(() => {
+          handleToolTip();
+        }, [])
 
     useEffect(() => {
         setCombiSimpleToDisplay(combiSimples);
@@ -62,9 +79,16 @@ export function Combinations() {
             setGameActive(false);
             setCombiSimplesFinal(combiSimpleToDisplay);
             setCombiComplexesFinal(combiComplexeToDisplay);
-            handleSavePlayerScore();
         }
     }, [combiSelected]);
+
+    useEffect(() => {
+        if (resetTab) {
+            setCombiSimples(defaultCombiSimples);
+            setCombiComplexes(defaultCombiComplexes);
+            setCombiSelected([]);
+        }
+    }, [resetTab]);
     
 /*
 Faire pixel art pour les dés
@@ -87,6 +111,9 @@ ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
         // passe deux fois ici ?
         var combiSelectedList = [...combiSelected, combi.nom];
         setCombiSelected(combiSelectedList);
+
+        // aucun rapport
+        setResetTab(false)
         return combi.score;
     };
 
@@ -141,25 +168,38 @@ ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
             setRoundActive(true);
         }
     };
-
-    const handleSavePlayerScore = async (): Promise<void> => {
-        try {
-            await savePlayerScore(playerName, score);
-        } catch (error) {
-            console.error("Erreur: " + error);
-        };
-    };
+    
+    // à supprimer quand plus besoin
+    const handleEnding = (): void => {
+        setGameActive(false);
+    }
 
     return(
         <>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
                 <div style={{marginRight: '5px'}}>
-                    <Tableau combis={combiSimpleToDisplay} caption={"Combinaisons simples"} clickFunc={chooseThisCombination} />
+                    <Tableau 
+                        combis={[...combiSimpleToDisplay, combiTotal]} 
+                        caption={"upper section"} 
+                        clickFunc={chooseThisCombination}
+                        resetTab={resetTab}
+                        selectedCombi={combiSelected}
+                    />
                 </div>
                 <div style={{marginLeft: '5px'}}>
-                    <Tableau combis={combiComplexeToDisplay} caption={"Combinaisons complexes"} clickFunc={chooseThisCombination} />
+                    <Tableau 
+                        combis={combiComplexeToDisplay} 
+                        caption={"lower section"} 
+                        clickFunc={chooseThisCombination}
+                        resetTab={resetTab}
+                        selectedCombi={combiSelected}
+                    />
                 </div>
             </div>
+            {/* TODO: Me virer cette merde quand c'est fini */}
+            {gameActive && 
+                (<button onClick={handleEnding}> finir le jeu </button>) 
+            }
         </>
     )
 }

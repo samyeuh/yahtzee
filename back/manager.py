@@ -2,29 +2,30 @@ from utils import startChecking
 import random
 import copy
 
+# TODO: translate all vars :)
+
 class YamsManager():
     def __init__(self):
-        self.pseudoGenerator = ["boloss72"]
         self.score = 0
         self.combinations = {
             "complexe":
                 [
-                    {'nom': "Brelan", 'score': -1},
-                    {'nom': "Carré", 'score': -1},
-                    {'nom': "Full", 'score': -1},
-                    {'nom': "Petite Suite", 'score': -1},
-                    {'nom': "Grande Suite", 'score': -1},
-                    {'nom': "Yams", 'score': -1},
-                    {'nom': "Chance", 'score': -1}
+                    {'nom': "three of a kind", 'score': -1},
+                    {'nom': "four of a kind", 'score': -1},
+                    {'nom': "full house", 'score': -1},
+                    {'nom': "small straight", 'score': -1},
+                    {'nom': "large straight", 'score': -1},
+                    {'nom': "yahtzee", 'score': -1},
+                    {'nom': "chance", 'score': -1}
                 ],
             "simple":
                 [
-                    {'nom': "Un", 'score': -1},
-                    {'nom': "Deux", 'score': -1},
-                    {'nom': "Trois", 'score': -1},
-                    {'nom': "Quatre", 'score': -1},
-                    {'nom': "Cinq", 'score': -1},
-                    {'nom': "Six", 'score': -1}
+                    {'nom': "aces", 'score': -1},
+                    {'nom': "twos", 'score': -1},
+                    {'nom': "threes", 'score': -1},
+                    {'nom': "fours", 'score': -1},
+                    {'nom': "fives", 'score': -1},
+                    {'nom': "sixes", 'score': -1}
                 ]
         }
         self.initRound()
@@ -53,10 +54,6 @@ class YamsManager():
 
     def setCombinations(self, combinations):
         self.combinations = combinations
-
-    def getRandomPseudo(self):
-        i = random.randint(0, len(self.pseudoGenerator))
-        return self.pseudoGenerator[i]
     
     def getScore(self):
         return self.score
@@ -69,22 +66,22 @@ class YamsManager():
         self.combinations = {
             "complexe":
                 [
-                    {'nom': "Brelan", 'score': -1},
-                    {'nom': "Carré", 'score': -1},
-                    {'nom': "Full", 'score': -1},
-                    {'nom': "Petite Suite", 'score': -1},
-                    {'nom': "Grande Suite", 'score': -1},
-                    {'nom': "Yams", 'score': -1},
-                    {'nom': "Chance", 'score': -1}
+                    {'nom': "three of a kind", 'score': -1},
+                    {'nom': "four of a kind", 'score': -1},
+                    {'nom': "full house", 'score': -1},
+                    {'nom': "small straight", 'score': -1},
+                    {'nom': "large straight", 'score': -1},
+                    {'nom': "yahtzee", 'score': -1},
+                    {'nom': "chance", 'score': -1}
                 ],
             "simple":
                 [
-                    {'nom': "Un", 'score': -1},
-                    {'nom': "Deux", 'score': -1},
-                    {'nom': "Trois", 'score': -1},
-                    {'nom': "Quatre", 'score': -1},
-                    {'nom': "Cinq", 'score': -1},
-                    {'nom': "Six", 'score': -1}
+                    {'nom': "aces", 'score': -1},
+                    {'nom': "twos", 'score': -1},
+                    {'nom': "threes", 'score': -1},
+                    {'nom': "fours", 'score': -1},
+                    {'nom': "fives", 'score': -1},
+                    {'nom': "sixes", 'score': -1}
                 ]
         }
         self.initRound()

@@ -1,4 +1,5 @@
 from scoreCalculator import checkSameNumbers
+from exampleGenerator import generateComplexeExample
 from datetime import datetime
 import pandas as p
 import csv
@@ -20,5 +21,17 @@ def savingScore(playerName, score):
 
 def getScoreTable():
     print("ok")
+
+def generateTooltipDices():
+    combi = {
+                'threeOfAKind': [],
+                'fourOfAKind': [],
+                'fullHouse': [],
+                'smallStraight': [],
+                'largeStraight': [],
+                'yahtzee': [],
+                'chance': []
+    }
+    return generateComplexeExample(combi)
 
     
