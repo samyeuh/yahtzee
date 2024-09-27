@@ -7,8 +7,6 @@ type EndRollingProps = {
     handleReplay: () => void;
 }; 
 
-// TODO: AFFICHER LE SCORE CORRECTEMENT DERNIERE ETAPE
-
 export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
     const initialSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"]);

@@ -2,8 +2,6 @@ from utils import startChecking
 import random
 import copy
 
-# TODO: translate all vars :)
-
 class YamsManager():
     def __init__(self):
         self.score = 0

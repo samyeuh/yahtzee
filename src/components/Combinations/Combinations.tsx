@@ -196,10 +196,6 @@ ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
                     />
                 </div>
             </div>
-            {/* TODO: Me virer cette merde quand c'est fini */}
-            {gameActive && 
-                (<button onClick={handleEnding}> finir le jeu </button>) 
-            }
         </>
     )
 }

@@ -6,7 +6,7 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
 
 export function Login() {
-  // TODO: best scores tab (IN A FUTUR VERSION ?)
+  // TODO: best scores tab
 
   const { setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
   const { restartGame } = CombinationsAPI();
@@ -50,7 +50,7 @@ export function Login() {
           <div className="form">
             <button className="uiverse" onClick={startGame}>
                 <div className="wrapper">
-                    <span style={{fontWeight: 'bold'}}>play</span> { /* TODO: fix ? */}
+                    <span style={{fontWeight: 'bold'}}>play</span>
                     <div className="circle circle-12"></div>
                     <div className="circle circle-11"></div>
                     <div className="circle circle-10"></div>

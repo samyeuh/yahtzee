@@ -148,7 +148,7 @@
                 </div> 
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <h1 style={{fontWeight: 'bold'}}> yours dices </h1>
+                        <h1 style={{fontWeight: 'bold'}}> your dices </h1>
                         <p>remaining rolls: {nbTurns}</p>
                             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                                 {dicesSRC.map((src, index) => (

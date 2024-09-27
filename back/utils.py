@@ -5,8 +5,6 @@ import pandas as p
 import csv
 import pytz
 
-#TODO: ajouter un tri du csv ?
-
 def startChecking(dices, combinations):
     return checkSameNumbers(dices, combinations)
 

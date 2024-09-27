@@ -26,9 +26,9 @@ Yams is a dice game where players roll five dice to make certain combinations an
 ## Usage
 1. Start the application:
   ```sh
-  npm start
+  npm run dev
   ```
-2. Open your browser and navigate to `http://localhost:3000` to start playing.
+2. Open your browser and navigate to `http://localhost:5173` to start playing.
 
 ## Contributing
 1. Fork the repository
