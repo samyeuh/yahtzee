@@ -168,11 +168,6 @@ ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
             setRoundActive(true);
         }
     };
-    
-    // à supprimer quand plus besoin
-    const handleEnding = (): void => {
-        setGameActive(false);
-    }
 
     return(
         <>
