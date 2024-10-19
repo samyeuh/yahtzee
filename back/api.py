@@ -2,6 +2,7 @@ from utils import generateTooltipDices
 from flask import Flask, jsonify, request
 from manager import YamsManager
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -57,4 +58,4 @@ def getTooltipDices():
 
 if __name__ == "__main__":
     yams = YamsManager()
-    app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

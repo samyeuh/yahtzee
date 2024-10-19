@@ -1,6 +1,5 @@
 from utils import startChecking
 import random
-import copy
 
 class YamsManager():
     def __init__(self):
