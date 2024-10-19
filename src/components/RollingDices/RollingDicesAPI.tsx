@@ -10,9 +10,10 @@ interface APIFunctions {
 
 export function RollingDicesAPI(): APIFunctions {
 
+  const API_BASE_URL = 'https://yahtzee-ygaf.onrender.com';
 
   const rollDices = useCallback(() => {
-    return axios.get(`http://localhost:5000/rollDices`)
+    return axios.get(`${API_BASE_URL}/rollDices`)
       .then((response) => {
         const data = response.data;
         return data;
@@ -23,7 +24,7 @@ export function RollingDicesAPI(): APIFunctions {
   }, []);
 
   const keepDices = useCallback((dices: number[]) => {
-      return axios.post(`http://localhost:5000/keepDices`, {
+      return axios.post(`${API_BASE_URL}/keepDices`, {
           dices
       }).then((response) => {
         const data = response.data;
@@ -35,7 +36,7 @@ export function RollingDicesAPI(): APIFunctions {
   }, []);
 
   const calculateScores = useCallback(() => {
-    return axios.get(`http://localhost:5000/calculateScores`)
+    return axios.get(`${API_BASE_URL}/calculateScores`)
       .then((response) => {
         const data = response.data;
         return data;
@@ -46,7 +47,7 @@ export function RollingDicesAPI(): APIFunctions {
   }, []);
 
   const initRound = useCallback(() => {
-    return axios.post(`http://localhost:5000/initRound`)
+    return axios.post(`${API_BASE_URL}/initRound`)
       .then((response) => {
         const data = response.data;
         return data;

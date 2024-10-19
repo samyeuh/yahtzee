@@ -11,8 +11,10 @@ interface APIFunctions {
 
 export function CombinationsAPI(): APIFunctions {
 
+  const API_BASE_URL = 'https://yahtzee-ygaf.onrender.com';
+
   const getCombinations = useCallback(() => {
-    return axios.get(`http://localhost:5000/getCombinations`)
+    return axios.get(`${API_BASE_URL}/getCombinations`)
       .then((response) => {
         const data = response.data;
         return data;
@@ -22,7 +24,7 @@ export function CombinationsAPI(): APIFunctions {
   }, []);
 
   const getTooltipDices = useCallback(() => {
-    return axios.get('http://localhost:5000/getTooltipDices')
+    return axios.get(`${API_BASE_URL}/getTooltipDices`)
     .then((response) => {
       const data = response.data;
       return data;
@@ -32,7 +34,7 @@ export function CombinationsAPI(): APIFunctions {
   }, []);
 
   const setCombinations = useCallback((combinations: any) => {
-    return axios.post(`http://localhost:5000/setCombinations`, {
+    return axios.post(`${API_BASE_URL}/setCombinations`, {
       combinations: combinations
     }).then((response) => {
       const data = response.data;
@@ -43,7 +45,7 @@ export function CombinationsAPI(): APIFunctions {
   }, []);
 
   const updateScore = useCallback((score: number) => {
-    return axios.post(`http://localhost:5000/updateScore`, {
+    return axios.post(`${API_BASE_URL}/updateScore`, {
       score: score
     }).then((response) => {
       const data = response.data;
@@ -54,7 +56,7 @@ export function CombinationsAPI(): APIFunctions {
   }, []);
 
   const restartGame = useCallback(() => {
-    return axios.post(`http://localhost:5000/restartGame`)
+    return axios.post(`${API_BASE_URL}/restartGame`)
     .then((response) => {
       const data = response.data;
       return data;
