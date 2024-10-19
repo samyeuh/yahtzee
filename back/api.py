@@ -5,7 +5,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app, origins=["https://yams-e2sv.onrender.com/"])
+CORS(app, origins=["https://yams-e2sv.onrender.com"])
 
 @app.route("/rollDices", methods=["GET"])
 def rollDices():
