@@ -5,6 +5,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
+yams = YamsManager()
 CORS(app, origins=["https://yams-e2sv.onrender.com"])
 
 @app.route("/rollDices", methods=["GET"])
@@ -63,5 +64,4 @@ def getTooltipDices():
     
 
 if __name__ == "__main__":
-    yams = YamsManager()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
