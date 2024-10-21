@@ -6,7 +6,7 @@ interface LoadingPageProps {
 }
 
 export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
-  const gif = "/dice.gif";
+  const gif = "/yahtzee.gif";
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {

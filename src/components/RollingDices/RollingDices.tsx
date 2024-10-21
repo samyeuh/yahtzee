@@ -8,8 +8,8 @@
     }; 
 
     export function RollingDices({ openRules }: RollingDicesProps) {
-        const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
-        const gifSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
+        const initialSRC = ["/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png"];
+        const gifSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
         const [dicesSRC, setDicesSRC] = useState(initialSRC);
         const [nbTurns, setNbTurns] = useState(3);
         const [dicesKeep, setDicesKeep] = useState<number[]>([]);
@@ -102,7 +102,7 @@
         }
 
         const handleDiceClick = async (index: number): Promise<void> => {
-            if (dicesSRC.includes("/dice.gif") || dicesSRC.includes("/nonumber.gif")) {
+            if (dicesSRC.includes("/nonumber.gif") || dicesSRC.includes("/nonumber.png")) {
                 return;
             }
             if (dicesKeep.includes(index)) {

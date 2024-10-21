@@ -9,8 +9,8 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
   
   export function Rules({closeFunction, openModal}: RulesProps) {
 
-    const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
-    const gifSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
+    const initialSRC = ["/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png"];
+    const gifSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState(initialSRC);
     const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
     const { getTooltipDices } = CombinationsAPI();
@@ -71,7 +71,7 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
             <div className="rulesBox">
           <h1 style={{fontWeight: 'bold', textAlign: 'center', backgroundColor: 'white'}}> rules !! </h1>
           <p style={{ textAlign: 'center', backgroundColor: 'white'}}> welcome in the best web adaption of the yahtzee ☺</p>
-          <img src="dice.gif" style={{maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white'}}></img> {/* to center */}
+          <img src="nonumber.gif" style={{maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white'}}></img> {/* to center */}
           <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
               <p style={{backgroundColor: 'white'}}> in front of you, you have five dice that you can </p>

@@ -24,7 +24,7 @@ def generateThreeOfAKind():
         numb = randint(1,6)
         while numb == lastNumb:
             numb = randint(1,6)
-        res.append(f"/dices/dice{numb}.jpg")
+        res.append(f"/dices/dice{numb}.png")
         lastNumb = numb
     return res
 
@@ -35,7 +35,7 @@ def generateFourOfAKind():
     numb = randint(1,6)
     while numb == quadrupleNumb:
         numb = randint(1,6)
-    res.append(f"/dices/dice{numb}.jpg")
+    res.append(f"/dices/dice{numb}.png")
     return res
 
 def generateFull():

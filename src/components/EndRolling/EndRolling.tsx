@@ -8,8 +8,8 @@ type EndRollingProps = {
 }; 
 
 export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
-    const initialSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
-    const [dicesSRC, setDicesSRC] = useState<string[]>(["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"]);
+    const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
+    const [dicesSRC, setDicesSRC] = useState<string[]>(["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"]);
     const {score} = useGameplayContext();
 
     useEffect(() => {
@@ -27,11 +27,11 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
         var tempList = [...initialSRC];
         let digits = score.toString().padStart(3, '0').split('');
         let resultList = [
-            "/dice.png",
-            `/dice${digits[0]}.jpg`,
-            `/dice${digits[1]}.jpg`,
-            `/dice${digits[2]}.jpg`,
-            "/dice.png"
+            "/score/heart.png",
+            `/score/dice${digits[0]}.jpg`,
+            `/score/dice${digits[1]}.jpg`,
+            `/score/dice${digits[2]}.jpg`,
+            "/score/heart.png"
         ];
 
         // faire un arbre pour clean
