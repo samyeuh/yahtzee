@@ -28,9 +28,9 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
         let digits = score.toString().padStart(3, '0').split('');
         let resultList = [
             "/score/heart.png",
-            `/score/dice${digits[0]}.jpg`,
-            `/score/dice${digits[1]}.jpg`,
-            `/score/dice${digits[2]}.jpg`,
+            `/score/dice${digits[0]}.png`,
+            `/score/dice${digits[1]}.png`,
+            `/score/dice${digits[2]}.png`,
             "/score/heart.png"
         ];
 
