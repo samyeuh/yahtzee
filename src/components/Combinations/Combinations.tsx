@@ -29,7 +29,6 @@ export function Combinations() {
     const handleToolTip = async (): Promise<void> => {
         try {
           const tooltip = await getTooltipDices();
-          console.log(tooltip);
           var combiComplexeCopy = defaultCombiComplexes;
           const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
               switch (combi.nom){

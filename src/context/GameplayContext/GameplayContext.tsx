@@ -49,21 +49,21 @@ export const GameplayProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [combiComplexesFinal, setCombiComplexesFinal] = useState<Combi[]>([]);
   const [defaultCombiComplexes, setDefaultCombiComplexes] = useState<{nom: string, score: number, hover: string, hoverDices: string[]}[]>([
     {nom: 'three of a kind', score: -1, hover: "sum of the dice you have in triplicate", hoverDices: [""]},
-    {nom: 'four of a kind', score: -1, hover: "sum of the dice you have in quadruple", hoverDices: ["/dice2.jpg"]},
-    {nom: 'full house', score: -1, hover: "three of one dice and two of another (25pts)", hoverDices: ["/dice3.jpg"] },
-    {nom: 'small straight', score: -1, hover: "four sequential dice (30 pts)", hoverDices: ["/dice4.jpg"] },
-    {nom: 'large straight', score: -1, hover: "five sequential dice (40 pts)", hoverDices: ["/dice5.jpg"] },
-    {nom: 'yahtzee', score: -1, hover: "all five dice the same (50 pts)", hoverDices: ["/dice6.jpg"] },
-    {nom: 'chance', score: -1, hover: "sum of all your dices", hoverDices: ["/dice1.jpg"]}
+    {nom: 'four of a kind', score: -1, hover: "sum of the dice you have in quadruple", hoverDices: ["/dices/dice2.png"]},
+    {nom: 'full house', score: -1, hover: "three of one dice and two of another (25pts)", hoverDices: ["/dices/dice3.png"] },
+    {nom: 'small straight', score: -1, hover: "four sequential dice (30 pts)", hoverDices: ["/dices/dice4.png"] },
+    {nom: 'large straight', score: -1, hover: "five sequential dice (40 pts)", hoverDices: ["/dices/dice5.png"] },
+    {nom: 'yahtzee', score: -1, hover: "all five dice the same (50 pts)", hoverDices: ["/dices/dice6.png"] },
+    {nom: 'chance', score: -1, hover: "sum of all your dices", hoverDices: ["/dices/dice1.png"]}
 ]);
 
 const [defaultCombiSimples] = useState<{nom: string, score: number, hover: string, hoverDices: string[]}[]>([
-  {nom: 'aces', score: -1, hover: "sum of the one", hoverDices: ["/dice1.jpg"] },
-  {nom: 'twos', score: -1, hover: "sum of the two", hoverDices: ["/dice2.jpg"] },
-  {nom: 'threes', score: -1, hover: "sum of the three", hoverDices: ["/dice3.jpg"] },
-  {nom: 'fours', score: -1, hover: "sum of the four", hoverDices: ["/dice4.jpg"] },
-  {nom: 'fives', score: -1, hover: "sum of the five", hoverDices: ["/dice5.jpg"] },
-  {nom: 'sixes', score: -1, hover: "sum of the sixe", hoverDices: ["/dice6.jpg"] }      
+  {nom: 'aces', score: -1, hover: "sum of the one", hoverDices: ["/dices/dice1.png"] },
+  {nom: 'twos', score: -1, hover: "sum of the two", hoverDices: ["/dices/dice2.png"] },
+  {nom: 'threes', score: -1, hover: "sum of the three", hoverDices: ["/dices/dice3.png"] },
+  {nom: 'fours', score: -1, hover: "sum of the four", hoverDices: ["/dices/dice4.png"] },
+  {nom: 'fives', score: -1, hover: "sum of the five", hoverDices: ["/dices/dice5.png"] },
+  {nom: 'sixes', score: -1, hover: "sum of the sixe", hoverDices: ["/dices/dice6.png"] }      
 ]);
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(true);

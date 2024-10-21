@@ -8,7 +8,7 @@
     }; 
 
     export function RollingDices({ openRules }: RollingDicesProps) {
-        const initialSRC = ["/dice.png", "/dice.png", "/dice.png", "/dice.png", "/dice.png"];
+        const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
         const gifSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
         const [dicesSRC, setDicesSRC] = useState(initialSRC);
         const [nbTurns, setNbTurns] = useState(3);
@@ -82,18 +82,17 @@
         
             try {
                 let result = await rollDices();
-                let diceList = result.dices.map((dice: number) => "/dice" + dice + ".jpg");
+                let diceList = result.dices.map((dice: number) => "/dices/dice" + dice + ".png");
                 for (let i = 0; i < diceList.length; i++) {
                     if (index.includes(i)) {
                         diceList[i] = diceSRCList[i];
                     }else{
-                        diceList[index[i]] = "/dice" + diceList[i] + ".jpg";
+                        diceList[index[i]] = "/dices/dice" + diceList[i] + ".png";
                     }
                 }
                 setDicesSRC(diceList);
                 setNbTurns(parseInt(result.nbTurns));
                 if (nbTurns <= 1) {
-                    console.log("hey")
                     setRollDisabled(true);
                     endOfRound();
                 }
@@ -103,19 +102,19 @@
         }
 
         const handleDiceClick = async (index: number): Promise<void> => {
-            if (dicesSRC.includes("/dice.gif") || dicesSRC.includes("/dice.png")) {
+            if (dicesSRC.includes("/dice.gif") || dicesSRC.includes("/nonumber.gif")) {
                 return;
             }
             if (dicesKeep.includes(index)) {
                 const newDiceList = dicesKeep.filter(value => value !== index);
                 const diceSRCList = [...dicesSRC];
-                diceSRCList[index] = diceSRCList[index].replace("_select.jpg",".jpg");
+                diceSRCList[index] = diceSRCList[index].replace("_select.png",".png");
                 setDicesKeep(newDiceList);
                 setDicesSRC(diceSRCList);
             } else {
                 const newDiceList = [...dicesKeep, index];
                 const diceSRCList = [...dicesSRC];
-                diceSRCList[index] = diceSRCList[index].replace(".jpg","_select.jpg");
+                diceSRCList[index] = diceSRCList[index].replace(".png","_select.png");
                 setDicesKeep(newDiceList);
                 setDicesSRC(diceSRCList);
             }
@@ -144,7 +143,7 @@
             <>
             <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex', flexDirection: 'row', position: 'absolute', right: 100}}>
-                    <img key="rules" alt="rules" src="dice.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
+                    <img key="rules" alt="rules" src="nonumber.gif" style={{height: '50px', width: '50px'}} onClick={openRules} />
                 </div> 
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>

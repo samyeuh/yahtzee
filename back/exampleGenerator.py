@@ -1,10 +1,10 @@
 from random import randint
 
 def getSelectImgOfDice(nb):
-    return f"/dice{nb}_select.jpg"
+    return f"/dices/dice{nb}_select.png"
 
 def getImgOfDice(nb):
-    return f"/dice{nb}.jpg"
+    return f"/dices/dice{nb}.jpg"
 
 def generateComplexeExample(combi):
     combi["threeOfAKind"] = generateThreeOfAKind()
@@ -24,7 +24,7 @@ def generateThreeOfAKind():
         numb = randint(1,6)
         while numb == lastNumb:
             numb = randint(1,6)
-        res.append(f"/dice{numb}.jpg")
+        res.append(f"/dices/dice{numb}.jpg")
         lastNumb = numb
     return res
 
@@ -35,7 +35,7 @@ def generateFourOfAKind():
     numb = randint(1,6)
     while numb == quadrupleNumb:
         numb = randint(1,6)
-    res.append(f"/dice{numb}.jpg")
+    res.append(f"/dices/dice{numb}.jpg")
     return res
 
 def generateFull():

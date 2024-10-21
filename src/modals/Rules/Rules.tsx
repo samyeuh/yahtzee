@@ -9,7 +9,7 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
   
   export function Rules({closeFunction, openModal}: RulesProps) {
 
-    const initialSRC = ["/dice.png", "/dice.png", "/dice.png", "/dice.png", "/dice.png"];
+    const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
     const gifSRC = ["/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif", "/dice.gif"];
     const [dicesSRC, setDicesSRC] = useState(initialSRC);
     const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
@@ -26,7 +26,7 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
       setDicesSRC(gifSRC);
       await delay(1000);
       let diceList = dicesSRC.map(() => {
-          return "/dice" + randomInt(1, 6) + ".jpg";
+          return "/dices/dice" + randomInt(1, 6) + ".png";
       });
       setDicesSRC(diceList);
     }
@@ -34,7 +34,6 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
     const handleToolTip = async (): Promise<void> => {
       try {
         const tooltip = await getTooltipDices();
-        console.log(tooltip);
         var combiComplexeCopy = defaultCombiComplexes;
         const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
             switch (combi.nom){
