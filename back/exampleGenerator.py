@@ -4,7 +4,7 @@ def getSelectImgOfDice(nb):
     return f"/dices/dice{nb}_select.png"
 
 def getImgOfDice(nb):
-    return f"/dices/dice{nb}.jpg"
+    return f"/dices/dice{nb}.png"
 
 def generateComplexeExample(combi):
     combi["threeOfAKind"] = generateThreeOfAKind()
