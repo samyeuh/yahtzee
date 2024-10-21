@@ -1,0 +1,70 @@
+table {
+  width: 500px;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: '10px'
+}
+
+th,
+td {
+  padding: 15px;
+  background-color: rgba(255,255,255,0.2);
+  color: black;
+}
+
+thead{
+  width: 100%
+}
+
+.combi {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.combi:hover {
+  color: #ff0000;
+  cursor: pointer;
+}
+
+th {
+  text-align: center;
+  background: linear-gradient(to top, white, lightblue)
+}
+
+.scoreWithHover {
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.2s;
+}
+
+.scoreWithHover:hover{
+  background-color: lightblue;
+}
+
+.scoreWithoutHover{
+  text-align: center;
+  user-select: none;
+  padding: 10px;
+}
+
+/* Apply border-radius to top corners */
+thead tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Apply border-radius to bottom corners */
+tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}

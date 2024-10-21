@@ -1,0 +1,49 @@
+.dice {
+    width: 20%;
+}
+
+/* From Uiverse.io by btongheng */ 
+.button {
+  --e: #add8e6;
+  --ee: #73bdd6;
+  --eee: #654dff63;
+  cursor: pointer;
+  width: 184px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.125em;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  background: var(--e);
+  border: 2px solid var(--ee);
+  border-radius: .75rem;
+  box-shadow: 0 8px 0 var(--ee);
+  transform: skew(-10deg);
+  transition: all .1s ease;
+  /* filter: drop-shadow(0 15px 20px var(--eee)); */
+  margin-top: 10px;
+  margin-bottom: 20px;
+  pointer-events: auto;
+}
+
+.button:active {
+  letter-spacing: 0px;
+  transform: skew(-10deg) translateY(8px);
+  box-shadow: 0 0 0 var(--eee);
+}
+
+.button:hover {
+  background: var(--e);
+  border: var(--eee)
+}
+
+.button:disabled {
+  --e: lightgray;
+  --ee: gray;
+  --eee: gray;
+  pointer-events: none;
+} 
