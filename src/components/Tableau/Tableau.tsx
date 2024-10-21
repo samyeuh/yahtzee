@@ -34,8 +34,8 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
         setTooltipInfo({
             description,
             imageUrl,
-            posX: rect.x + window.scrollX + rect.width / 2, // Positionnement au centre de la cellule
-            posY: rect.y + window.scrollY - 10 // Juste au-dessus de la cellule
+            posX: rect.x + window.scrollX + rect.width / 2,
+            posY: rect.y + window.scrollY - 10
         });
     };
 

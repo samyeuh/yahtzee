@@ -48,12 +48,12 @@ export const GameplayProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [combiSimplesFinal, setCombiSimplesFinal] = useState<Combi[]>([]);
   const [combiComplexesFinal, setCombiComplexesFinal] = useState<Combi[]>([]);
   const [defaultCombiComplexes, setDefaultCombiComplexes] = useState<{nom: string, score: number, hover: string, hoverDices: string[]}[]>([
-    {nom: 'three of a kind', score: -1, hover: "sum of the dice you have in triplicate", hoverDices: [""]},
-    {nom: 'four of a kind', score: -1, hover: "sum of the dice you have in quadruple", hoverDices: ["/dices/dice2.png"]},
-    {nom: 'full house', score: -1, hover: "three of one dice and two of another (25pts)", hoverDices: ["/dices/dice3.png"] },
-    {nom: 'small straight', score: -1, hover: "four sequential dice (30 pts)", hoverDices: ["/dices/dice4.png"] },
-    {nom: 'large straight', score: -1, hover: "five sequential dice (40 pts)", hoverDices: ["/dices/dice5.png"] },
-    {nom: 'yahtzee', score: -1, hover: "all five dice the same (50 pts)", hoverDices: ["/dices/dice6.png"] },
+    {nom: 'three of a kind', score: -1, hover: "sum of the dice you have in triplicate", hoverDices: ["/dices/dice1.png"]},
+    {nom: 'four of a kind', score: -1, hover: "sum of the dice you have in quadruple", hoverDices: ["/dices/dice1.png"]},
+    {nom: 'full house', score: -1, hover: "three of one dice and two of another (25pts)", hoverDices: ["/dices/dice1.png"] },
+    {nom: 'small straight', score: -1, hover: "four sequential dice (30 pts)", hoverDices: ["/dices/dice1.png"] },
+    {nom: 'large straight', score: -1, hover: "five sequential dice (40 pts)", hoverDices: ["/dices/dice1.png"] },
+    {nom: 'yahtzee', score: -1, hover: "all five dice the same (50 pts)", hoverDices: ["/dices/dice1.png"] },
     {nom: 'chance', score: -1, hover: "sum of all your dices", hoverDices: ["/dices/dice1.png"]}
 ]);
 
