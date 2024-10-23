@@ -24,7 +24,7 @@ interface GameplayContextType {
 const GameplayContext = createContext<GameplayContextType>({
   roundActive: true, 
   setRoundActive: () => {},
-  gameActive: true,
+  gameActive: false,
   setGameActive: () => {},
   score: 0,
   setScore: () => {},

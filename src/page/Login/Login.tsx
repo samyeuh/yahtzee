@@ -8,7 +8,7 @@ import { LoadingPage } from '../LoadingPage/LoadingPage';
 export function Login() {
   // TODO: best scores tab
 
-  const { setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
+  const { gameActive, setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
   const { restartGame } = CombinationsAPI();
   const navigate = useNavigate();
 
@@ -26,14 +26,15 @@ export function Login() {
   };
 
   const startGame = async (): Promise<void> => {
+    console.log(gameActive);
     setLoading(true);
   };
 
   const handleFadeComplete = () => {
     setGameActive(true);
     setRoundActive(true);
-    navigate('/play');  // Naviguer une fois l'effet de fondu terminé
-    setLoading(false);  // Désactiver l'état de chargement
+    navigate('/play');
+    setLoading(false);
   };
 
   if (loading) return <LoadingPage onFadeComplete={handleFadeComplete}/>
