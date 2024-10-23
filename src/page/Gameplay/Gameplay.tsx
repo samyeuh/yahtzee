@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
 import './Gameplay.css';
 import { RollingDices } from '../../components/RollingDices/RollingDices';
@@ -7,12 +7,24 @@ import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
 import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
+import { useNavigate } from 'react-router-dom';
 
 export function Gameplay() {
 
   const { gameActive, setGameActive, setRoundActive, setScore, setResetTab } = useGameplayContext();
   const [openModal, setOpenModal] = useState<boolean>(true);
   const { restartGame } = CombinationsAPI();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isGameActive = localStorage.getItem('gameActive') === 'true';
+
+    if (!isGameActive) {
+      navigate('/');
+    } else {
+      setGameActive(true);
+    }
+  }, [navigate, setGameActive]);
 
   const handleReplay = async (): Promise<void> => {
     try {
