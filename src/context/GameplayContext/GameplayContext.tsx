@@ -43,7 +43,7 @@ const GameplayContext = createContext<GameplayContextType>({
 
 export const GameplayProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [roundActive, setRoundActive] = useState<boolean>(true);
-  const [gameActive, setGameActive] = useState<boolean>(true);
+  const [gameActive, setGameActive] = useState<boolean>(false);
   const [score, setScore ] = useState<number>(0);
   const [combiSimplesFinal, setCombiSimplesFinal] = useState<Combi[]>([]);
   const [combiComplexesFinal, setCombiComplexesFinal] = useState<Combi[]>([]);
