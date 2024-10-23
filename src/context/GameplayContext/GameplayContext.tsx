@@ -63,7 +63,7 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   {nom: 'threes', score: -1, hover: "sum of the three", hoverDices: ["/dices/dice3.png"] },
   {nom: 'fours', score: -1, hover: "sum of the four", hoverDices: ["/dices/dice4.png"] },
   {nom: 'fives', score: -1, hover: "sum of the five", hoverDices: ["/dices/dice5.png"] },
-  {nom: 'sixes', score: -1, hover: "sum of the sixe", hoverDices: ["/dices/dice6.png"] }      
+  {nom: 'sixes', score: -1, hover: "sum of the six", hoverDices: ["/dices/dice6.png"] }      
 ]);
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(true);
