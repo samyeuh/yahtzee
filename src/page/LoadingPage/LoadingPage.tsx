@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './LoadingPage.css'
+import './LoadingPage.css';
 import { LoadingPageAPI } from './LoadingPageAPI';
 
 interface LoadingPageProps {
@@ -13,31 +13,31 @@ export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
   const { testServer } = LoadingPageAPI();
 
   useEffect(() => {
-    while (serverOpen == false){
-      setTimeout(() => {
-        handleOpenServer();
-      }, 3000) 
-    }
-    
-    setTimeout(() => {
-      setFadeOut(true);
-    }, 1000);
+    const intervalId = setInterval(() => {
+      handleOpenServer();
+    }, 3000); 
 
-    setTimeout(() => {
-      onFadeComplete();  
-    }, 2000);  
-  }, [onFadeComplete]);
+    if (serverOpen) {
+      clearInterval(intervalId);
+      setFadeOut(true);
+      setTimeout(() => {
+        onFadeComplete();
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [serverOpen, onFadeComplete]);
 
   const handleOpenServer = async (): Promise<void> => {
     try {
-        let status = await testServer();
-        if (status == 200){
-            setServerOpen(true);
-        }
+      const status = await testServer();
+      if (status === 200) {
+        setServerOpen(true);
+      }
     } catch (error) {
-        console.error("Error: ", error);
+      console.error("Error: ", error);
     }
-}
+  }
 
   return (
     <div className={`loading-page ${fadeOut ? 'fade-out' : ''}`}>
