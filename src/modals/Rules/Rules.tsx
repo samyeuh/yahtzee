@@ -135,7 +135,7 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
               <p style={{fontWeight: 'bold'}}> three </p>
               <p> times</p>
             </div>
-            <p> for help you to create a combination with your dice, you can keep some dice before roll with clicking on it !!</p>
+            <p> to help you to create a combination with your dice, you can keep some dice before rolling by clicking on it !!</p>
             <p style={{fontWeight: 'bold'}}> good luck now :p</p>
           </div>
           <button className="closeButton" onClick={closeFunction} style={{marginTop: "10px"}}> Play </button>
