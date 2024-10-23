@@ -17,9 +17,8 @@ export function Gameplay() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isGameActive = localStorage.getItem('gameActive') === 'true';
 
-    if (!isGameActive) {
+    if (!gameActive) {
       navigate('/');
     } else {
       setGameActive(true);
