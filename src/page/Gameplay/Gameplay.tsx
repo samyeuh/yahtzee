@@ -17,13 +17,13 @@ export function Gameplay() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
+    console.log(gameActive);
     if (!gameActive) {
       navigate('/');
     } else {
       setGameActive(true);
     }
-  }, [navigate, setGameActive]);
+  }, []);
 
   const handleReplay = async (): Promise<void> => {
     try {
