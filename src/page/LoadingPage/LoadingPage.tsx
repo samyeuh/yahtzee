@@ -14,7 +14,9 @@ export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
 
   useEffect(() => {
     while (serverOpen == false){
-      handleOpenServer(); 
+      setTimeout(() => {
+        handleOpenServer();
+      }, 3000) 
     }
     
     setTimeout(() => {
