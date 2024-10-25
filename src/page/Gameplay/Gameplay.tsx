@@ -17,7 +17,6 @@ export function Gameplay() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(gameActive);
     if (!gameActive) {
       navigate('/');
     } else {

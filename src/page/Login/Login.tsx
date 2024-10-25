@@ -26,7 +26,6 @@ export function Login() {
   };
 
   const startGame = async (): Promise<void> => {
-    console.log(gameActive);
     setLoading(true);
   };
 
