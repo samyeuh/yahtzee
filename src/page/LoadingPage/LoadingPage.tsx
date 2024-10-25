@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import './LoadingPage.css'
+import './LoadingPage.css';
+import { LoadingPageAPI } from './LoadingPageAPI';
 
 interface LoadingPageProps {
   onFadeComplete: () => void;
@@ -8,18 +9,35 @@ interface LoadingPageProps {
 export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
   const gif = "/yahtzee.gif";
   const [fadeOut, setFadeOut] = useState(false);
+  const [serverOpen, setServerOpen] = useState(false);
+  const { testServer } = LoadingPageAPI();
 
   useEffect(() => {
-    // Simuler un délai pendant lequel le chargement s'effectue
-    setTimeout(() => {
-      setFadeOut(true);  // Activer le fade-out après un certain temps
-    }, 1000);  // 2 secondes d'affichage du chargement par exemple
+    const intervalId = setInterval(() => {
+      handleOpenServer();
+    }, 3000); 
 
-    // Après que l'animation de fondu soit terminée, on peut signaler que le chargement est terminé
-    setTimeout(() => {
-      onFadeComplete();  // Appeler la fonction pour indiquer que le fade est terminé
-    }, 2000);  // 3 secondes pour inclure la durée du fade-out
-  }, [onFadeComplete]);
+    if (serverOpen) {
+      clearInterval(intervalId);
+      setFadeOut(true);
+      setTimeout(() => {
+        onFadeComplete();
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [serverOpen, onFadeComplete]);
+
+  const handleOpenServer = async (): Promise<void> => {
+    try {
+      const status = await testServer();
+      if (status === 200) {
+        setServerOpen(true);
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  }
 
   return (
     <div className={`loading-page ${fadeOut ? 'fade-out' : ''}`}>

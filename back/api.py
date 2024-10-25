@@ -8,6 +8,10 @@ app = Flask(__name__)
 yams = YamsManager()
 CORS(app, origins=["https://yams-e2sv.onrender.com"])
 
+@app.route("/testServer", methods=["GET"])
+def testServer():
+    return jsonify({"message":"it works"}), 200
+
 @app.route("/rollDices", methods=["GET"])
 def rollDices():
     nbTurn, dice = yams.rollDices()

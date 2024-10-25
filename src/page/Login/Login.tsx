@@ -32,8 +32,8 @@ export function Login() {
   const handleFadeComplete = () => {
     setGameActive(true);
     setRoundActive(true);
-    navigate('/play');  // Naviguer une fois l'effet de fondu terminé
-    setLoading(false);  // Désactiver l'état de chargement
+    navigate('/play');
+    setLoading(false);
   };
 
   if (loading) return <LoadingPage onFadeComplete={handleFadeComplete}/>
