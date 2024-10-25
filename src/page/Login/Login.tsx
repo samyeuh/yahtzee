@@ -8,7 +8,7 @@ import { LoadingPage } from '../LoadingPage/LoadingPage';
 export function Login() {
   // TODO: best scores tab
 
-  const { gameActive, setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
+  const { setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
   const { restartGame } = CombinationsAPI();
   const navigate = useNavigate();
 
