@@ -7,7 +7,7 @@ interface APIFunctions {
 
 export function LoadingPageAPI(): APIFunctions {
 
-  const API_BASE_URL = 'https://yahtzee-ygaf.onrender.com';
+  const API_BASE_URL = 'http://127.0.0.1:5000';
 
   const testServer = useCallback(() => {
     return axios.get(`${API_BASE_URL}/testServer`)

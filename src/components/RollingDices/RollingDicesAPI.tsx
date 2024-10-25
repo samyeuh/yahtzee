@@ -10,7 +10,7 @@ interface APIFunctions {
 
 export function RollingDicesAPI(): APIFunctions {
 
-  const API_BASE_URL = 'https://yahtzee-ygaf.onrender.com';
+  const API_BASE_URL = 'http://127.0.0.1:5000';
 
   const rollDices = useCallback(() => {
     return axios.get(`${API_BASE_URL}/rollDices`)

@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=["https://yams-e2sv.onrender.com"])
+CORS(app)
 
 @app.route("/testServer", methods=["GET"])
 def testServer():
@@ -68,4 +68,4 @@ def getTooltipDices():
     
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run()
