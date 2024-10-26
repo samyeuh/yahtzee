@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './LoadingPage.css';
-import { LoadingPageAPI } from './LoadingPageAPI';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 interface LoadingPageProps {
   onFadeComplete: () => void;
@@ -10,7 +10,7 @@ export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
   const gif = "/yahtzee.gif";
   const [fadeOut, setFadeOut] = useState(false);
   const [serverOpen, setServerOpen] = useState(false);
-  const { testServer } = LoadingPageAPI();
+  const { testServer } = YahtzeeAPI();
 
   useEffect(() => {
     const intervalId = setInterval(() => {

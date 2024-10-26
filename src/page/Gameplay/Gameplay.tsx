@@ -6,14 +6,14 @@ import { EndRolling } from '../../components/EndRolling/EndRolling';
 import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
-import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
 import { useNavigate } from 'react-router-dom';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
   const { gameActive, setGameActive, setRoundActive, setScore, setResetTab } = useGameplayContext();
   const [openModal, setOpenModal] = useState<boolean>(true);
-  const { restartGame } = CombinationsAPI();
+  const { restartGame } = YahtzeeAPI();
   const navigate = useNavigate();
 
   useEffect(() => {
