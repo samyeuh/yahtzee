@@ -12,8 +12,17 @@ interface Combinations {
 
 export function Combinations() {
 
+    const initializeUser = () => {
+        let userId = localStorage.getItem('userId');
+        if (!userId){
+          userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+          localStorage.setItem('userId', userId);
+        }
+        return userId;
+      }
+
     const { roundActive, setRoundActive, gameActive, setGameActive, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal, defaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
-    const { getCombinations, getTooltipDices, setCombinations, updateScore } = YahtzeeAPI();
+    const { getCombinations, getTooltipDices, setCombinations, updateScore } = YahtzeeAPI(initializeUser());
 
     const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
 

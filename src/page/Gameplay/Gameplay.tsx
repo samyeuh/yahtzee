@@ -11,9 +11,18 @@ import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
+  const initializeUser = () => {
+    let userId = localStorage.getItem('userId');
+    if (!userId){
+      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      localStorage.setItem('userId', userId);
+    }
+    return userId;
+  }
+
   const { gameActive, setGameActive, setRoundActive, setScore, setResetTab } = useGameplayContext();
   const [openModal, setOpenModal] = useState<boolean>(true);
-  const { restartGame } = YahtzeeAPI();
+  const { restartGame } = YahtzeeAPI(initializeUser());
   const navigate = useNavigate();
 
   useEffect(() => {

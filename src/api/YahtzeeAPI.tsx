@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { useCallback } from 'react';
 
-export function YahtzeeAPI() {
+export function YahtzeeAPI(userId: string) {
 
   const API_BASE_URL = 'http://127.0.0.1:5000';
 
   const getCombinations = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/getCombinations`)
-      .then((response) => {
+    return axios.get(`${API_BASE_URL}/getCombinations`, {
+        params: { userId: userId } 
+    }).then((response) => {
         const data = response.data;
         return data;
       }).catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const getTooltipDices = useCallback(() => {
     return axios.get(`${API_BASE_URL}/getTooltipDices`)
@@ -27,28 +28,32 @@ export function YahtzeeAPI() {
 
   const setCombinations = useCallback((combinations: any) => {
     return axios.post(`${API_BASE_URL}/setCombinations`, {
-      combinations: combinations
+      combinations: combinations,
+      userId: userId
     }).then((response) => {
       const data = response.data;
       return data;
     }).catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const updateScore = useCallback((score: number) => {
     return axios.post(`${API_BASE_URL}/updateScore`, {
-      score: score
+      score: score,
+      userId: userId
     }).then((response) => {
       const data = response.data;
       return data;
     }).catch((error) => {
       console.error("Erreur: " + error);
     });
-  }, []);
+  }, [userId]);
 
   const restartGame = useCallback(() => {
-    return axios.post(`${API_BASE_URL}/restartGame`)
+    return axios.post(`${API_BASE_URL}/restartGame`, {
+        userId: userId
+    })
     .then((response) => {
       const data = response.data;
       return data;
@@ -56,10 +61,12 @@ export function YahtzeeAPI() {
     .catch((error) => {
       console.error("Error:", error);
     });
-}, []);
+}, [userId]);
 
 const rollDices = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/rollDices`)
+    return axios.get(`${API_BASE_URL}/rollDices`, {
+        params: { userId: userId }
+    })
       .then((response) => {
         const data = response.data;
         return data;
@@ -67,11 +74,12 @@ const rollDices = useCallback(() => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const keepDices = useCallback((dices: number[]) => {
       return axios.post(`${API_BASE_URL}/keepDices`, {
-          dices
+          dices: dices,
+          userId: userId
       }).then((response) => {
         const data = response.data;
         return data;
@@ -79,10 +87,12 @@ const rollDices = useCallback(() => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const calculateScores = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/calculateScores`)
+    return axios.get(`${API_BASE_URL}/calculateScores`, {
+        params: { userId: userId }
+    })
       .then((response) => {
         const data = response.data;
         return data;
@@ -90,10 +100,12 @@ const rollDices = useCallback(() => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const initRound = useCallback(() => {
-    return axios.post(`${API_BASE_URL}/initRound`)
+    return axios.post(`${API_BASE_URL}/initRound`, {
+        userId: userId
+    })
       .then((response) => {
         const data = response.data;
         return data;
@@ -101,7 +113,7 @@ const rollDices = useCallback(() => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [userId]);
 
   const testServer = useCallback(() => {
     return axios.get(`${API_BASE_URL}/testServer`)
