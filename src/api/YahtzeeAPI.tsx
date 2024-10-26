@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 export function YahtzeeAPI(userId: string) {
 
-  const API_BASE_URL = 'http://127.0.0.1:5000';
+  const API_BASE_URL = 'https://yahtzee-ygaf.onrender.com';
 
   const getCombinations = useCallback(() => {
     return axios.get(`${API_BASE_URL}/getCombinations`, {
