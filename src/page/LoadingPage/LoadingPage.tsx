@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react';
 import './LoadingPage.css';
-import { LoadingPageAPI } from './LoadingPageAPI';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 interface LoadingPageProps {
   onFadeComplete: () => void;
 }
 
 export function LoadingPage({ onFadeComplete }: LoadingPageProps) {
+
+  const initializeUser = () => {
+    let userId = localStorage.getItem('userId');
+    if (!userId){
+      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      localStorage.setItem('userId', userId);
+    }
+    return userId;
+  }
+
   const gif = "/yahtzee.gif";
   const [fadeOut, setFadeOut] = useState(false);
   const [serverOpen, setServerOpen] = useState(false);
-  const { testServer } = LoadingPageAPI();
+  const { testServer } = YahtzeeAPI(initializeUser());
 
   useEffect(() => {
     const intervalId = setInterval(() => {

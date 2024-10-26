@@ -6,7 +6,15 @@ import os
 
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=["https://yams-e2sv.onrender.com"])
+CORS(app)
+
+sessions = {}
+
+def getMyYahtzeeManager(request):
+    id = request.args.get("userId") or request.json.get("userId")
+    if id not in sessions:
+        sessions[id] = YamsManager()
+    return sessions[id]
 
 @app.route("/testServer", methods=["GET"])
 def testServer():
@@ -14,11 +22,13 @@ def testServer():
 
 @app.route("/rollDices", methods=["GET"])
 def rollDices():
+    yams = getMyYahtzeeManager(request)
     nbTurn, dice = yams.rollDices()
     return jsonify({"dices": dice, "nbTurns": nbTurn}), 200
 
 @app.route("/keepDices", methods=["POST"])
 def keepDices():
+    yams = getMyYahtzeeManager(request)
     dice = request.json['dices']
     dice_indices = [int(d) for d in dice]
     yams.keepDices(dice_indices)
@@ -26,34 +36,39 @@ def keepDices():
 
 @app.route("/calculateScores")
 def calculateScores():
+    yams = getMyYahtzeeManager(request)
     yams.calculateScores()
     return jsonify({"message": "score perfectly calculated"}), 200
     
 @app.route("/getCombinations", methods=["GET"])
 def getCombinations():
+    yams = getMyYahtzeeManager(request)
     return jsonify(yams.getCombinations()), 200
 
 
 @app.route("/initRound", methods=["POST"])
 def initRound():
+    yams = getMyYahtzeeManager(request)
     yams.initRound()
     return jsonify({"message": "round perfectly initied"}), 200
 
 @app.route("/setCombinations", methods=["POST"])
 def setCombinations():
+    yams = getMyYahtzeeManager(request)
     combinations = request.json["combinations"]
     yams.setCombinations(combinations)
     return jsonify({"message": "combinations perfectly setted"}), 200
 
 @app.route('/restartGame', methods=["POST"])
 def restartGame():
+    yams = getMyYahtzeeManager(request)
     yams.restartGame()
     return jsonify({"message": "game perfectly restarted"}), 200
 
 @app.route('/updateScore', methods=["POST"])
 def updateScore():
     try:
-        print("hey")
+        yams = getMyYahtzeeManager(request)
         score = request.json["score"]
         yams.addScore(int(score))
         newScore = yams.getScore()
@@ -68,4 +83,4 @@ def getTooltipDices():
     
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run()

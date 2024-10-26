@@ -6,14 +6,23 @@ import { EndRolling } from '../../components/EndRolling/EndRolling';
 import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
-import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
 import { useNavigate } from 'react-router-dom';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
+  const initializeUser = () => {
+    let userId = localStorage.getItem('userId');
+    if (!userId){
+      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      localStorage.setItem('userId', userId);
+    }
+    return userId;
+  }
+
   const { gameActive, setGameActive, setRoundActive, setScore, setResetTab } = useGameplayContext();
   const [openModal, setOpenModal] = useState<boolean>(true);
-  const { restartGame } = CombinationsAPI();
+  const { restartGame } = YahtzeeAPI(initializeUser());
   const navigate = useNavigate();
 
   useEffect(() => {

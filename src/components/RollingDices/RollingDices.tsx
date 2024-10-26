@@ -1,11 +1,19 @@
     import { useEffect, useState } from 'react';
     import './RollingDices.css';
-    import { RollingDicesAPI } from './RollingDicesAPI';
     import { useGameplayContext } from '../../context/GameplayContext/GameplayContext'
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
     type RollingDicesProps = {
         openRules: () => void;
-    }; 
+    };
+    const initializeUser = () => {
+        let userId = localStorage.getItem('userId');
+        if (!userId){
+          userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+          localStorage.setItem('userId', userId);
+        }
+        return userId;
+      }
 
     export function RollingDices({ openRules }: RollingDicesProps) {
         const initialSRC = ["/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png"];
@@ -14,7 +22,7 @@
         const [nbTurns, setNbTurns] = useState(3);
         const [dicesKeep, setDicesKeep] = useState<number[]>([]);
         const[isRollDisabled, setRollDisabled] = useState(false);
-        const { rollDices, keepDices, calculateScores, initRound } = RollingDicesAPI();
+        const { rollDices, keepDices, calculateScores, initRound } = YahtzeeAPI(initializeUser());
         const { roundActive, setRoundActive } = useGameplayContext();
 
         // TODO: if yams confettis ?

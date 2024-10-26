@@ -1,7 +1,7 @@
   import { useEffect, useState } from 'react';
 import './Rules.css'
 import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
-import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
   type RulesProps = {
     closeFunction: () => void;
     openModal: boolean;
@@ -9,11 +9,20 @@ import { CombinationsAPI } from '../../components/Combinations/CombinationsAPI';
   
   export function Rules({closeFunction, openModal}: RulesProps) {
 
+    const initializeUser = () => {
+      let userId = localStorage.getItem('userId');
+      if (!userId){
+        userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+
     const initialSRC = ["/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png"];
     const gifSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState(initialSRC);
     const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
-    const { getTooltipDices } = CombinationsAPI();
+    const { getTooltipDices } = YahtzeeAPI(initializeUser());
 
     function randomInt(min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1)) + min;
