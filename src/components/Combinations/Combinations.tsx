@@ -21,7 +21,7 @@ export function Combinations() {
         return userId;
       }
 
-    const { roundActive, setRoundActive, gameActive, setGameActive, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal, defaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
+    const { roundActive, setRoundActive, gameActive, setGameActive, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal, defaultCombiComplexes, defaultCombiSimples, resetTab, setResetTab } = useGameplayContext();
     const { getCombinations, getTooltipDices, setCombinations, updateScore } = YahtzeeAPI(initializeUser());
 
     const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
@@ -29,10 +29,9 @@ export function Combinations() {
 
     const [combiComplexes, setCombiComplexes] = useState<Combi[]>(defaultCombiComplexes);
     const [combiSimples, setCombiSimples] =  useState<Combi[]>(defaultCombiSimples);
-    const [ combiSimpleToDisplay, setCombiSimpleToDisplay ] = useState<Combi[]>(combiSimples);
-    const [ combiComplexeToDisplay, setCombiComplexeToDisplay ] = useState<Combi[]>(combiComplexes);
-    const [ combiSelected, setCombiSelected ] = useState<String[]>([]);
-    const [resetTab, setResetTab] = useState(true);
+    const [combiSimpleToDisplay, setCombiSimpleToDisplay] = useState<Combi[]>(combiSimples);
+    const [combiComplexeToDisplay, setCombiComplexeToDisplay] = useState<Combi[]>(combiComplexes);
+    const [combiSelected, setCombiSelected] = useState<String[]>([]);
 
     const handleToolTip = async (): Promise<void> => {
         try {
@@ -96,12 +95,6 @@ export function Combinations() {
             setCombiSelected([]);
         }
     }, [resetTab]);
-    
-/*
-Faire pixel art pour les dés
-https://www.piskelapp.com/p/create/sprite
-ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
-*/
 
 
     const updateTheScore = async (combi: Combi): Promise<void> => {
@@ -115,11 +108,9 @@ ou demander à Tofu pour créer pixel arts (6 dés + gif qui tourne)
 
 
     const addCombi = (combi: Combi): number => {
-        // passe deux fois ici ?
         var combiSelectedList = [...combiSelected, combi.nom];
         setCombiSelected(combiSelectedList);
 
-        // aucun rapport
         setResetTab(false)
         return combi.score;
     };
