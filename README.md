@@ -29,7 +29,7 @@ The game can be played here: [Yahtzee](https://yams-e2sv.onrender.com)
 
 ### Exemple of a game :
 
-...
+[![Regarder la vidéo](https://img.youtube.com/vi/xs8yNMO7O1g/maxresdefault.jpg)](https://www.youtube.com/watch?v=xs8yNMO7O1g)
 
 Try to do better :p
 
