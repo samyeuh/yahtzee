@@ -9,7 +9,7 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
 
-## Table des matières
+## Table of contents
 
 - [Introduction](#introduction)
 - [Gameplay](#gameplay)
