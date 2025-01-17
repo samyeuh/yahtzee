@@ -35,5 +35,5 @@ Try to do better :p
 
 ## Feedback
 
-Feel free to leave us your opinions on the project and to [create issues](https://github.com/gitpoint/git-point/issues/new).
+Feel free to leave us your opinions on the project and to [create issues](https://github.com/samyeuh/Yams/issues/new).
 
