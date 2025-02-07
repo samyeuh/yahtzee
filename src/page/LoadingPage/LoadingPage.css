@@ -15,4 +15,11 @@
   .loading-page img {
     width: 30%;
   }
+
+  @media screen and (max-width: 600px) {
+    .loading-page img {
+      width: 75%;
+    }
+    
+  }
   

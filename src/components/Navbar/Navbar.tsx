@@ -14,6 +14,9 @@ const Navbar = () => {
             onMouseLeave={() => setHomeButton("/yahtzee.png")} 
             style={{height: "19px", width: "126px"}}/>
         </Link>
+        <Link onClick={() => (window.open('https://github.com/samyeuh/yahtzee'))} fontSize="lg" fontWeight="bold" color="gray.600">
+          <img src="/dices/github.png" style={{height:'22px', width: '22px'}}/>
+        </Link>
     </Flex>
     </Box>
   );

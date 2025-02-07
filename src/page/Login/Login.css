@@ -29,5 +29,15 @@ html, body{
   width: 5%;
 }
 
+@media screen and (max-width: 600px) {
+  .start-icon {
+    width: 75%;
+  }
+  .github-icon {
+    width: 10%;
+  }
+  
+}
+
 
  
