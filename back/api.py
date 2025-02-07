@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=["https://yams-e2sv.onrender.com"])
+CORS(app, origins=[os.getenv("FRONTURL")])
 
 sessions = {}
 
