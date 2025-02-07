@@ -1,8 +1,7 @@
 .dice {
     width: 20%;
 }
-
-/* From Uiverse.io by btongheng */ 
+ 
 .button {
   --e: #add8e6;
   --ee: #73bdd6;
@@ -24,7 +23,6 @@
   box-shadow: 0 8px 0 var(--ee);
   transform: skew(-10deg);
   transition: all .1s ease;
-  /* filter: drop-shadow(0 15px 20px var(--eee)); */
   margin-top: 10px;
   margin-bottom: 20px;
   pointer-events: auto;
@@ -46,4 +44,24 @@
   --ee: gray;
   --eee: gray;
   pointer-events: none;
-} 
+}
+
+.gif-rules{
+  display: flex;
+  flex-direction: row; 
+  position: absolute; 
+  right: 100px;
+}
+
+@media screen and (max-width: 768px) {
+
+  .gif-rules{
+    right: 0;
+    padding-right: 5%;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+}

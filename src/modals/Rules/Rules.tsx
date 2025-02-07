@@ -96,7 +96,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
             <div className='tableau'>
               <table style={{ border: '1px solid lightgray', borderCollapse: 'collapse', width: '100%' }}>
                 <tbody>
-                  {defaultCombiSimples.map((ligne, index) => {
+                  {defaultCombiComplexes.map((ligne, index) => {
                     const isTotalRow = ligne.nom === "total score";
                     return (
                       <tr key={isTotalRow ? 'total' : index} style={isTotalRow ? { background: 'linear-gradient(to bottom, white, lightblue)' } : { backgroundColor: 'white' }}>
@@ -118,7 +118,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
               </table>
               <table style={{ border: '1px solid lightgray', borderCollapse: 'collapse', width: '100%' }}>
                 <tbody>
-                  {defaultCombiComplexes.map((ligne, index) => {
+                  {defaultCombiSimples.map((ligne, index) => {
                     const isTotalRow = ligne.nom === "total score";
                     return (
                       <tr key={isTotalRow ? 'total' : index} style={isTotalRow ? { background: 'linear-gradient(to bottom, white, lightblue)' } : { backgroundColor: 'white' }}>
