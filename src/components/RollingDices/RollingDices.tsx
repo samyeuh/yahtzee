@@ -151,7 +151,7 @@ import { YahtzeeAPI } from '../../api/YahtzeeAPI';
             <>
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div className='gif-rules'>
-                    <img key="rules" alt="rules" src="nonumber.gif" style={{height: '50px', width: '50px'}} onClick={openRules} />
+                    <img key="rules" alt="rules" src="rules.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
                 </div> 
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
