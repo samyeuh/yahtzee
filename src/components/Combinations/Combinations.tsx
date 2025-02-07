@@ -3,7 +3,7 @@ import Tableau from "../Tableau/Tableau";
 import { useGameplayContext } from "../../context/GameplayContext/GameplayContext";
 import { Combi } from "../../class/Combi";
 import { YahtzeeAPI } from "../../api/YahtzeeAPI";
-
+import './Combinations.css';
 interface Combinations {
     simple: Combi[];
     complexe: Combi[];
@@ -169,11 +169,11 @@ export function Combinations() {
 
     return(
         <>
-            <div style={{display: 'flex', flexDirection: 'row', marginTop: '10px'}}>
+            <div className='tab-container'>
                 <div style={{marginRight: '5px'}}>
                     <Tableau 
-                        combis={[...combiSimpleToDisplay, combiTotal]} 
-                        caption={"upper section"} 
+                        combis={combiComplexeToDisplay} 
+                        caption={"lower section"} 
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
@@ -181,8 +181,8 @@ export function Combinations() {
                 </div>
                 <div style={{marginLeft: '5px'}}>
                     <Tableau 
-                        combis={combiComplexeToDisplay} 
-                        caption={"lower section"} 
+                        combis={[...combiSimpleToDisplay, combiTotal]} 
+                        caption={"upper section"} 
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}

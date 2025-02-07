@@ -68,6 +68,12 @@
     width: 10%;
   }
 
+  .gif {
+    max-width: 80px;
+    max-height: 80px; 
+    background-color: white;
+  }
+
   /* From Uiverse.io by zjssun */ 
 .closeButton {
   position: relative;
@@ -145,6 +151,14 @@
   animation: greenbottomBubbles 0.6s ease;
 }
 
+.tableau {
+  display: flex;
+  flex-direction: row; 
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
 @keyframes greenbottomBubbles {
   0% {
     background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
@@ -161,4 +175,27 @@
       110% 10%;
     background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
+}
+
+@media screen and (max-width: 600px) {
+  .tableau {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  .gif {
+    width: 50px;
+    height: 50px;
+  }
+
+  .rulesBox{
+    width: 90%;
+    gap: 5px;
+  }
+  
 }

@@ -56,7 +56,7 @@ export function Login() {
     <>  
       <div className="fullpage">
           <img src="/yahtzee.png" onClick={startGame} className='start-icon' alt="start button"/>
-          {/* <img src="/dices/github.png" onClick={openGithub} className='github-icon' alt="github link"/> */}
+          <img src="/dices/github.png" onClick={openGithub} className='github-icon' alt="github link"/>
       </div>
     </>
   );

@@ -1,0 +1,13 @@
+.tab-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    gap: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .tab-container{
+        flex-direction: column;
+        gap: 15px;
+    }
+}

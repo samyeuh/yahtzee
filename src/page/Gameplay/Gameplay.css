@@ -1,51 +1,89 @@
-/* Style de base pour la page */
-.GameplayPage {
-    transition: all 0.3s ease;
-    background-color: #f5f0db;
+.GameplayContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
+.GameplayPage {
+  transition: all 0.3s ease;
+  background-color: #f5f0db;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 
 .navBar{
     background-color: #f5f0db;
 }
 
+.blur-background {
+  filter: blur(15px);
+  pointer-events: none;
+}
 
-  
-  /* Appliquer un effet de flou et de réduction de luminosité uniquement au fond */
-  .blur-background {
-    filter: blur(15px);
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.rulesBox {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  z-index: 1001;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .tabs {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 10%;
+    padding-right: 10%;
+    margin-left: 10%;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to bottom, rgba(245, 240, 219, 1), rgba(245, 240, 219, 0));
+    z-index: 1;
     pointer-events: none;
   }
-  
-  /* Conteneur pour toute la page */
-  .GameplayContainer {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Style de la modale */
+
   .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent derrière la modale */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
   }
-  
-  .rulesBox {
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    z-index: 1001; /* Assure-toi que la modale est au-dessus du fond flou */
-  }
-  
-  /* Empêche le défilement du body lorsque la modale est ouverte */
-  body.modal-open {
-    overflow: hidden;
-  }
-  
+}

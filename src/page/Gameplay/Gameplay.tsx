@@ -63,7 +63,7 @@ export function Gameplay() {
         <div>
           { gameActive ? (<RollingDices openRules={openRules}/>) : (<EndRolling openRules={openRules} handleReplay={handleReplay}/>)}
         </div>
-        <div>
+        <div className='tabs'>
           <Combinations />
         </div>
       </div>

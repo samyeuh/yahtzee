@@ -68,3 +68,10 @@ tr:last-child td:first-child {
 tr:last-child td:last-child {
   border-bottom-right-radius: 10px;
 }
+
+@media screen and (max-width: 768px) {
+  table {
+    width: 90vw;
+  }
+  
+}
