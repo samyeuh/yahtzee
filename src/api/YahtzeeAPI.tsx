@@ -6,8 +6,7 @@ export function YahtzeeAPI(userId: string) {
   const API_BASE_URL = import.meta.env.VITE_BACKURL_RENDER || import.meta.env.VITE_BACKURL_PROD || import.meta.env.VITE_BACKURL_LOCAL;
 
   const getCombinations = useCallback(() => {
-    console.log("url: " + API_BASE_URL);
-    return axios.get(`${API_BASE_URL}/getCombinations`, {
+    return axios.get(`/getCombinations`, {
         params: { userId: userId } 
     }).then((response) => {
         const data = response.data;
@@ -18,7 +17,7 @@ export function YahtzeeAPI(userId: string) {
   }, [userId]);
 
   const getTooltipDices = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/getTooltipDices`)
+    return axios.get(`/getTooltipDices`)
     .then((response) => {
       const data = response.data;
       return data;
@@ -28,7 +27,7 @@ export function YahtzeeAPI(userId: string) {
   }, []);
 
   const setCombinations = useCallback((combinations: any) => {
-    return axios.post(`${API_BASE_URL}/setCombinations`, {
+    return axios.post(`/setCombinations`, {
       combinations: combinations,
       userId: userId
     }).then((response) => {
@@ -40,7 +39,7 @@ export function YahtzeeAPI(userId: string) {
   }, [userId]);
 
   const updateScore = useCallback((score: number) => {
-    return axios.post(`${API_BASE_URL}/updateScore`, {
+    return axios.post(`/updateScore`, {
       score: score,
       userId: userId
     }).then((response) => {
@@ -52,7 +51,7 @@ export function YahtzeeAPI(userId: string) {
   }, [userId]);
 
   const restartGame = useCallback(() => {
-    return axios.post(`${API_BASE_URL}/restartGame`, {
+    return axios.post(`/restartGame`, {
         userId: userId
     })
     .then((response) => {
@@ -65,7 +64,7 @@ export function YahtzeeAPI(userId: string) {
 }, [userId]);
 
 const rollDices = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/rollDices`, {
+    return axios.get(`/rollDices`, {
         params: { userId: userId }
     })
       .then((response) => {
@@ -78,7 +77,7 @@ const rollDices = useCallback(() => {
   }, [userId]);
 
   const keepDices = useCallback((dices: number[]) => {
-      return axios.post(`${API_BASE_URL}/keepDices`, {
+      return axios.post(`/keepDices`, {
           dices: dices,
           userId: userId
       }).then((response) => {
@@ -91,7 +90,7 @@ const rollDices = useCallback(() => {
   }, [userId]);
 
   const calculateScores = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/calculateScores`, {
+    return axios.get(`/calculateScores`, {
         params: { userId: userId }
     })
       .then((response) => {
@@ -104,7 +103,7 @@ const rollDices = useCallback(() => {
   }, [userId]);
 
   const initRound = useCallback(() => {
-    return axios.post(`${API_BASE_URL}/initRound`, {
+    return axios.post(`/initRound`, {
         userId: userId
     })
       .then((response) => {
@@ -117,7 +116,7 @@ const rollDices = useCallback(() => {
   }, [userId]);
 
   const testServer = useCallback(() => {
-    return axios.get(`${API_BASE_URL}/testServer`)
+    return axios.get(`/testServer`)
       .then((response) => {
         const status = response.status;
         return status;
