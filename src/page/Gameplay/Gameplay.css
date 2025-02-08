@@ -75,6 +75,7 @@ body.modal-open {
   }
 
   .GameplayPage{
+    margin-top: -10px;
     padding-bottom: 20%;
     overflow-y: hidden; /* Permet de scroller si nécessaire */
   }
