@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 export function YahtzeeAPI(userId: string) {
   
-  const API_BASE_URL = process.env.BACKURL;
+  const API_BASE_URL = import.meta.env.VITE_BACKURL; 
 
   const getCombinations = useCallback(() => {
     return axios.get(`${API_BASE_URL}/getCombinations`, {

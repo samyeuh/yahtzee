@@ -1,12 +1,15 @@
 from utils import generateTooltipDices
 from flask import Flask, jsonify, request
 from manager import YamsManager
+from dotenv import load_dotenv
 from flask_cors import CORS
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=[os.getenv("FRONTURL")])
+CORS(app, origins=[os.getenv("VITE_FRONTURL")])
 
 sessions = {}
 
