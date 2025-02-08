@@ -59,7 +59,7 @@ export function Gameplay() {
   <div className={`navBar ${openModal ? 'blur-backgroud' : ''}`}>
     <Navbar />
     <div className="GameplayContainer">
-      <div className={`GameplayPage ${openModal ? 'blur-background' : ''}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px', }}>
+      <div className={`GameplayPage ${openModal ? 'blur-background' : ''}`}>
         <div>
           { gameActive ? (<RollingDices openRules={openRules}/>) : (<EndRolling openRules={openRules} handleReplay={handleReplay}/>)}
         </div>
