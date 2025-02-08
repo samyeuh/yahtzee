@@ -7,10 +7,18 @@ import os
 
 load_dotenv()
 
+allowed_origins = list(filter(None, [
+    os.getenv("VITE_FRONTURL_RENDER"),
+    os.getenv("VITE_FRONTURL_PROD"),
+    os.getenv("VITE_FRONTURL_LOCAL")
+]))
+
+
+
+
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=[os.getenv("VITE_FRONTURL_RENDER"), os.getenv("VITE_FRONTURL_PROD"), os.getenv("VITE_FRONTURL_LOCAL")])
-
+CORS(app, origins=allowed_origins)
 sessions = {}
 
 def getMyYahtzeeManager(request):
