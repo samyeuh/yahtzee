@@ -65,8 +65,13 @@ body.modal-open {
 
 @media screen and (max-width: 768px) {
 
+  .GameplayContainer{
+    overflow-y: hidden; /* Permet le défilement si nécessaire */
+  }
+
   .GameplayPage{
-    padding-bottom: 10%;
+    padding-bottom: 20  %;
+    overflow-y: hidden; /* Permet de scroller si nécessaire */
   }
 
   .tabs {
