@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 yams = YamsManager()
-CORS(app, origins=[os.getenv("VITE_FRONTURL")])
+CORS(app, origins=[os.getenv("VITE_FRONTURL_RENDER"), os.getenv("VITE_FRONTURL_PROD"), os.getenv("VITE_FRONTURL_LOCAL")])
 
 sessions = {}
 
