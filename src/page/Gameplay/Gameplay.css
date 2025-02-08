@@ -1,3 +1,6 @@
+
+
+
 .GameplayContainer {
   height: 100vh;
   width: 100%;
@@ -12,6 +15,8 @@
 }
 
 .GameplayPage {
+  margin-top: -50px;
+  transform: scale(0.9);
   transition: all 0.3s ease;
   background-color: #f5f0db;
   flex-grow: 1;
