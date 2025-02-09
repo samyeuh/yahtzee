@@ -84,7 +84,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
           <img src="nonumber.gif" className='gif' style={{ maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white' }} alt="GIF" />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <p style={{ backgroundColor: 'white' }}>in front of you, you have five dice that you can</p>
+              <p style={{ backgroundColor: 'white' }}>in front of you, you have five dices that you can</p>
               <button className='rollButton' onClick={handleRoll}>Roll</button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
@@ -92,7 +92,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
                 <img key={index} src={src} alt="dice" className="fakeDice" />
               ))}
             </div>
-            <p>your objective in the round is to create a combination with dice</p>
+            <p>your objective in the round is to create a combination with dices</p>
             <div className='tableau'>
               <table style={{ border: '1px solid lightgray', borderCollapse: 'collapse', width: '100%' }}>
                 <tbody>
@@ -140,11 +140,11 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
               </table>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '5px', flexWrap: 'wrap' }}>
-              <p>during each round, you can roll your dice only</p>
+              <p>during each round, you can roll your dices only</p>
               <p style={{ fontWeight: 'bold' }}>three</p>
               <p>times</p>
             </div>
-            <p>to help you create a combination with your dice, you can keep some dice before rolling by clicking on it !!</p>
+            <p>to help you create a combination with your dices, you can keep some dices before rolling by clicking on it !!</p>
             <p style={{ fontWeight: 'bold' }}>good luck now :p</p>
           </div>
           <button className="closeButton" onClick={closeFunction} style={{ marginTop: "10px" }}>play</button>

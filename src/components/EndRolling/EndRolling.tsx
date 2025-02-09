@@ -65,7 +65,7 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
                                 />
                             ))}
                         </div>
-                    <button className="button" onClick={handleReplay}>REPLAY</button>
+                    <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
                 </div>
             </div>
         </div>
