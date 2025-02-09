@@ -1,7 +1,7 @@
 import './Login.css';
 import { useEffect } from 'react';
 import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
@@ -19,12 +19,17 @@ export function Login() {
   const { setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
   const { restartGame } = YahtzeeAPI(initializeUser());
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     whenLoading();
   }, []);
 
-  
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  }, [location]);
 
   const whenLoading = async () => {
     try {

@@ -16,6 +16,10 @@ function App() {
           path: '/',
           element: <Login />,
         },
+        {
+          path: '/*',
+          element: <Login />,
+        }
       ],
     },
   ]);
