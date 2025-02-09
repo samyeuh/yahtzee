@@ -14,6 +14,7 @@
 - [Introduction](#introduction)
 - [Gameplay](#gameplay)
 - [Functionalities](#functionalities)
+- [Launch locally](#launch-locally)
 - [Feedback](#feedback)
 
 
@@ -32,6 +33,18 @@ The game can be played here: [Yahtzee](https://yhtz.fr)
 [![Regarder la vidéo](https://img.youtube.com/vi/xs8yNMO7O1g/maxresdefault.jpg)](https://www.youtube.com/watch?v=xs8yNMO7O1g)
 
 Try to do better :p
+
+## Launch locally
+
+To launch the yams locally:
+ - Clone the github repo
+ - Run “npm install” in the terminal
+ - Open another terminal in parallel and run “pip install -r back\requirements.txt”.
+ - Run “npm run dev” in the first terminal, then click on the link to open the site.
+ - Run “python back\api.py” in the second terminal
+ - Don't hesitate to change the variables in **.env** if your links aren't the same as mine :)
+ - Then, have fun ♥
+
 
 ## Feedback
 
