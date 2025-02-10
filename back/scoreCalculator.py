@@ -54,7 +54,7 @@ def checkBrelan(dices, combinations):
         return checkCarre(dices, combinations)
 
     most_frequent = max(set(dices), key=dices.count)
-    if dices.count(most_frequent) == 3:
+    if dices.count(most_frequent) >= 3:
         combinations["complexe"][0]["score"] = most_frequent*3
     else:
         combinations["complexe"][0]["score"] = 0
@@ -65,7 +65,7 @@ def checkCarre(dices, combinations):
         return checkYams(dices, combinations)
     
     most_frequent = max(set(dices), key=dices.count)
-    if dices.count(most_frequent) == 4:
+    if dices.count(most_frequent) >= 4:
         combinations["complexe"][1]["score"] = most_frequent*4
     else:
         combinations["complexe"][1]["score"] = 0
