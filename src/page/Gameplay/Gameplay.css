@@ -1,6 +1,3 @@
-
-
-
 .GameplayContainer {
   height: 100vh;
   width: 100%;
@@ -10,7 +7,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  overflow-y: auto; /* Permet le défilement si nécessaire */
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -27,11 +24,9 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  overflow-y: auto; /* Permet de scroller si nécessaire */
+  overflow-y: auto;
   overflow-x: hidden;
 }
-
-
 
 .navBar{
     background-color: #f5f0db;
@@ -41,7 +36,6 @@
   filter: blur(15px);
   pointer-events: none;
 }
-
 
 .modal-overlay {
   position: fixed;
@@ -71,13 +65,13 @@ body.modal-open {
 @media screen and (max-width: 768px) {
 
   .GameplayContainer{
-    overflow-y: hidden; /* Permet le défilement si nécessaire */
+    overflow-y: hidden;
   }
 
   .GameplayPage{
     margin-top: -10px;
     padding-bottom: 20%;
-    overflow-y: hidden; /* Permet de scroller si nécessaire */
+    overflow-y: hidden;
   }
 
   .tabs {
@@ -104,6 +98,18 @@ body.modal-open {
     z-index: 1;
     pointer-events: none;
   }
+
+  .tabs::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to top, rgba(245, 240, 219, 1), rgba(245, 240, 219, 0));
+    z-index: 1;
+    pointer-events: none;
+  }  
 
   .modal-overlay {
     width: 100vw;
