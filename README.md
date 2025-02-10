@@ -36,7 +36,7 @@ Try to do better :p
 
 ## Launch locally
 
-To launch the yams locally:
+To launch the yahtzee locally:
  - Clone the github repo
  - Run “npm install” in the terminal
  - Open another terminal in parallel and run “pip install -r back\requirements.txt”.
