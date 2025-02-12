@@ -62,7 +62,7 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
                             <td 
                                 className="combi" 
                                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: "black"}}
-                                onMouseOver={(e) => handleMouseOver(e, ligne.hover, ligne.hoverDices)} // Afficher la bulle
+                                onMouseOver={(e) => handleMouseOver(e, ligne.hover, ligne.hoverDices)}
                                 onMouseOut={handleMouseOut}
                             >
                                 {ligne.nom}
@@ -79,7 +79,6 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
                 })}
             </tbody>
         </table>
-        {/* Affichage conditionnel de la bulle */}
         {tooltipInfo && tooltipInfo.description != "" && (
             <div style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }}>
                 <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl} />

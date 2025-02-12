@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import Tableau from "../Tableau/Tableau";
-import { useGameplayContext } from "../../context/GameplayContext/GameplayContext";
+import { useYahtzeeContext } from "../../context/YahtzeeContext/YahtzeeContext";
 import { Combi } from "../../class/Combi";
-import { YahtzeeAPI } from "../../api/YahtzeeAPI";
 import './Combinations.css';
 interface Combinations {
     simple: Combi[];
@@ -12,17 +11,15 @@ interface Combinations {
 
 export function Combinations() {
 
-    const initializeUser = () => {
-        let userId = localStorage.getItem('userId');
-        if (!userId){
-          userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-          localStorage.setItem('userId', userId);
-        }
-        return userId;
-      }
-
-    const { roundActive, setRoundActive, gameActive, setGameActive, score, setScore, setCombiSimplesFinal, setCombiComplexesFinal, defaultCombiComplexes, defaultCombiSimples, resetTab, setResetTab } = useGameplayContext();
-    const { getCombinations, getTooltipDices, setCombinations, updateScore } = YahtzeeAPI(initializeUser());
+    const { roundActive, setRoundActive, 
+        gameActive, setGameActive, 
+        score, setScore, 
+        setCombiSimplesFinal, 
+        setCombiComplexesFinal, 
+        defaultCombiComplexes, 
+        defaultCombiSimples, 
+        resetTab, setResetTab,
+        yahtzeeLogic } = useYahtzeeContext();
 
     const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
 
@@ -35,24 +32,25 @@ export function Combinations() {
 
     const handleToolTip = async (): Promise<void> => {
         try {
-          const tooltip = await getTooltipDices();
-          var combiComplexeCopy = defaultCombiComplexes;
+          const tooltip = yahtzeeLogic.getToolTipDice();
+          console.log("handletooltip combi");
+          var combiComplexeCopy = defaultCombiComplexes.map((combi) => combi);
           const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
               switch (combi.nom){
                   case 'three of a kind':
-                      return {...combi, hoverDices: tooltip.threeOfAKind};
+                      return {...combi, hoverDices: tooltip['threeOfAKind']};
                   case 'four of a kind':
-                      return {...combi, hoverDices: tooltip.fourOfAKind};
+                      return {...combi, hoverDices: tooltip['fourOfAKind']};
                   case 'full house':
-                      return {...combi, hoverDices: tooltip.fullHouse};
+                      return {...combi, hoverDices: tooltip['fullHouse']};
                   case 'small straight':
-                      return {...combi, hoverDices: tooltip.smallStraight};
+                      return {...combi, hoverDices: tooltip['smallStraight']};
                   case 'large straight':
-                      return {...combi, hoverDices: tooltip.largeStraight};
+                      return {...combi, hoverDices: tooltip['largeStraight']};
                   case 'yahtzee':
-                      return {...combi, hoverDices: tooltip.yahtzee};
+                      return {...combi, hoverDices: tooltip['yahtzee']};
                   case 'chance':
-                      return {...combi, hoverDices: tooltip.chance};
+                      return {...combi, hoverDices: tooltip['chance']};
                   default:
                       return combi;
               }
@@ -90,17 +88,18 @@ export function Combinations() {
 
     useEffect(() => {
         if (resetTab) {
-            setCombiSimples(defaultCombiSimples);
-            setCombiComplexes(defaultCombiComplexes);
+            setCombiSimples(defaultCombiSimples.map(c => ({ ...c, score: -1 })));
+            setCombiComplexes(defaultCombiComplexes.map(c => ({ ...c, score: -1 })));
             setCombiSelected([]);
         }
     }, [resetTab]);
+    
 
 
     const updateTheScore = async (combi: Combi): Promise<void> => {
         try {
-            let newScore = await updateScore(combi.score);
-            setScore(parseInt(newScore.score));
+            let newScore = yahtzeeLogic.addScore(combi.score);
+            setScore(newScore);
         } catch (error) {
             console.error("Erreur: " + error);
         }
@@ -120,7 +119,7 @@ export function Combinations() {
             return;
         }
         try {
-            const possibleCombinations = await getCombinations();
+            const possibleCombinations = yahtzeeLogic.getCombinations();
             setCombiSimpleToDisplay((combiSimples) => combiSimples.map(combi => {
                 const found = possibleCombinations.simple.find((c: Combi) => (combi.nom === c.nom) && (!combiSelected.includes(c.nom)));
                 return {
@@ -162,7 +161,7 @@ export function Combinations() {
             setCombiComplexeToDisplay(combiComplexes);
             setCombiSimpleToDisplay(combiSimples);
             const combinations: Combinations = {simple: combiSimples, complexe: combiComplexes};
-            await setCombinations(combinations);
+            yahtzeeLogic.setCombinations(combinations);
             setRoundActive(true);
         }
     };

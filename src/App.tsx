@@ -1,6 +1,6 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { GameplayProvider } from './context/GameplayContext/GameplayContext';
+import { YahtzeeProvider } from './context/YahtzeeContext/YahtzeeContext';
 import { Gameplay } from './page/Gameplay/Gameplay';
 import { Login } from './page/Login/Login';
 
@@ -26,9 +26,9 @@ function App() {
   ]);
 
   return (
-    <GameplayProvider>
+    <YahtzeeProvider>
         <RouterProvider router={router} />
-    </GameplayProvider>
+    </YahtzeeProvider>
   );
 }
 

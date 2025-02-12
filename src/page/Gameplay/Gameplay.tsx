@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
+import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import './Gameplay.css';
 import { RollingDices } from '../../components/RollingDices/RollingDices';
 import { EndRolling } from '../../components/EndRolling/EndRolling';
@@ -7,22 +7,11 @@ import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
-import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
-  const initializeUser = () => {
-    let userId = localStorage.getItem('userId');
-    if (!userId){
-      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-      localStorage.setItem('userId', userId);
-    }
-    return userId;
-  }
-
-  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab } = useGameplayContext();
+  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic } = useYahtzeeContext();
   const [openModal, setOpenModal] = useState<boolean>(true);
-  const { restartGame } = YahtzeeAPI(initializeUser());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +24,7 @@ export function Gameplay() {
 
   const handleReplay = async (): Promise<void> => {
     try {
-        await restartGame();
+        yahtzeeLogic.restartGame();
         setScore(0);
         setGameActive(true);
         setRoundActive(true);

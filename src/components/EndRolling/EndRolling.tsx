@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './EndRolling.css';
-import { useGameplayContext } from '../../context/GameplayContext/GameplayContext'
+import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
 
 type EndRollingProps = {
     openRules: () => void;
@@ -8,9 +8,9 @@ type EndRollingProps = {
 }; 
 
 export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
-    const initialSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
-    const [dicesSRC, setDicesSRC] = useState<string[]>(["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"]);
-    const {score} = useGameplayContext();
+    const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
+    const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
+    const {score} = useYahtzeeContext();
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -49,7 +49,7 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
         <>
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <div className='gif-rules'>
-                <img key="rules" alt="rules" src="rules.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
+                <img key="rules" alt="rules" src="/dices/rules.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
             </div> 
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>

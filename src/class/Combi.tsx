@@ -4,3 +4,8 @@ export type Combi = {
     hover: string,
     hoverDices: string[]
 }
+
+export type Combinations = {
+    complexe: Combi[],
+    simple: Combi[]
+}

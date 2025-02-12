@@ -1,23 +1,13 @@
 import './Login.css';
 import { useEffect } from 'react';
-import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
+import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
-import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Login() {
   // TODO: best scores tab
-  const initializeUser = () => {
-    let userId = localStorage.getItem('userId');
-    if (!userId){
-      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-      localStorage.setItem('userId', userId);
-    }
-    return userId;
-  }
 
-  const { setRoundActive, setGameActive, setScore, loading, setLoading } = useGameplayContext();
-  const { restartGame } = YahtzeeAPI(initializeUser());
+  const { setRoundActive, setGameActive, setScore, loading, setLoading, yahtzeeLogic } = useYahtzeeContext();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,7 +23,7 @@ export function Login() {
 
   const whenLoading = async () => {
     try {
-      await restartGame();
+      yahtzeeLogic.restartGame();
       setScore(0);
     } catch (error) {
       console.error("Erreur: " + error);
@@ -60,7 +50,7 @@ export function Login() {
   return (
     <>  
       <div className="fullpage">
-          <img src="/yahtzee.png" onClick={startGame} className='start-icon' alt="start button"/>
+          <img src="/logo/yahtzee.png" onClick={startGame} className='start-icon' alt="start button"/>
           <img src="/dices/github.png" onClick={openGithub} className='github-icon' alt="github link"/>
       </div>
     </>

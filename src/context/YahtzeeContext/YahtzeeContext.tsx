@@ -1,7 +1,8 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import Yahtzee from '../../logic/yahtzee';
 import { Combi } from '../../class/Combi';
 // Création du type pour le contexte
-interface GameplayContextType {
+interface YahtzeeContextType {
     roundActive: boolean;
     setRoundActive: (active: boolean) => void;
     gameActive: boolean;
@@ -19,9 +20,11 @@ interface GameplayContextType {
     setLoading: (loa: boolean) => void;
     resetTab: boolean;
     setResetTab: (res: boolean) => void;
+    yahtzeeLogic: Yahtzee;
+    setYahtzeeLogic: (yahtzee: Yahtzee) => void;
 }
 
-const GameplayContext = createContext<GameplayContextType>({
+const YahtzeeContext = createContext<YahtzeeContextType>({
   roundActive: true, 
   setRoundActive: () => {},
   gameActive: false,
@@ -38,10 +41,12 @@ const GameplayContext = createContext<GameplayContextType>({
   loading: false,
   setLoading: () => {},
   resetTab: false,
-  setResetTab: () => {}
+  setResetTab: () => {},
+  yahtzeeLogic: new Yahtzee(),
+  setYahtzeeLogic: () => {}
 });
 
-export const GameplayProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const YahtzeeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [roundActive, setRoundActive] = useState<boolean>(true);
   const [gameActive, setGameActive] = useState<boolean>(false);
   const [score, setScore ] = useState<number>(0);
@@ -67,6 +72,7 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
 ]);
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(true);
+  const [yahtzeeLogic, setYahtzeeLogic] = useState<Yahtzee>(new Yahtzee());
 
 
 
@@ -87,14 +93,16 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
     loading,
     setLoading,
     resetTab,
-    setResetTab
+    setResetTab,
+    yahtzeeLogic,
+    setYahtzeeLogic
   };
 
   return (
-    <GameplayContext.Provider value={value}>
+    <YahtzeeContext.Provider value={value}>
       {children}
-    </GameplayContext.Provider>
+    </YahtzeeContext.Provider>
   );
 };
 
-export const useGameplayContext = () => useContext(GameplayContext);
+export const useYahtzeeContext = () => useContext(YahtzeeContext);

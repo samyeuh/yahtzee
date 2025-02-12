@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Rules.css';
-import { useGameplayContext } from '../../context/GameplayContext/GameplayContext';
-import { YahtzeeAPI } from '../../api/YahtzeeAPI';
+import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 
 type RulesProps = {
   closeFunction: () => void;
@@ -9,20 +8,11 @@ type RulesProps = {
 };
 
 export function Rules({ closeFunction, openModal }: RulesProps) {
-  const initializeUser = () => {
-    let userId = localStorage.getItem('userId');
-    if (!userId) {
-      userId = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-      localStorage.setItem('userId', userId);
-    }
-    return userId;
-  };
 
-  const initialSRC = ["/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png", "/nonumber.png"];
-  const gifSRC = ["/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif", "/nonumber.gif"];
+  const initialSRC = ["/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png"];
+  const gifSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
   const [dicesSRC, setDicesSRC] = useState(initialSRC);
-  const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples } = useGameplayContext();
-  const { getTooltipDices } = YahtzeeAPI(initializeUser());
+  const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples, yahtzeeLogic } = useYahtzeeContext();
 
   function randomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -43,7 +33,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
 
   const handleToolTip = async (): Promise<void> => {
     try {
-      const tooltip = await getTooltipDices();
+      const tooltip = yahtzeeLogic.getToolTipDice();
       var combiComplexeCopy = defaultCombiComplexes;
       const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
         switch (combi.nom) {
@@ -81,7 +71,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
         <div className="rulesBox">
           <h1 style={{ fontWeight: 'bold', textAlign: 'center', backgroundColor: 'white' }}>rules</h1>
           <p style={{ textAlign: 'center', backgroundColor: 'white' }}>welcome to the best web adaptation of </p> <p style={{fontWeight: 'bold'}}> yahtzee :D</p>
-          <img src="nonumber.gif" className='gif' style={{ maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white' }} alt="GIF" />
+          <img src="/dices/nonumber.gif" className='gif' style={{ maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white' }} alt="GIF" />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
               <p style={{ backgroundColor: 'white' }}>in front of you, you have five dices that you can</p>

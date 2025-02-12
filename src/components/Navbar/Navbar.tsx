@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const Navbar = () => {
 
-  const [homeButton, setHomeButton] = useState("/yahtzee.png");
+  const [homeButton, setHomeButton] = useState("/logo/yahtzee.png");
 
   return (
     <Box as="nav" py={4} px={8} boxShadow="md">
