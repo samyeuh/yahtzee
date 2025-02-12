@@ -10,8 +10,8 @@ const Navbar = () => {
     <Flex justify="space-between" align="center">
         <Link href="/" fontSize="lg" fontWeight="bold" color="gray.600">
             <img src={homeButton} 
-            onMouseOver={() => setHomeButton("/yahtzee.gif")}
-            onMouseLeave={() => setHomeButton("/yahtzee.png")} 
+            onMouseOver={() => setHomeButton("/logo/yahtzee.gif")}
+            onMouseLeave={() => setHomeButton("/logo/yahtzee.png")} 
             style={{height: "19px", width: "126px"}}/>
         </Link>
         <Link onClick={() => (window.open('https://github.com/samyeuh/yahtzee'))} fontSize="lg" fontWeight="bold" color="gray.600">
