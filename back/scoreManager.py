@@ -6,7 +6,7 @@ import json
 class ScoreManager:
     
     def __init__(self):
-        self.playersScorePath = Path('/data/playersScore.csv')
+        self.playersScorePath = Path('/back/data/playersScore.csv')
         if not self.playersScorePath.exists():
             pd.DataFrame(columns=['Icon', 'Nom', 'Score', 'Date', 'Details']).to_csv(self.playersScorePath, index=False)
         self.playersScore = pd.read_csv(self.playersScorePath)
