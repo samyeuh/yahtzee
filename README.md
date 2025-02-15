@@ -24,7 +24,7 @@ Yahtzee is a game where the player rolls five dice up to three times per turn to
 
 The goal is to maximize the total score by strategically choosing combinations across 13 rounds.
 
-The game can be played here: [Yahtzee](https://yhtz.fr)
+The game can be played here: [yhtz.fr](https://yhtz.fr)
 
 ## Gameplay
 
