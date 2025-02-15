@@ -3,8 +3,8 @@ import './Tableau.css';
 import { Combi } from '../../class/Combi';
 import CombiTooltip from '../CombiToolTip/CombiToolTip';
 
-const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Combi): Promise<void>, resetTab: boolean, selectedCombi: String[]}> = ({combis, caption, clickFunc, resetTab, selectedCombi}) => {
-    const defaultCombiStyle = new Array(combis.length).fill({color: "grey"})
+const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Combi): Promise<void>, resetTab: boolean, selectedCombi: String[], wantedGrey: boolean}> = ({combis, caption, clickFunc, resetTab, selectedCombi, wantedGrey}) => {
+    const defaultCombiStyle = wantedGrey ? new Array(combis.length).fill({color: "grey"}) : new Array(combis.length).fill({color: "black"})
     const [styleOfCombi, setStyleOfCombi] = useState<CSSProperties[]>(defaultCombiStyle);
     const [tooltipInfo, setTooltipInfo] = useState<{description: string, imageUrl: string[], posX: number, posY: number} | null>(null);
 
@@ -19,6 +19,9 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
     }, [selectedCombi])
 
     const handleClickCombi = (combi: Combi, index: number) => {
+        if (!wantedGrey) {
+            return;
+        }
         if ((combi.score === -1) || (combi.nom === 'Total score')){
             console.error("Not time to choose !");
         } else {
@@ -45,10 +48,10 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
 
     return(
         <div>
-        <table style={{boxShadow: '8px 8px 10px 0 rgba(0,0,0,0.5)', borderRadius: '20px'}}>
-            <thead>
+        <table className={wantedGrey ? "captionTableau" : "captionTableau shadow"} style={{borderRadius: '20px'}}>
+            <thead className="captionHead">
                 <tr>
-                    <th colSpan={2} style={{borderRadius: '10px', fontWeight: 'bold', textAlign: 'center'}}>{caption}</th>
+                    <th className="captionT" colSpan={2} style={{borderRadius: '10px', fontWeight: 'bold', textAlign: 'center'}}>{caption}</th>
                 </tr>
             </thead>
             <tbody>

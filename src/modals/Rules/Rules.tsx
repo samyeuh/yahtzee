@@ -5,9 +5,10 @@ import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 type RulesProps = {
   closeFunction: () => void;
   openModal: boolean;
+  openRuleModal: boolean;
 };
 
-export function Rules({ closeFunction, openModal }: RulesProps) {
+export function Rules({ closeFunction, openModal, openRuleModal }: RulesProps) {
 
   const initialSRC = ["/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png"];
   const gifSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
@@ -66,7 +67,7 @@ export function Rules({ closeFunction, openModal }: RulesProps) {
   }, []);
 
   return (
-    openModal && (
+    openModal && openRuleModal && (
       <div className="rulesContainer">
         <div className="rulesBox">
           <h1 style={{ fontWeight: 'bold', textAlign: 'center', backgroundColor: 'white' }}>rules</h1>

@@ -1,19 +1,22 @@
-table {
+.captionTableau {
   width: 500px;
   border-collapse: collapse;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.5);
   border-radius: '10px'
 }
 
-th,
-td {
+.shadow {
+  box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.5);;
+}
+
+.captionT, td {
   padding: 15px;
   background-color: rgba(255,255,255,0.2);
   color: black;
 }
 
-thead{
+.captionHead {
   width: 100%
 }
 
@@ -28,7 +31,7 @@ thead{
   cursor: pointer;
 }
 
-th {
+.captionT {
   text-align: center;
   background: linear-gradient(to top, white, lightblue)
 }
@@ -70,8 +73,17 @@ tr:last-child td:last-child {
 }
 
 @media screen and (max-width: 768px) {
-  table {
+  .captionTableau {
     width: 90vw;
   }
-  
+}
+
+@media screen and (max-width: 500px) {
+  .captionTableau {
+    width: 90vw;
+  }
+
+  .shadow {
+    box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.0);
+  }
 }

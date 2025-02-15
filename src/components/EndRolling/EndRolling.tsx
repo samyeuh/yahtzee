@@ -3,11 +3,12 @@ import './EndRolling.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
 
 type EndRollingProps = {
+    openScoreSaving: () => void;
     openRules: () => void;
     handleReplay: () => void;
 }; 
 
-export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
+export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRollingProps) {
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
     const {score} = useYahtzeeContext();
@@ -33,8 +34,6 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
             `/score/dice${digits[2]}.png`,
             "/score/heart.png"
         ];
-
-        // faire un arbre pour clean
 
         for(var i = 0; i < tempList.length; i++){
             await delay(1000);
@@ -65,7 +64,10 @@ export function EndRolling({ openRules, handleReplay }: EndRollingProps) {
                                 />
                             ))}
                         </div>
-                    <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
+                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px'}}>
+                        <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
+                        <button className="button" onClick={openScoreSaving}>SAVE MY SCORE</button>
+                    </div>
                 </div>
             </div>
         </div>

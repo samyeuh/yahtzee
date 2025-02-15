@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { YahtzeeProvider } from './context/YahtzeeContext/YahtzeeContext';
 import { Gameplay } from './page/Gameplay/Gameplay';
 import { Login } from './page/Login/Login';
+import { Scores } from './page/Scores/Scores';
 
 
 function App() {
@@ -16,6 +17,10 @@ function App() {
         {
           path: '/',
           element: <Login />,
+        },
+        {
+          path: '/scores',
+          element: <Scores />,
         },
         {
           path: '/*',

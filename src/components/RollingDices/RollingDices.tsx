@@ -75,6 +75,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
                 index.push(i);
             }
         }
+        setRollDisabled(true);
         setDicesSRC(diceSRCList);
         await delay(1000);
     
@@ -90,6 +91,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
             }
             setDicesSRC(diceList);
             setNbTurns(result.nbTurn);
+            setRollDisabled(false);
             if (nbTurns <= 1) {
                 setRollDisabled(true);
                 endOfRound();
@@ -100,7 +102,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
     }
 
     const handleDiceClick = async (index: number): Promise<void> => {
-        if (dicesSRC.includes("/nonumber.gif") || dicesSRC.includes("/nonumber.png")) {
+        if (dicesSRC.includes("/dices/nonumber.gif") || dicesSRC.includes("/dices/nonumber.png")) {
             return;
         }
         if (dicesKeep.includes(index)) {

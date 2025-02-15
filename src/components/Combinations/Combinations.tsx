@@ -78,13 +78,17 @@ export function Combinations() {
     }, [roundActive]);
 
     useEffect(() => {
-        if (combiSelected.length === 13){
-            setRoundActive(false);
-            setGameActive(false);
-            setCombiSimplesFinal(combiSimpleToDisplay);
-            setCombiComplexesFinal(combiComplexeToDisplay);
+        if (combiSelected.length === 13) {
+            setTimeout(() => {
+                setRoundActive(false);
+                setGameActive(false);
+    
+                setCombiSimplesFinal([...combiSimpleToDisplay]);
+                setCombiComplexesFinal([...combiComplexeToDisplay]);
+            }, 0);
         }
-    }, [combiSelected]);
+    }, [combiSelected, combiSimpleToDisplay, combiComplexeToDisplay]);
+    
 
     useEffect(() => {
         if (resetTab) {
@@ -176,6 +180,7 @@ export function Combinations() {
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
+                        wantedGrey={true}
                     />
                 </div>
                 <div style={{marginLeft: '5px'}}>
@@ -185,6 +190,7 @@ export function Combinations() {
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
+                        wantedGrey={true}
                     />
                 </div>
             </div>
