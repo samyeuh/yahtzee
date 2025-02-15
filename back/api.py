@@ -1,4 +1,3 @@
-# TODO: Best Scores !!
 from scoreManager import ScoreManager
 from dotenv import load_dotenv
 from flask_cors import CORS
