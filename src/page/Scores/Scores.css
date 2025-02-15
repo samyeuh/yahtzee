@@ -159,7 +159,7 @@ body.modal-open {
     overflow: hidden;
 }
 
-.selector button {
+.scoreButton {
     position: relative;
     padding: 10px 22px;
     border-radius: 6px;
@@ -170,12 +170,12 @@ body.modal-open {
     transition: all 0.2s ease;
 }
 
-.selector button:active {
+.scoreButton:active {
     transform: scale(0.96);
 }
 
-.selector button:before,
-.selector button:after {
+.scoreButton:before,
+.scoreButton:after {
     position: absolute;
     content: "";
     width: 150%;
@@ -187,12 +187,12 @@ body.modal-open {
 }
 
 
-.selector button:disabled {
+.scoreButton:disabled {
     background-color: lightgreen;
     cursor: not-allowed;
 }
 
-.selector button:hover:before {
+.scoreButton:hover:before {
     top: -70%;
     background-image: radial-gradient(circle, lightblue 20%, transparent 20%),
         radial-gradient(circle, transparent 20%, lightblue 20%, transparent 30%),
@@ -227,7 +227,7 @@ body.modal-open {
     }
 }
   
-.selector button:hover::after {
+.scoreButton:hover::after {
     bottom: -70%;
     background-image: radial-gradient(circle, lightblue 20%, transparent 20%),
       radial-gradient(circle, lightblue 20%, transparent 20%),
@@ -243,7 +243,7 @@ body.modal-open {
 
 
 @media screen and (max-width: 600px) {
-    button {
+    .scoreButton {
         padding: 10px 15px;
     }
 }

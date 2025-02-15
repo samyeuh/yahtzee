@@ -70,10 +70,10 @@ export function Scores() {
             <Navbar/>
             <div className={`container ${detailsOpen ? 'blur-background' : ''}`}>
                 <div className="selector">
-                    <button onClick={() => setPeriod(0)} disabled={period == 0}>Daily</button>
-                    <button onClick={() => setPeriod(1)} disabled={period == 1}>Weekly</button>
-                    <button onClick={() => setPeriod(2)} disabled={period == 2}>Monthly</button>
-                    <button onClick={() => setPeriod(3)} disabled={period == 3}>Lifetime</button>
+                    <button className="scoreButton" onClick={() => setPeriod(0)} disabled={period == 0}>Daily</button>
+                    <button className="scoreButton" onClick={() => setPeriod(1)} disabled={period == 1}>Weekly</button>
+                    <button className="scoreButton" onClick={() => setPeriod(2)} disabled={period == 2}>Monthly</button>
+                    <button className="scoreButton" onClick={() => setPeriod(3)} disabled={period == 3}>Lifetime</button>
                 </div>
                     {filteredScores.length > 0 && (
                         <div className="podiums">
@@ -167,7 +167,7 @@ export function Scores() {
                         </tbody>
                     </table>
                 </div>
-                <button style={{ marginTop: '5%'}}onClick={fetchScores}> Refresh </button>
+                <button className="scoreButton" style={{ marginTop: '5%'}}onClick={fetchScores}> Refresh </button>
             </div>
             <div>
                 { detailsOpen && (
