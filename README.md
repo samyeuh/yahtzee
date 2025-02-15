@@ -39,10 +39,7 @@ Try to do better :p
 To launch the yahtzee locally:
  - Clone the github repo
  - Run “npm install” in the terminal
- - Open another terminal in parallel and run “pip install -r back\requirements.txt”.
  - Run “npm run dev” in the first terminal, then click on the link to open the site.
- - Run “python back\api.py” in the second terminal
- - Don't hesitate to change the variables in **.env** if your links aren't the same as mine :)
  - Then, have fun ♥
 
 
