@@ -1,7 +1,8 @@
 import pandas as pd
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
+import pytz
 import os
 
 class ScoreManager:
@@ -15,7 +16,8 @@ class ScoreManager:
 
     def getScores(self):
         self.playersScore.sort_values(by='Score', ascending=False, inplace=True)
-        today = datetime.today().date()
+        paris_tz = pytz.timezone('Europe/Paris')
+        today = datetime.now(paris_tz).date()
         date_col = pd.to_datetime(self.playersScore["Date"], format="%d/%m/%Y", errors='coerce')
         
         daily_scores = self.playersScore[date_col.dt.date == today]
