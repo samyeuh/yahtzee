@@ -1,7 +1,7 @@
 <h1 align="center"> Yahtzee web adaptation </h1> <br>
 
 <p align="center">
-  <img src="public/yahtzee.gif" width="50%">
+  <img src="public/logo/yahtzee.gif" width="50%">
 </p>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-react.svg)](https://forthebadge.com)
