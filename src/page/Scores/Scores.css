@@ -115,12 +115,11 @@
     }
 }
 
-
-
-
 .tab {
-    width: 100%;
-    margin: auto; 
+    max-height: 50vh;
+    overflow-y: auto;
+    width: 90vw;
+    margin: auto;
 }
 
 .scoreTableau {
@@ -152,6 +151,7 @@
 .fullPage {
     width: 100vw;
     height: 100vh;
+    scrollbar-width: 10px;
 }
 
 
