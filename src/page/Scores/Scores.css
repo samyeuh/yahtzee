@@ -120,6 +120,7 @@
     overflow-y: auto;
     width: 90vw;
     margin: auto;
+    scrollbar-width: none;
 }
 
 .scoreTableau {
