@@ -6,7 +6,7 @@ import { EndRolling } from '../../components/EndRolling/EndRolling';
 import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { ScoreSaving } from '../../modals/ScoreSaving/ScoreSaving';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
@@ -17,11 +17,13 @@ export function Gameplay() {
   const [openModal, setOpenModal] = useState<boolean>(true);
   const [openRuleModal, setOpenRuleModal] = useState<boolean>(true);
   const [openSaveModal, setOpenSaveModal] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (!gameActive) {
-      navigate('/');
+      handleReplay();
+      setOpenModal(false);
+      setOpenRuleModal(false);
     } else {
       testServer();
       setGameActive(true);
