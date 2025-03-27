@@ -22,8 +22,6 @@ export function Gameplay() {
   useEffect(() => {
     if (!gameActive) {
       handleReplay();
-      setOpenModal(false);
-      setOpenRuleModal(false);
     } else {
       testServer();
       setGameActive(true);
@@ -40,6 +38,8 @@ export function Gameplay() {
     } catch (error) {
         console.error("Erreur :", error);
     }
+    setOpenModal(false);
+    setOpenRuleModal(false);
 }
 
   const openScoreSaving = (): void => {
