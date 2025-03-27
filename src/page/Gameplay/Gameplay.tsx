@@ -6,7 +6,6 @@ import { EndRolling } from '../../components/EndRolling/EndRolling';
 import { Combinations } from '../../components/Combinations/Combinations';
 import { Rules } from '../../modals/Rules/Rules';
 import Navbar from '../../components/Navbar/Navbar';
-// import { useNavigate } from 'react-router-dom';
 import { ScoreSaving } from '../../modals/ScoreSaving/ScoreSaving';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
@@ -14,16 +13,17 @@ export function Gameplay() {
 
   const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic } = useYahtzeeContext();
   const { testServer } = YahtzeeAPI();
-  const [openModal, setOpenModal] = useState<boolean>(true);
-  const [openRuleModal, setOpenRuleModal] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openRuleModal, setOpenRuleModal] = useState<boolean>(false);
   const [openSaveModal, setOpenSaveModal] = useState<boolean>(false);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     if (!gameActive) {
       handleReplay();
     } else {
       testServer();
+      setOpenModal(true);
+      setOpenRuleModal(true);
       setGameActive(true);
     }
   }, []);
@@ -38,8 +38,6 @@ export function Gameplay() {
     } catch (error) {
         console.error("Erreur :", error);
     }
-    setOpenModal(false);
-    setOpenRuleModal(false);
 }
 
   const openScoreSaving = (): void => {
