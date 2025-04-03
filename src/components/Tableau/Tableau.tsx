@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import './Tableau.css';
 import { Combi } from '../../class/Combi';
 import CombiTooltip from '../CombiToolTip/CombiToolTip';
@@ -7,7 +7,8 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
     const defaultCombiStyle = wantedGrey ? new Array(combis.length).fill({color: "grey"}) : new Array(combis.length).fill({color: "black"})
     const [styleOfCombi, setStyleOfCombi] = useState<CSSProperties[]>(defaultCombiStyle);
     const [tooltipInfo, setTooltipInfo] = useState<{description: string, imageUrl: string[], posX: number, posY: number} | null>(null);
-
+    const tooltipRef = useRef<HTMLDivElement | null>(null);
+    
     useEffect(() => {
         if (resetTab == true){
             setStyleOfCombi(defaultCombiStyle)
@@ -42,8 +43,12 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
         });
     };
 
-    const handleMouseOut = () => {
-        setTooltipInfo(null); // Cache la bulle au survol
+    const handleMouseOut = (event: React.MouseEvent) => {
+        const toElement = event.relatedTarget as Node;
+        if (tooltipRef.current && tooltipRef.current.contains(toElement)) {
+            return; // Ne rien faire si on entre dans la tooltip
+        }
+        setTooltipInfo(null);
     };
 
     return(
@@ -67,6 +72,7 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
                                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: "black"}}
                                 onMouseOver={(e) => handleMouseOver(e, ligne.hover, ligne.hoverDices)}
                                 onMouseOut={handleMouseOut}
+                                onClick={!isTotalRow ? () => handleClickCombi(ligne, index) : undefined}
                             >
                                 {ligne.nom}
                             </td>
@@ -83,8 +89,8 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
             </tbody>
         </table>
         {tooltipInfo && tooltipInfo.description != "" && (
-            <div style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }}>
-                <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl} />
+            <div ref={tooltipRef} style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }} onMouseLeave={() => setTooltipInfo(null)}>
+                <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl}/>
             </div>
         )}
     </div>
