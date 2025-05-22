@@ -46,7 +46,7 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
     const handleMouseOut = (event: React.MouseEvent) => {
         const toElement = event.relatedTarget as Node;
         if (tooltipRef.current && tooltipRef.current.contains(toElement)) {
-            return; // Ne rien faire si on entre dans la tooltip
+            return;
         }
         setTooltipInfo(null);
     };
