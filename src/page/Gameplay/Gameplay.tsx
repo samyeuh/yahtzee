@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import './Gameplay.css';
 import { RollingDices } from '../../components/RollingDices/RollingDices';
@@ -11,11 +11,14 @@ import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
-  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic } = useYahtzeeContext();
+  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic, time, setTime } = useYahtzeeContext();
   const { testServer } = YahtzeeAPI();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openRuleModal, setOpenRuleModal] = useState<boolean>(false);
   const [openSaveModal, setOpenSaveModal] = useState<boolean>(false);
+  const [, setIsTimerActive] = useState(false);
+  const startTimeRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!gameActive) {
@@ -26,7 +29,37 @@ export function Gameplay() {
       setOpenRuleModal(true);
       setGameActive(true);
     }
+    
+    return () => {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
+
+    const tick = () => {
+        if (startTimeRef.current !== null) {
+        const now = Date.now();
+        setTime(now - startTimeRef.current);
+        rafRef.current = requestAnimationFrame(tick);
+        }
+    };
+
+      const handleStart = () => {
+        startTimeRef.current = Date.now() - time;
+        setIsTimerActive(true);
+        rafRef.current = requestAnimationFrame(tick);
+      };
+
+    const handleStop = () => {
+        setIsTimerActive(false);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+    };
+
+      const handleReset = () => {
+        handleStop();
+        setTime(0);
+        startTimeRef.current = null;
+      };
 
   const handleReplay = async (): Promise<void> => {
     try {
@@ -35,6 +68,7 @@ export function Gameplay() {
         setGameActive(true);
         setRoundActive(true);
         setResetTab(true);
+        handleReset();
     } catch (error) {
         console.error("Erreur :", error);
     }
@@ -70,10 +104,10 @@ export function Gameplay() {
     <div className="GameplayContainer">
       <div className={`GameplayPage ${openModal ? 'blur-background' : ''}`}>
         <div>
-          { gameActive ? (<RollingDices openRules={openRules}/>) : (<EndRolling openScoreSaving={openScoreSaving} openRules={openRules} handleReplay={handleReplay}/>)}
+          { gameActive ? (<RollingDices openRules={openRules} startTimer={handleStart}/>) : (<EndRolling openScoreSaving={openScoreSaving} openRules={openRules} handleReplay={handleReplay}/>)}
         </div>
         <div className='tabs'>
-          <Combinations />
+          <Combinations stopTimer={handleStop}/>
         </div>
       </div>
             {openModal && openRuleModal && (

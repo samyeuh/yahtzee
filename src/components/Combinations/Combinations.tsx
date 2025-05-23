@@ -9,7 +9,7 @@ interface Combinations {
   }
 
 
-export function Combinations() {
+export function Combinations({ stopTimer }: { stopTimer: () => void }) {
 
     const { roundActive, setRoundActive, 
         gameActive, setGameActive, 
@@ -80,9 +80,10 @@ export function Combinations() {
     useEffect(() => {
         if (combiSelected.length === 13) {
             setTimeout(() => {
+                stopTimer();
                 setRoundActive(false);
                 setGameActive(false);
-    
+            
                 setCombiSimplesFinal([...combiSimpleToDisplay]);
                 setCombiComplexesFinal([...combiComplexeToDisplay]);
             }, 0);

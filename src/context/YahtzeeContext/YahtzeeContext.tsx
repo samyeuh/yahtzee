@@ -22,6 +22,8 @@ interface YahtzeeContextType {
     setResetTab: (res: boolean) => void;
     yahtzeeLogic: Yahtzee;
     setYahtzeeLogic: (yahtzee: Yahtzee) => void;
+    time: number;
+    setTime: (time: number) => void;
 }
 
 const YahtzeeContext = createContext<YahtzeeContextType>({
@@ -43,7 +45,10 @@ const YahtzeeContext = createContext<YahtzeeContextType>({
   resetTab: false,
   setResetTab: () => {},
   yahtzeeLogic: new Yahtzee(),
-  setYahtzeeLogic: () => {}
+  setYahtzeeLogic: () => {},
+  time: 0,
+  setTime: () => {}
+
 });
 
 export const YahtzeeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -73,6 +78,8 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(true);
   const [yahtzeeLogic, setYahtzeeLogic] = useState<Yahtzee>(new Yahtzee());
+  const [time, setTime] = useState(0);
+
 
 
 
@@ -95,7 +102,9 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
     resetTab,
     setResetTab,
     yahtzeeLogic,
-    setYahtzeeLogic
+    setYahtzeeLogic,
+    time,
+    setTime
   };
 
   return (

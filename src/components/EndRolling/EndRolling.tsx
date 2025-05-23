@@ -11,7 +11,7 @@ type EndRollingProps = {
 export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRollingProps) {
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
-    const {score} = useYahtzeeContext();
+    const {score, time} = useYahtzeeContext();
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -44,6 +44,15 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         return tempList;
     };
 
+    const formatTime = (ms: number): string => {
+        const minutes = Math.floor(ms / 60000);
+        const seconds = Math.floor((ms % 60000) / 1000);
+        const milliseconds = ms % 1000;
+        return `${minutes.toString().padStart(2, '0')}:` +
+            `${seconds.toString().padStart(2, '0')}:` +
+            `${milliseconds.toString().padStart(3, '0')}`;
+    };
+
     return (
         <>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -53,7 +62,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{fontWeight: 'bold'}}> your score </h1>
-                    <p>thanks for playing ♥</p>
+                    <p>thanks for playing ♥ {formatTime(time)}</p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
                                 <img

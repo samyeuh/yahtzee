@@ -4,19 +4,23 @@ import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
 
 type RollingDicesProps = {
     openRules: () => void;
+    startTimer: () => void;
 };
 
-export function RollingDices({ openRules }: RollingDicesProps) {
+export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
     const initialSRC = ["/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png"];
     const gifSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState(initialSRC);
     const [nbTurns, setNbTurns] = useState(3);
     const [dicesKeep, setDicesKeep] = useState<number[]>([]);
-    const[isRollDisabled, setRollDisabled] = useState(false);
-    const[isFirstRoll, setIsFirstRoll] = useState(true);
-    const { roundActive, setRoundActive, yahtzeeLogic } = useYahtzeeContext();
+    const [isRollDisabled, setRollDisabled] = useState(false);
+    const [isFirstRoll, setIsFirstRoll] = useState(true);
+    const [isBlurred, setIsBlurred] = useState<boolean>(true);
+    const { roundActive, setRoundActive, yahtzeeLogic, time } = useYahtzeeContext();
 
     // TODO: if yams confettis ?
+
+
 
     useEffect(() => {
         if (roundActive == true) {
@@ -60,7 +64,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
     
     function delay(ms: number) {
         return new Promise( resolve => setTimeout(resolve, ms) );
-    }
+    };
 
     const handleRoll = async (): Promise<void> => {
         if (isRollDisabled){
@@ -69,6 +73,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
         }
 
         if (isFirstRoll) {
+            startTimer();
             setIsFirstRoll(false);
             
         }
@@ -133,7 +138,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
         } catch (error) {
             console.error("Error: ", error);
         }
-    }
+    };
 
     const endOfRound = async (): Promise<void> => {
         try {
@@ -143,7 +148,20 @@ export function RollingDices({ openRules }: RollingDicesProps) {
         } catch (error) {
             console.error("Error: ", error);
         }
-    }
+    };
+
+      const handleToggleBlur = () => {
+        setIsBlurred(prev => !prev);
+    };
+
+  const formatTime = (ms: number): string => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    const milliseconds = ms % 1000;
+    return `${minutes.toString().padStart(2, '0')}:` +
+           `${seconds.toString().padStart(2, '0')}:` +
+           `${milliseconds.toString().padStart(3, '0')}`;
+  };
 
     return (
         <>
@@ -154,7 +172,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{fontWeight: 'bold'}}> your dices </h1>
-                    <p>remaining rolls: {nbTurns} • 00:00:000</p>
+                    <p>remaining rolls: {nbTurns} • <span onClick={handleToggleBlur} style={{filter: isBlurred ? 'blur(5px)' : 'none', cursor: 'pointer'}}>{formatTime(time)}</span></p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
                                 <img
