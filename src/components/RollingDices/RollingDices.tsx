@@ -172,7 +172,7 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{fontWeight: 'bold'}}> your dices </h1>
-                    <p>remaining rolls: {nbTurns} • <span onClick={handleToggleBlur} style={{filter: isBlurred ? 'blur(5px)' : 'none', cursor: 'pointer'}}>{formatTime(time)}</span></p>
+                    <p>remaining rolls: {nbTurns} • <span onClick={handleToggleBlur} style={{filter: isBlurred ? 'blur(5px)' : 'none', cursor: 'pointer'}}>{isBlurred ? formatTime(0) : formatTime(time)}</span></p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
                                 <img
