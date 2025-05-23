@@ -172,7 +172,7 @@ export function Scores() {
             <div>
                 { detailsOpen && (
                     <div className="modal-overlay">
-                        <ScoreDetails closeFunction={() => closeDetails()} playerDetails={playersScore.lifetime[detailsIndex]} />
+                        <ScoreDetails closeFunction={() => closeDetails()} playerDetails={filteredScores[detailsIndex]} />
                     </div>
                 )}
             </div>

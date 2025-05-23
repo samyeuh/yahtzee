@@ -13,6 +13,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
     const [nbTurns, setNbTurns] = useState(3);
     const [dicesKeep, setDicesKeep] = useState<number[]>([]);
     const[isRollDisabled, setRollDisabled] = useState(false);
+    const[isFirstRoll, setIsFirstRoll] = useState(true);
     const { roundActive, setRoundActive, yahtzeeLogic } = useYahtzeeContext();
 
     // TODO: if yams confettis ?
@@ -65,6 +66,11 @@ export function RollingDices({ openRules }: RollingDicesProps) {
         if (isRollDisabled){
             console.error("Not now !!");
             return;
+        }
+
+        if (isFirstRoll) {
+            setIsFirstRoll(false);
+            
         }
         let diceSRCList = [...dicesSRC];
         let index = [];
@@ -148,7 +154,7 @@ export function RollingDices({ openRules }: RollingDicesProps) {
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{fontWeight: 'bold'}}> your dices </h1>
-                    <p>remaining rolls: {nbTurns}</p>
+                    <p>remaining rolls: {nbTurns} • 00:00:000</p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
                                 <img
