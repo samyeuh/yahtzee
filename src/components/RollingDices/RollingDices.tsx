@@ -116,6 +116,7 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
         if (dicesSRC.includes("/dices/nonumber.gif") || dicesSRC.includes("/dices/nonumber.png")) {
             return;
         }
+        yahtzeeLogic.playSound("dice_click");
         if (dicesKeep.includes(index)) {
             const newDiceList = dicesKeep.filter(value => value !== index);
             const diceSRCList = [...dicesSRC];

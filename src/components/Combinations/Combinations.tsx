@@ -29,6 +29,8 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
     const [combiSimpleToDisplay, setCombiSimpleToDisplay] = useState<Combi[]>(combiSimples);
     const [combiComplexeToDisplay, setCombiComplexeToDisplay] = useState<Combi[]>(combiComplexes);
     const [combiSelected, setCombiSelected] = useState<String[]>([]);
+    const [isGameFinished, setIsGameFinished] = useState(false);
+
 
     const handleToolTip = async (): Promise<void> => {
         try {
@@ -79,23 +81,28 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
 
     useEffect(() => {
         if (combiSelected.length === 13) {
-            setTimeout(() => {
-                stopTimer();
-                setRoundActive(false);
-                setGameActive(false);
-            
-                setCombiSimplesFinal([...combiSimpleToDisplay]);
-                setCombiComplexesFinal([...combiComplexeToDisplay]);
-            }, 0);
+            setIsGameFinished(true);
         }
-    }, [combiSelected, combiSimpleToDisplay, combiComplexeToDisplay]);
+    }, [combiSelected]);
+
+    useEffect(() => {
+        if (isGameFinished) {
+            stopTimer();
+            setRoundActive(false);
+            setGameActive(false);
+            setCombiSimplesFinal([...combiSimpleToDisplay]);
+            setCombiComplexesFinal([...combiComplexeToDisplay]);
+        }
+        }, [isGameFinished]);
     
 
     useEffect(() => {
+        console.log("resetTab effect triggered");
         if (resetTab) {
             setCombiSimples(defaultCombiSimples.map(c => ({ ...c, score: -1 })));
             setCombiComplexes(defaultCombiComplexes.map(c => ({ ...c, score: -1 })));
             setCombiSelected([]);
+            setResetTab(false);
         }
     }, [resetTab]);
     
@@ -112,10 +119,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
 
 
     const addCombi = (combi: Combi): number => {
-        var combiSelectedList = [...combiSelected, combi.nom];
-        setCombiSelected(combiSelectedList);
 
-        setResetTab(false)
         return combi.score;
     };
 
@@ -149,19 +153,33 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         if (combiSelected?.includes(combi.nom)){
             console.error("Combinaison déjà choisie");
         }else{
-            setCombiSimples((combiSimples) => combiSimples.map(c => {
+            
+            const updateScore = addCombi(combi);
+            const updatedSimples = combiSimples.map(c => {
                 return {
                     ...c,
-                    score: (c.nom === combi.nom) ? addCombi(combi) : c.score
-                };
-            }));
+                    score: (c.nom === combi.nom) ? updateScore : c.score
+                }
+            });
+            setCombiSimples(updatedSimples);
 
-            setCombiComplexes((combiComplexes) => combiComplexes.map(c => {
+            const updatedComplexes = combiComplexes.map(c => {
                 return {
                     ...c,
-                    score: (c.nom === combi.nom) ? addCombi(combi) : c.score
-                };
-            }));
+                    score: (c.nom === combi.nom) ? updateScore : c.score
+                }
+            });
+            setCombiComplexes(updatedComplexes);
+
+            setCombiSelected((prevSelected) => [...prevSelected, combi.nom]);
+            setResetTab(true);
+
+            if (combi.nom === 'yahtzee' && combi.score === 50) {
+                yahtzeeLogic.playSound("yahtzee");
+            } else {
+                yahtzeeLogic.playSound("scoring");
+            }
+
             updateTheScore(combi);
             setCombiComplexeToDisplay(combiComplexes);
             setCombiSimpleToDisplay(combiSimples);

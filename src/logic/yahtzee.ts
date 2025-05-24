@@ -8,6 +8,7 @@ class Yahtzee{
     private nbTurn: number = 3;
     private diceKeep: number[] = [];
     private dice: number[] = [0,0,0,0,0];
+    private sounds: Record<string, HTMLAudioElement> = {};
 
     constructor(){
         this.score = 0;
@@ -30,12 +31,24 @@ class Yahtzee{
                 { nom: "sixes", score: -1, hover: "", hoverDices: [] }
             ]
         }
+        this.initSound();
     }
 
     public initRound(): void{
         this.nbTurn = 3;
         this.diceKeep = [];
         this.dice = [0,0,0,0,0];
+    }
+
+    public initSound(): void {
+        this.sounds = {
+            "dice_click": new Audio("/sounds/dice_click.mp3"),
+            "yahtzee": new Audio("/sounds/yahtzee.mp3"),
+            "scoring": new Audio("/sounds/scoring.mp3")
+        };
+        for (const sound in this.sounds) {
+            this.sounds[sound].load();
+        }
     }
 
     public rollDice(): {nbTurn: number; dice: number[];} {
@@ -113,6 +126,23 @@ class Yahtzee{
         return generateComplexeExamples(toolTipCombi);
 
     }
+
+    public playSound(name: string): void {
+    const sound = this.sounds[name];
+
+    if (!sound) {
+        console.warn(`Sound '${name}' not preloaded.`);
+        return;
+    }
+
+    try {
+        sound.currentTime = 0;
+        sound.play();
+        console.log(`Playing sound: ${name}`);
+    } catch (error) {
+        console.error("Error playing sound:", error);
+    }
+}
 
         
 }

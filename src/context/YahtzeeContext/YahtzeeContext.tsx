@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import Yahtzee from '../../logic/yahtzee';
 import { Combi } from '../../class/Combi';
-// Création du type pour le contexte
+
 interface YahtzeeContextType {
     roundActive: boolean;
     setRoundActive: (active: boolean) => void;
@@ -26,30 +26,7 @@ interface YahtzeeContextType {
     setTime: (time: number) => void;
 }
 
-const YahtzeeContext = createContext<YahtzeeContextType>({
-  roundActive: true, 
-  setRoundActive: () => {},
-  gameActive: false,
-  setGameActive: () => {},
-  score: 0,
-  setScore: () => {},
-  combiSimplesFinal: [],
-  setCombiSimplesFinal: () => {},
-  combiComplexesFinal: [],
-  setCombiComplexesFinal: () => {},
-  defaultCombiComplexes: [],
-  setDefaultCombiComplexes: () => {},
-  defaultCombiSimples: [],
-  loading: false,
-  setLoading: () => {},
-  resetTab: false,
-  setResetTab: () => {},
-  yahtzeeLogic: new Yahtzee(),
-  setYahtzeeLogic: () => {},
-  time: 0,
-  setTime: () => {}
-
-});
+const YahtzeeContext = createContext<YahtzeeContextType | undefined>(undefined);
 
 export const YahtzeeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [roundActive, setRoundActive] = useState<boolean>(true);
@@ -77,10 +54,8 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
 ]);
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(true);
-  const [yahtzeeLogic, setYahtzeeLogic] = useState<Yahtzee>(new Yahtzee());
+  const [yahtzeeLogic, setYahtzeeLogic] = useState(() => new Yahtzee());
   const [time, setTime] = useState(0);
-
-
 
 
   const value = {
@@ -114,4 +89,10 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   );
 };
 
-export const useYahtzeeContext = () => useContext(YahtzeeContext);
+export const useYahtzeeContext = () => {
+  const context = useContext(YahtzeeContext);
+  if (!context) {
+    throw new Error("useYahtzeeContext must be used within a YahtzeeProvider");
+  }
+  return context;
+};
