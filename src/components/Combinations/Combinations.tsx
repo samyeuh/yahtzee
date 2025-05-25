@@ -35,7 +35,6 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
     const handleToolTip = async (): Promise<void> => {
         try {
           const tooltip = yahtzeeLogic.getToolTipDice();
-          console.log("handletooltip combi");
           var combiComplexeCopy = defaultCombiComplexes.map((combi) => combi);
           const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
               switch (combi.nom){
@@ -82,6 +81,8 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
     useEffect(() => {
         if (combiSelected.length === 13) {
             setIsGameFinished(true);
+        } else {
+            setIsGameFinished(false);
         }
     }, [combiSelected]);
 
@@ -97,7 +98,6 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
     
 
     useEffect(() => {
-        console.log("resetTab effect triggered");
         if (resetTab) {
             setCombiSimples(defaultCombiSimples.map(c => ({ ...c, score: -1 })));
             setCombiComplexes(defaultCombiComplexes.map(c => ({ ...c, score: -1 })));
@@ -172,7 +172,6 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
             setCombiComplexes(updatedComplexes);
 
             setCombiSelected((prevSelected) => [...prevSelected, combi.nom]);
-            setResetTab(true);
 
             if (combi.nom === 'yahtzee' && combi.score === 50) {
                 yahtzeeLogic.playSound("yahtzee");

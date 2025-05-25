@@ -53,7 +53,7 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   {nom: 'sixes', score: -1, hover: "sum of the six", hoverDices: ["/dices/dice6.png"] }      
 ]);
   const [loading, setLoading] = useState(false);
-  const [resetTab, setResetTab] = useState(true);
+  const [resetTab, setResetTab] = useState(false);
   const [yahtzeeLogic, setYahtzeeLogic] = useState(() => new Yahtzee());
   const [time, setTime] = useState(0);
 

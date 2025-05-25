@@ -138,7 +138,6 @@ class Yahtzee{
     try {
         sound.currentTime = 0;
         sound.play();
-        console.log(`Playing sound: ${name}`);
     } catch (error) {
         console.error("Error playing sound:", error);
     }

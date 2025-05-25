@@ -11,7 +11,7 @@ import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
-  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic, time, setTime } = useYahtzeeContext();
+  const { gameActive, setGameActive, setRoundActive, setScore, resetTab, setResetTab, yahtzeeLogic, time, setTime } = useYahtzeeContext();
   const { testServer } = YahtzeeAPI();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openRuleModal, setOpenRuleModal] = useState<boolean>(false);
@@ -61,17 +61,13 @@ export function Gameplay() {
         startTimeRef.current = null;
       };
 
-  const handleReplay = async (): Promise<void> => {
-    try {
-        yahtzeeLogic.restartGame();
-        setScore(0);
-        setGameActive(true);
-        setRoundActive(true);
-        setResetTab(true);
-        handleReset();
-    } catch (error) {
-        console.error("Erreur :", error);
-    }
+  const handleReplay = () => {
+      yahtzeeLogic.restartGame();
+      setResetTab(true);
+      setScore(0);
+      setGameActive(true);
+      setRoundActive(true);
+      handleReset();
 }
 
   const openScoreSaving = (): void => {
