@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 *.pyc
 __pycache__/
+
+*.env
+*.json
+*.csv
