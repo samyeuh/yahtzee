@@ -26,11 +26,11 @@ class Tracker {
   }
 
   public trackEndGame(score: number, time: number): void {
-    this.post("/track/endGame", { score, time });
+    this.post(`/track/endGame?score=${encodeURIComponent(score)}&time=${encodeURIComponent(time)}`);
   }
 
   public trackCombination(name: string, score: number): void {
-    this.post(`/track/combination?name=${encodeURIComponent(name)}`, { score });
+    this.post(`/track/combination?name=${encodeURIComponent(name)}&score=${encodeURIComponent(score)}`);
   }
 }
 

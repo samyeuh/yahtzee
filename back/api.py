@@ -53,15 +53,18 @@ def after_request(response):
 def metrics():
     return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
-# Métriques personnalisées
+# Métriques
 dice_rolls = Counter('dice_rolls_total', 'Nombre total de lancers de dés')
 games_played = Counter('games_played_total', 'Nombre total de parties jouées')
 combination_selected = Counter('combination_selected_total', 'Combinaisons choisies', ['name', 'score'])
+
 score_sum = Gauge('score_average', 'Score moyen des parties')
 score_max = Gauge('score_max', 'Score maximum atteint')
+game_duration_min = Gauge('time_min', 'Partie la plus rapide')
+game_duration_avg = Gauge('time_average', 'Temps moyen pour une partie')
 
-# Internal storage pour moyenne (optionnel si tu as une BDD)
 _scores = []
+_game_durations = []
 
 # === ROUTES DE TRACKING ===
 
@@ -72,8 +75,12 @@ def track_roll():
 
 @app.route("/track/endGame", methods=["POST"])
 def track_end_game():
-    data = request.get_json()
-    score = data.get("score", None)
+    score = request.args.get("score", 0, type=int)
+    time = request.args.get("time", 0, type=float)
+    if isinstance(time, (int, float)):
+        _game_durations.append(time)
+        game_duration_min.set(min(_game_durations))
+        game_duration_avg.set(sum(_game_durations) / len(_game_durations))
     if isinstance(score, (int, float)):
         _scores.append(score)
         score_max.set(max(_scores))
@@ -87,16 +94,6 @@ def track_combination():
     combo_score = request.args.get("score", 0, type=int)
     combination_selected.labels(name=combo_name, score=str(combo_score)).inc()
     return jsonify({"message": f"combination {combo_name} ({combo_score}) tracked"}), 200
-
-@app.route("/track/score", methods=["POST"])
-def track_score():
-    data = request.get_json()
-    score = data.get("score", None)
-    if isinstance(score, (int, float)):
-        _scores.append(score)
-        score_max.set(max(_scores))
-        score_sum.set(sum(_scores) / len(_scores))
-    return jsonify({"message": "score tracked"}), 200
 
 
 if __name__ == '__main__':
