@@ -19,7 +19,8 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         defaultCombiComplexes, 
         defaultCombiSimples, 
         resetTab, setResetTab,
-        yahtzeeLogic } = useYahtzeeContext();
+        yahtzeeLogic, tracker,
+        time } = useYahtzeeContext();
 
     const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
 
@@ -93,6 +94,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
             setGameActive(false);
             setCombiSimplesFinal([...combiSimpleToDisplay]);
             setCombiComplexesFinal([...combiComplexeToDisplay]);
+            tracker.trackEndGame(score, time);
         }
         }, [isGameFinished]);
     
@@ -183,6 +185,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
             setCombiComplexeToDisplay(combiComplexes);
             setCombiSimpleToDisplay(combiSimples);
             const combinations: Combinations = {simple: combiSimples, complexe: combiComplexes};
+            tracker.trackCombination(combi.nom, combi.score);
             yahtzeeLogic.setCombinations(combinations);
             setRoundActive(true);
         }

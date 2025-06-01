@@ -1,6 +1,7 @@
 import { Combinations } from "../class/Combi";
 import { startCheckingScore } from "./scoreCalculator";
 import { generateComplexeExamples } from "./exampleGenerator";
+import Tracker from "./tracker";
 
 class Yahtzee{
     private score: number;
@@ -9,6 +10,7 @@ class Yahtzee{
     private diceKeep: number[] = [];
     private dice: number[] = [0,0,0,0,0];
     private sounds: Record<string, HTMLAudioElement> = {};
+    private tracker: Tracker = new Tracker();
 
     constructor(){
         this.score = 0;
@@ -32,6 +34,7 @@ class Yahtzee{
             ]
         }
         this.initSound();
+        
     }
 
     public initRound(): void{
@@ -58,6 +61,7 @@ class Yahtzee{
             }
         }
         this.nbTurn--;
+        this.tracker.trackRoll();
         return {nbTurn: this.nbTurn, dice: this.dice};
         
     }
@@ -128,22 +132,21 @@ class Yahtzee{
     }
 
     public playSound(name: string): void {
-    const sound = this.sounds[name];
+        const sound = this.sounds[name];
+    
 
-    if (!sound) {
-        console.warn(`Sound '${name}' not preloaded.`);
-        return;
-    }
+        if (!sound) {
+            console.warn(`Sound '${name}' not preloaded.`);
+            return;
+        }
 
-    try {
-        sound.currentTime = 0;
-        sound.play();
-    } catch (error) {
-        console.error("Error playing sound:", error);
-    }
-}
-
-        
+        try {
+            sound.currentTime = 0;
+            sound.play();
+        } catch (error) {
+            console.error("Error playing sound:", error);
+        }
+    }      
 }
 
 export default Yahtzee;

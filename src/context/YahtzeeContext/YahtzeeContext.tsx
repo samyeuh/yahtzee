@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import Yahtzee from '../../logic/yahtzee';
 import { Combi } from '../../class/Combi';
+import Tracker from '../../logic/tracker';
 
 interface YahtzeeContextType {
     roundActive: boolean;
@@ -24,6 +25,7 @@ interface YahtzeeContextType {
     setYahtzeeLogic: (yahtzee: Yahtzee) => void;
     time: number;
     setTime: (time: number) => void;
+    tracker: Tracker;
 }
 
 const YahtzeeContext = createContext<YahtzeeContextType | undefined>(undefined);
@@ -56,6 +58,7 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   const [resetTab, setResetTab] = useState(false);
   const [yahtzeeLogic, setYahtzeeLogic] = useState(() => new Yahtzee());
   const [time, setTime] = useState(0);
+  const tracker = new Tracker();
 
 
   const value = {
@@ -79,7 +82,8 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
     yahtzeeLogic,
     setYahtzeeLogic,
     time,
-    setTime
+    setTime,
+    tracker
   };
 
   return (
