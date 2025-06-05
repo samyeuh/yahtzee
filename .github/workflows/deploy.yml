@@ -1,4 +1,4 @@
-name: CI/CD - Build & Push Docker
+name: CI/CD - Yahtzee Back & Front
 
 on:
   push:
@@ -21,9 +21,16 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push Docker image
+    - name: Build and Push Backend (Flask)
       uses: docker/build-push-action@v5
       with:
         context: ./back
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/yahtzee-back:latest
+
+    - name: Build and Push Frontend (Vite + Nginx)
+      uses: docker/build-push-action@v5
+      with:
+        context: .        
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/yahtzee-front:latest
