@@ -66,13 +66,26 @@ game_duration_avg = Gauge('time_average', 'Temps moyen pour une partie')
 _scores = []
 _game_durations = []
 
-score_histogram = Histogram(
-    'score_histogram', 
-    'Distribution des scores', 
-    buckets=[0, 50, 
+bucket_edges = list([50, 
              100, 150, 170, 180, 190, 
              200, 210, 220, 230, 240, 250, 270, 280, 290,
              300, 310, 320, 322])
+
+score_range_counters = {}
+
+for i in range(len(bucket_edges) - 1):
+    start = bucket_edges[i]
+    end = bucket_edges[i + 1]
+    key = f"{start}_{end}"
+    score_range_counters[key] = Counter(f"score_range_{key}", f"Nombre de scores entre {start} et {end}")
+    
+# score_histogram = Histogram(
+#     'score_histogram', 
+#     'Distribution des scores', 
+#     buckets=[50, 
+#              100, 150, 170, 180, 190, 
+#              200, 210, 220, 230, 240, 250, 270, 280, 290,
+#              300, 310, 320, 322])
 
 time_histogram = Histogram('time_histogram', 'Distribution des temps', buckets=[0, 5000, 10000, 15000, 20000, 30000, 60000])
 
@@ -97,7 +110,12 @@ def track_end_game():
         score_max.set(max(_scores))
         score_sum.set(sum(_scores) / len(_scores))
         
-        score_histogram.observe(score)
+        for i in range(len(bucket_edges) - 1):
+            start = bucket_edges[i]
+            end = bucket_edges[i + 1]
+            if start < score <= end:
+                score_range_counters[f"{start}_{end}"].inc()
+                break
     games_played.inc()
     return jsonify({"message": "game end tracked"}), 200
 
