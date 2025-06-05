@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from flask import Flask, jsonify, request
 import os
-from prometheus_client import Counter, Gauge, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
 
 load_dotenv()
 
@@ -66,8 +66,17 @@ game_duration_avg = Gauge('time_average', 'Temps moyen pour une partie')
 _scores = []
 _game_durations = []
 
-# === ROUTES DE TRACKING ===
+score_histogram = Histogram(
+    'score_histogram', 
+    'Distribution des scores', 
+    buckets=[0, 50, 
+             100, 150, 170, 180, 190, 
+             200, 210, 220, 230, 240, 250, 270, 280, 290,
+             300, 310, 320, 322])
 
+time_histogram = Histogram('time_histogram', 'Distribution des temps', buckets=[0, 5000, 10000, 15000, 20000, 30000, 60000])
+
+# === ROUTES DE TRACKING ===
 @app.route("/track/roll", methods=["POST"])
 def track_roll():
     dice_rolls.inc()
@@ -81,10 +90,14 @@ def track_end_game():
         _game_durations.append(time)
         game_duration_min.set(min(_game_durations))
         game_duration_avg.set(sum(_game_durations) / len(_game_durations))
+        
+        time_histogram.observe(time)
     if isinstance(score, (int, float)):
         _scores.append(score)
         score_max.set(max(_scores))
         score_sum.set(sum(_scores) / len(_scores))
+        
+        score_histogram.observe(score)
     games_played.inc()
     return jsonify({"message": "game end tracked"}), 200
 
