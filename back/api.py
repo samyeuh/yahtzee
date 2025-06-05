@@ -62,8 +62,11 @@ combination_selected = Counter('combination_selected_total', 'Combinaisons chois
 score_sum = Gauge('score_average', 'Score moyen des parties')
 score_max = Gauge('score_max', 'Score maximum atteint')
 score_count = Counter("score_total", "Score brut envoyé", ["value"])
+
 game_duration_min = Gauge('time_min', 'Partie la plus rapide')
 game_duration_avg = Gauge('time_average', 'Temps moyen pour une partie')
+game_duration_count = Counter("time_count", "Durée brute envoyée", ["value"])
+
 
 _scores = []
 _game_durations = []
@@ -82,6 +85,13 @@ def get_score_bucket(score):
             return f"{i:02d}_{ranges[i]}-{ranges[i + 1]}"
     return f"{len(ranges):02d}_>{ranges[-1]}"
 
+def get_time_bucket(duration_ms):
+    ranges = [0, 10000, 20000, 30000, 40000, 50000, 60000]  # en millisecondes
+    for i in range(len(ranges) - 1):
+        start, end = ranges[i], ranges[i + 1]
+        if start <= duration_ms < end:
+            return f"{i:02d}_{start//1000}-{end//1000}s"
+    return f"{len(ranges):02d}_>{ranges[-1]//1000}s"
 
 
 @app.route("/track/endGame", methods=["POST"])
@@ -92,6 +102,9 @@ def track_end_game():
         _game_durations.append(time)
         game_duration_min.set(min(_game_durations))
         game_duration_avg.set(sum(_game_durations) / len(_game_durations))
+        
+        bucket = get_time_bucket(time)
+        game_duration_count.labels(value=bucket).inc()
         
     if isinstance(score, (int, float)):
         _scores.append(score)
