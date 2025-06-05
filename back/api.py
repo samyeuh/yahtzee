@@ -1,3 +1,4 @@
+from ast import match_case
 from scoreManager import ScoreManager
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -73,6 +74,15 @@ def track_roll():
     dice_rolls.inc()
     return jsonify({"message": "roll tracked"}), 200
 
+def get_score_bucket(score):
+    ranges = [0, 50, 100, 150, 170, 190, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 320]
+    for i in range(len(ranges) - 1):
+        if ranges[i] <= score < ranges[i + 1]:
+            return f"{ranges[i]}-{ranges[i + 1]}"
+    return f">{ranges[-1]}"
+
+
+
 @app.route("/track/endGame", methods=["POST"])
 def track_end_game():
     score = request.args.get("score", 0, type=int)
@@ -86,8 +96,8 @@ def track_end_game():
         _scores.append(score)
         score_max.set(max(_scores))
         score_sum.set(sum(_scores) / len(_scores))
-        
-        score_count.labels(value=str(score)).inc()
+            
+        score_count.labels(value=get_score_bucket(score)).inc()
     games_played.inc()
     return jsonify({"message": "game end tracked"}), 200
 
