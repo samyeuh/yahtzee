@@ -77,9 +77,10 @@ def track_roll():
 def get_score_bucket(score):
     ranges = [0, 50, 100, 150, 170, 190, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 320]
     for i in range(len(ranges) - 1):
-        if ranges[i] <= score < ranges[i + 1]:
-            return f"{ranges[i]}-{ranges[i + 1]}"
-    return f">{ranges[-1]}"
+        (start, end) = (ranges[i], ranges[i + 1])
+        if start <= score < end:
+            return f"{i:02d}_{ranges[i]}-{ranges[i + 1]}"
+    return f"{len(ranges):02d}_>{ranges[-1]}"
 
 
 
