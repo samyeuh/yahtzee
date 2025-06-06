@@ -4,6 +4,7 @@ import { YahtzeeProvider } from './context/YahtzeeContext/YahtzeeContext';
 import { Gameplay } from './page/Gameplay/Gameplay';
 import { Login } from './page/Login/Login';
 import { Scores } from './page/Scores/Scores';
+import Stats from './page/Stats/Stats';
 
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
         {
           path: '/scores',
           element: <Scores />,
+        },
+        {
+          path: '/stats',
+          element: <Stats />,
         },
         {
           path: '/*',

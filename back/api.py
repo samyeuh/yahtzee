@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from flask import Flask, jsonify, request
 import os
-from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, Gauge, Summary, generate_latest, CONTENT_TYPE_LATEST
 
 load_dotenv()
 
@@ -67,6 +67,9 @@ game_duration_min = Gauge('time_min', 'Partie la plus rapide')
 game_duration_avg = Gauge('time_average', 'Temps moyen pour une partie')
 game_duration_count = Counter("time_count", "Durée brute envoyée", ["value"])
 
+combination_score_sum = Counter("combination_score_sum", "Total score per combination", ["name"])
+combination_score_count = Counter("combination_score_count", "Total count per combination", ["name"])
+
 
 _scores = []
 _game_durations = []
@@ -86,7 +89,7 @@ def get_score_bucket(score):
     return f"{len(ranges):02d}_>{ranges[-1]}"
 
 def get_time_bucket(duration_ms):
-    ranges = [0, 10000, 20000, 30000, 40000, 50000, 60000]  # en millisecondes
+    ranges = [30000, 45000, 60000, 75000, 90000, 105000, 120000, 135000, 150000, 175000, 190000]  # en millisecondes
     for i in range(len(ranges) - 1):
         start, end = ranges[i], ranges[i + 1]
         if start <= duration_ms < end:
@@ -120,6 +123,8 @@ def track_combination():
     combo_name = request.args.get("name", "unknown")
     combo_score = request.args.get("score", 0, type=int)
     combination_selected.labels(name=combo_name, score=str(combo_score)).inc()
+    combination_score_sum.labels(name=combo_name).inc(combo_score)
+    combination_score_count.labels(name=combo_name).inc()
     return jsonify({"message": f"combination {combo_name} ({combo_score}) tracked"}), 200
 
 
