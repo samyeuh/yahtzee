@@ -3,9 +3,9 @@ import React from "react";
 const GrafanaPanel: React.FC = () => {
   return (
     <div className="grafana-container" style={{ padding: "2rem" }}>
-      <h2 style={{ marginBottom: "1rem" }}>Stats Yahtzee</h2>
+      <h2 style={{ marginBottom: "1rem" }}>les stats!!!! :o</h2>
       <iframe
-        src="http://localhost:3000/goto/g9VxeMYNR?orgId=1"
+        src="http://localhost:3000/public-dashboards/85b582cd7d77487b8207fd98b2868d28"
         width="100%"
         height="800"
         allowFullScreen

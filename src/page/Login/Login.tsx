@@ -71,6 +71,7 @@ export function Login() {
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px' }}>
             <img src="/dices/trophy.png" onClick={openTrophy} className='other-icon' alt="trophy"/>
             <img src="/dices/github.png" onClick={openGithub} className='other-icon' alt="github link"/>
+            <img src="/dices/dice1.png" onClick={() => navigate('/stats')} className='other-icon' alt="stats link" />
           </div>
       </div>
     </>
