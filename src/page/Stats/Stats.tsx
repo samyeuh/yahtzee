@@ -1,7 +1,9 @@
 import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
 
 const GrafanaPanel: React.FC = () => {
-  return (
+  return <>
+    <Navbar />
     <div className="grafana-container" style={{ padding: "2rem" }}>
       <h2 style={{ marginBottom: "1rem" }}>les stats!!!! :o</h2>
       <iframe
@@ -12,7 +14,7 @@ const GrafanaPanel: React.FC = () => {
         title="Grafana Dashboard"
       />
     </div>
-  );
+  </>;
 };
 
 export default GrafanaPanel;
