@@ -20,7 +20,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
   const [saving , setSaving] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const date = new Date().toLocaleDateString();
-  const { addScore } = YahtzeeAPI();
+  const { addScore, formatTime } = YahtzeeAPI();
 
   const { score, time, combiSimplesFinal, combiComplexesFinal } = useYahtzeeContext();
 
@@ -100,7 +100,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
                         <p>{date}</p>
                       </td>
                       <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
-                        <p>{time}</p>
+                        <p>{formatTime(time)}</p>
                       </td>
                     </tr>
                   </tbody>
