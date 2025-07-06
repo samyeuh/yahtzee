@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './RollingDices.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 type RollingDicesProps = {
     openRules: () => void;
@@ -16,6 +17,7 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
     const [isRollDisabled, setRollDisabled] = useState(false);
     const [isFirstRoll, setIsFirstRoll] = useState(true);
     const [isBlurred, setIsBlurred] = useState<boolean>(true);
+    const { formatTime } = YahtzeeAPI();
     const { roundActive, setRoundActive, yahtzeeLogic, time } = useYahtzeeContext();
 
     // TODO: if yams confettis ?
@@ -154,15 +156,6 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
       const handleToggleBlur = () => {
         setIsBlurred(prev => !prev);
     };
-
-  const formatTime = (ms: number): string => {
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000);
-    const milliseconds = ms % 1000;
-    return `${minutes.toString().padStart(2, '0')}:` +
-           `${seconds.toString().padStart(2, '0')}:` +
-           `${milliseconds.toString().padStart(3, '0')}`;
-  };
 
     return (
         <>

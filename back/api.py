@@ -14,13 +14,12 @@ allowed_origins = list(filter(None, [
 
 app = Flask(__name__)
 CORS(app, origins=allowed_origins)
-
-
 scoreManager = ScoreManager()
 
 @app.route("/testServer", methods=["GET"])
 def testServer():
     return jsonify({"message": "hello world"}), 200
+
 
 @app.route("/getScores", methods=["GET"])
 def getScores():
@@ -34,10 +33,10 @@ def getScores():
 @app.route("/addScore", methods=["POST"])
 def addScore():
     data = request.json
-    if not all(k in data for k in ("icon", "playerName", "score", "date", "details")):
+    if not all(k in data for k in ("icon", "playerName", "score", "date", "formatDuration", "details")):
         return jsonify({"error": "Missing fields"}), 400
 
-    scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['date'], data['details'])
+    scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['date'], data['formatDuration'], data['details'])
     return jsonify({"message": "Score added"}), 200
 
 

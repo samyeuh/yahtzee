@@ -22,7 +22,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
   const date = new Date().toLocaleDateString();
   const { addScore } = YahtzeeAPI();
 
-  const { score, combiSimplesFinal, combiComplexesFinal } = useYahtzeeContext();
+  const { score, time, combiSimplesFinal, combiComplexesFinal } = useYahtzeeContext();
 
   const handleSave = async (): Promise<void> => {
     if (name === '' || name.length > 15) {
@@ -32,7 +32,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
     try {
       const details = { simple: combiSimplesFinal, complexe: combiComplexesFinal };
       setSaving(true);
-      await addScore(currentIcon, name, score, date, details);
+      await addScore(currentIcon, name, score, date, time, details);
     } catch (error) {
       console.error("Erreur: " + error);
     } finally {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './EndRolling.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 type EndRollingProps = {
     openScoreSaving: () => void;
@@ -12,6 +13,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
     const {score, time} = useYahtzeeContext();
+    const { formatTime } = YahtzeeAPI();
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -42,15 +44,6 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         }
 
         return tempList;
-    };
-
-    const formatTime = (ms: number): string => {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = Math.floor((ms % 60000) / 1000);
-        const milliseconds = ms % 1000;
-        return `${minutes.toString().padStart(2, '0')}:` +
-            `${seconds.toString().padStart(2, '0')}:` +
-            `${milliseconds.toString().padStart(3, '0')}`;
     };
 
     return (

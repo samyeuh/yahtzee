@@ -13,7 +13,10 @@ export function Scores() {
     const [period, setPeriod] = useState<number>(() => {
         return parseInt(localStorage.getItem("selectedPeriod") || "3");  // Default to "lifetime"
     });
-    const [filteredScores, setFilteredScores] = useState<{Icon: string, Nom: string, Score: number, Date: string, Details: any}[]>([]);
+    
+    const [filteredScores, setFilteredScores] = useState<{
+        Icon: string, Nom: string, Score: number, Date: string, Duration: any, Details: any
+    }[]>([]);
 
     const fetchScores = async () => {
         try {
@@ -123,6 +126,8 @@ export function Scores() {
                                 <th style={{fontWeight: 'bold'}}>name</th>
                                 <th style={{fontWeight: 'bold'}}>score</th>
                                 <th style={{fontWeight: 'bold'}}>date</th>
+                                <th style={{fontWeight: 'bold'}}>duration</th>
+                                <th style={{fontWeight: 'bold'}}>details</th>
                             </tr>
                         </thead> ) }
                         <tbody>
@@ -158,6 +163,7 @@ export function Scores() {
                                     <td style={{border: '1px solid lightgray', textAlign: 'center', ...textColor}}>{player.Nom}</td>
                                     <td style={{border: '1px solid lightgray', textAlign: 'center'}}>{player.Score}</td>
                                     <td style={{border: '1px solid lightgray', textAlign: 'center'}}>{player.Date}</td>
+                                    <td style={{border: '1px solid lightgray', textAlign: 'center'}}>{player.Duration}</td>
                                     <td style={{border: '1px solid lightgray', textAlign: 'center'}}>
                                         <img src="/dices/eye.png" alt="details" style={{ width: "30px", height: "30px", verticalAlign: 'text-top' }} onClick={() => {openDetails(index)}} />
                                     </td>

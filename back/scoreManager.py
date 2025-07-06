@@ -1,56 +1,70 @@
 import pandas as pd
 from pathlib import Path
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 import json
 import pytz
 import os
+from supabase import Client, create_client
 
 class ScoreManager:
     
     def __init__(self):
-        
-        self.playersScorePath = Path(os.path.join(os.path.dirname(__file__), 'data', 'playersScore.csv'))
-        if not self.playersScorePath.exists():
-            pd.DataFrame(columns=['Icon', 'Nom', 'Score', 'Date', 'Details']).to_csv(self.playersScorePath, index=False)
-        self.playersScore = pd.read_csv(self.playersScorePath)
+        url = os.getenv("SUPABASE_URL") 
+        key = os.getenv("SUPABASE_KEY")
+        self.supabase: Client = create_client(url, key)
 
     def getScores(self):
-        self.playersScore.sort_values(by='Score', ascending=False, inplace=True)
+        response = self.supabase.table("game_scores").select("*").execute()
+        if not response.data:
+            return None
+
+        all_scores = response.data
+        for score in all_scores:
+            score["Icon"] = score.pop("icon")
+            score["Nom"] = score.pop("name")
+            score["Score"] = score.pop("score")
+            score["Date"] = datetime.strptime(score["game_date"], "%Y-%d-%m").strftime("%d/%m/%Y")
+            score["Duration"] = score.pop("game_duration", "N/A") # Assuming game_duration is optional
+            score["Details"] = score.pop("details")  # JSON direct
+
         paris_tz = pytz.timezone('Europe/Paris')
         today = datetime.now(paris_tz).date()
-        date_col = pd.to_datetime(self.playersScore["Date"], format="%d/%m/%Y", errors='coerce')
-        
-        daily_scores = self.playersScore[date_col.dt.date == today]
-        
-        start_of_week = today - timedelta(days=today.weekday())
-        weekly_scores = self.playersScore[date_col.dt.date >= start_of_week]
-        
-        monthly_record = self.playersScore[(date_col.dt.month == today.month) & (date_col.dt.year == today.year)]
-        
-        lifetime_record = self.playersScore
-        
+
+        def filter_by_date_range(scores, start_date, end_date):
+            return [
+                s for s in scores
+                if start_date <= datetime.strptime(s["Date"], "%d/%m/%Y").date() <= end_date
+            ]
+
+        daily = filter_by_date_range(all_scores, today, today)
+        week_start = today - timedelta(days=today.weekday())
+        weekly = filter_by_date_range(all_scores, week_start, today)
+        monthly = [s for s in all_scores if datetime.strptime(s["Date"], "%d/%m/%Y").month == today.month]
+
+        # Trie par score
+        all_scores.sort(key=lambda s: s["Score"], reverse=True)
+        daily.sort(key=lambda s: s["Score"], reverse=True)
+        weekly.sort(key=lambda s: s["Score"], reverse=True)
+        monthly.sort(key=lambda s: s["Score"], reverse=True)
+
         return {
-            "daily": daily_scores.to_dict(orient='records'),
-            "weekly": weekly_scores.to_dict(orient='records'),
-            "monthly": monthly_record.to_dict(orient='records'),
-            "lifetime": lifetime_record.to_dict(orient='records')
+            "daily": daily,
+            "weekly": weekly,
+            "monthly": monthly,
+            "lifetime": all_scores
         }
 
     
-    def addScore(self, icon, playerName, score, date, details):
-        self.playersScore.sort_values(by='Score', ascending=False, inplace=True)
-
-        new_score = {
-            "Icon": icon,
-            "Nom": playerName,
-            "Score": score,
-            "Date": date,
-            "Details": json.dumps(details)
-        }
-        
-        self.playersScore.loc[len(self.playersScore.index)] = new_score
-        self.saveScores()
-        
-    def saveScores(self):
-        self.playersScore.to_csv(self.playersScorePath, index=False)
-        self.playersScore = pd.read_csv(self.playersScorePath)
+    def addScore(self, icon, playerName, score, date, duration, details):
+        try:
+            self.supabase.table("game_scores").insert({
+                "icon": icon,
+                "name": playerName,
+                "score": score,
+                "game_date": date,
+                "game_duration": duration,
+                "details": json.dumps(details)
+            }).execute()
+        except Exception as e:
+            print(f"Error adding score: {e}")
+            return False

@@ -43,7 +43,7 @@ export function ScoreDetails({ closeFunction, playerDetails}: DetailsProps) {
             <div className="detailsContainer">
               <div className="detailsBox">
                 <h1 style={{fontWeight: 'bold'}}>{playerDetails['Nom']}</h1>
-                <p style={{marginTop:'-5px'}}>{playerDetails['Date']}</p>
+                <p style={{marginTop:'-5px'}}>{playerDetails['Date']} • {playerDetails["Duration"]}</p>
                 <img src={playerDetails['Icon']} alt="icon" style={{width: '75px', height: '75px'}}/>
                     <div className="detailsTabs">
                         <Tableau combis={playerDetailsTransformed.complexe} caption={"lower section"} clickFunc={() => Promise.resolve()} resetTab={false} selectedCombi={playerDetailsTransformed.complexe.map(combi => combi.nom)} wantedGrey={false}/>
