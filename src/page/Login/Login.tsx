@@ -35,10 +35,16 @@ export function Login() {
   };
 
   const startGame = async (): Promise<void> => {
+    loadSounds();
     setHandleFadeComplete(() => startFadeComplete);
     setWaitServer(false);
     setLoading(true);
   };
+
+  const loadSounds = () => {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    ctx.resume();
+  }
 
   const startFadeComplete = () => {
     setGameActive(true);

@@ -128,16 +128,18 @@ class Yahtzee{
     }
 
     public playSound(name: string): void {
-    const sound = this.sounds[name];
+    const baseSound = this.sounds[name];
 
-    if (!sound) {
+    if (!baseSound) {
         console.warn(`Sound '${name}' not preloaded.`);
         return;
     }
 
     try {
-        sound.currentTime = 0;
-        sound.play();
+        const clone = baseSound.cloneNode(true) as HTMLAudioElement;
+        clone.play().catch(e => {
+            console.warn(`Playback failed for sound '${name}':`, e);
+        });
     } catch (error) {
         console.error("Error playing sound:", error);
     }

@@ -82,6 +82,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
                       <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>name</th>
                       <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>score</th>
                       <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>date</th>
+                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>duration</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -97,6 +98,9 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
                       </td>
                       <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
                         <p>{date}</p>
+                      </td>
+                      <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
+                        <p>{time}</p>
                       </td>
                     </tr>
                   </tbody>
