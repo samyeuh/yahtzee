@@ -8,7 +8,6 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 
-
 ## Table of contents
 
 - [Introduction](#introduction)
@@ -30,7 +29,7 @@ The game can be played here: [yhtz.fr](https://yhtz.fr)
 
 ### Exemple of a game :
 
-[![Regarder la vidéo](https://img.youtube.com/vi/xs8yNMO7O1g/maxresdefault.jpg)](https://www.youtube.com/watch?v=xs8yNMO7O1g)
+[![Watch video](https://img.youtube.com/vi/xs8yNMO7O1g/maxresdefault.jpg)](https://www.youtube.com/watch?v=xs8yNMO7O1g)
 
 Try to do better :p
 
@@ -39,8 +38,13 @@ Try to do better :p
 To launch the yahtzee locally:
  - Clone the github repo
  - Run “npm install” in the terminal
- - Run “npm run dev” in the first terminal, then click on the link to open the site.
- - Then, have fun ♥
+ - Then run “npm run dev” and click on the link to open the site.
+ - Have fun ♥
+
+ If you have docker:
+  - Open Docker Desktop
+  - Run "docker-compose up --build" in the terminal
+  - Then open "http://localhost:8080" and have fun ♥
 
 
 ## Feedback
