@@ -14,6 +14,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
     const {score, time} = useYahtzeeContext();
     const { formatTime } = YahtzeeAPI();
+    const [isSaved, setIsSaved] = useState<boolean>(false);
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -46,6 +47,11 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         return tempList;
     };
 
+    const handleOnSave = () => {
+        openScoreSaving();
+        setIsSaved(true);
+    }
+
     return (
         <>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -68,7 +74,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
                         </div>
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px'}}>
                         <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
-                        <button className="button" onClick={openScoreSaving}>SAVE MY SCORE</button>
+                        <button className="button" onClick={handleOnSave} disabled={isSaved}>SAVE MY SCORE</button>
                     </div>
                 </div>
             </div>
