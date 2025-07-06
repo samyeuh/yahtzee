@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from flask import Flask, jsonify, request
 import os
-from prometheus_client import Counter, Gauge, Summary, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, Gauge, generate_latest, CONTENT_TYPE_LATEST
 
 load_dotenv()
 
