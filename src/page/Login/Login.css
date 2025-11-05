@@ -27,7 +27,6 @@ html, body{
 
 .other-icon {
   width: 10%;
-  height: fit-content;
 }
 
 @media screen and (max-width: 600px) {
