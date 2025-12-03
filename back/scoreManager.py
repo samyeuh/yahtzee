@@ -9,7 +9,14 @@ class ScoreManager:
     def __init__(self):
         url = os.getenv("SUPABASE_URL") 
         key = os.getenv("SUPABASE_KEY")
-        self.supabase: Client = create_client(url, key)
+        try:
+            self.supabase: Client = create_client(url, key)
+        except Exception as e:
+            print(f"Error initializing Supabase client: {e}")
+            self.supabase = None
+    
+    def isSupabaseConnected(self):
+        return self.supabase is not None
 
     def getScores(self):
         response = self.supabase.table("game_scores").select("*").execute()

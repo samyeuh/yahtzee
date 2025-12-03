@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useCallback } from 'react';
 
 export function YahtzeeAPI() {
@@ -8,16 +8,27 @@ export function YahtzeeAPI() {
 
   const testServer = useCallback(() => {
     return axios.get(`${API_BASE_URL}/testServer`)
-              .then((response) => {
+              .then((response: AxiosResponse<any>) => {
                 return response.status;
               });
     }, []);
 
+    const testSupabase = useCallback(() => {
+      return axios.get(`${API_BASE_URL}/testSupabase`)
+                .then((response: AxiosResponse<any>) => {
+                  return response.status;
+                }).catch((error: any) => {
+                  console.error("Erreur: " + error);
+                  return 500;
+                });
+      }, []);
+
+
   const getScores = useCallback(() => {
     return axios.get(`${API_BASE_URL}/getScores`)
-              .then((response) => {
+              .then((response: AxiosResponse<any>) => {
                 return response.data;
-              }).catch((error) => {
+              }).catch((error: any) => {
                 console.error("Erreur: " + error);
               });
     }, []);
@@ -25,9 +36,9 @@ export function YahtzeeAPI() {
     const addScore = useCallback((icon: string, playerName: string, score: number, date: string, duration: any, details: any) => {
       let formatDuration = formatTime(duration);
       return axios.post(`${API_BASE_URL}/addScore`, {icon, playerName, score, date, formatDuration, details})
-                .then((response) => {
+                .then((response: AxiosResponse<any>) => {
                   return response.data;
-                }).catch((error) => {
+                }).catch((error: any) => {
                   console.error("Erreur: " + error);
                 });
     }, []);
@@ -41,5 +52,5 @@ export function YahtzeeAPI() {
             `${milliseconds.toString().padStart(3, '0')}`;
     };
 
-    return { testServer, getScores, addScore, formatTime };
+    return { testServer, getScores, addScore, formatTime, testSupabase };
 }

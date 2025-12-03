@@ -13,7 +13,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
     const {score, time} = useYahtzeeContext();
-    const { formatTime } = YahtzeeAPI();
+    const { formatTime, testSupabase } = YahtzeeAPI();
     const [isSaved, setIsSaved] = useState<boolean>(false);
 
     useEffect(() => {
@@ -22,6 +22,18 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         };
         updateDicesSRC();
     }, [score]);
+
+    useEffect(() => {
+        const checkSupabase = async () => {
+            const status =  await testSupabase();
+            if (status !== 200){
+                setIsSaved(true);
+            } else {
+                setIsSaved(false);
+            }
+        };
+        checkSupabase();
+    }, []);
 
     function delay(ms: number) {
         return new Promise( resolve => setTimeout(resolve, ms) );
@@ -57,19 +69,14 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <div className='gif-rules'>
                 <img key="rules" alt="rules" src="/dices/rules.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
-            </div> 
+            </div>
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{fontWeight: 'bold'}}> your score </h1>
                     <p>thanks for playing ♥ {formatTime(time)}</p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
-                                <img
-                                    key={index}
-                                    src={src}
-                                    alt="dice"
-                                    className="dice"
-                                />
+                                <img key={index} src={src} alt="dice" className="dice"/>
                             ))}
                         </div>
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px'}}>

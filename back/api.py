@@ -20,9 +20,17 @@ scoreManager = ScoreManager()
 def testServer():
     return jsonify({"message": "hello world"}), 200
 
+@app.route("/testSupabase", methods=["GET"])
+def testSupabase():
+    if scoreManager.isSupabaseConnected():
+        return jsonify({"message": "Supabase connected"}), 200
+    else:
+        return jsonify({"message": "Supabase not connected"}), 500
 
 @app.route("/getScores", methods=["GET"])
 def getScores():
+    if not scoreManager.isSupabaseConnected():
+        return jsonify({"message": "Supabase not connected"}), 500
     scores = scoreManager.getScores()
     print(scores)
     if not scores:
@@ -32,6 +40,8 @@ def getScores():
 
 @app.route("/addScore", methods=["POST"])
 def addScore():
+    if not scoreManager.isSupabaseConnected():
+        return jsonify({"message": "Supabase not connected"}), 500
     data = request.json
     if not all(k in data for k in ("icon", "playerName", "score", "date", "formatDuration", "details")):
         return jsonify({"error": "Missing fields"}), 400

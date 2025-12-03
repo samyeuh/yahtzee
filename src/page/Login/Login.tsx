@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
+import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Login() {
   // TODO: best scores tab
@@ -13,6 +14,8 @@ export function Login() {
 
   const [handleFadeComplete, setHandleFadeComplete] = useState<(() => void) | null>(null);
   const [waitServer, setWaitServer] = useState<boolean>(false);
+  const [trophyDisabled, setTrophyDisabled] = useState<boolean>(false);
+  const { testSupabase } = YahtzeeAPI();
 
   useEffect(() => {
     whenLoading();
@@ -24,6 +27,19 @@ export function Login() {
       navigate('/');
     }
   }, [location]);
+
+  useEffect(() => {
+        const checkSupabase = async () => {
+            const status =  await testSupabase();
+            if (status !== 200){
+                setTrophyDisabled(true);
+            } else {
+                setTrophyDisabled(false);
+            }
+        };
+        checkSupabase();
+    }, []);
+
 
   const whenLoading = async () => {
     try {
@@ -58,6 +74,9 @@ export function Login() {
   };
 
   const openTrophy = () => {
+    if (trophyDisabled) {
+      return;
+    }
     setHandleFadeComplete(() => trophyFadeComplete);
     setWaitServer(true);
     setLoading(true);
@@ -75,7 +94,7 @@ export function Login() {
       <div className="fullpage">
           <img src="/logo/yahtzee.png" onClick={startGame} className='start-icon' alt="start button"/>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px' }}>
-            <img src="/dices/trophy.png" onClick={openTrophy} className='other-icon' alt="trophy"/>
+            <img src={trophyDisabled ? "/dices/trophy_disabled.png" : "/dices/trophy.png"} onClick={openTrophy} className='other-icon' alt="trophy"/>
             <img src="/dices/github.png" onClick={openGithub} className='other-icon' alt="github link"/>
           </div>
       </div>
