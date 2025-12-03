@@ -1,24 +1,24 @@
 services:
   frontend:
+    image: samyeuh/yhtz-frontend:latest
+    container_name: yhtz-frontend
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - .env
-    container_name: yhtz-frontend
     ports:
       - "8080:80"
     depends_on:
       - backend
+    env_file:
+      - .env 
 
   backend:
+    image: samyeuh/yhtz-backend:latest
+    container_name: yhtz-backend
     build:
       context: ./back
       dockerfile: Dockerfile
-    env_file:
-      - .env
-    container_name: yhtz-backend
     ports:
       - "5000:5000"
-    expose:
-      - "5000"
+    env_file:
+      - .env
