@@ -1,0 +1,41 @@
+#! backend-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend
+    namespace: yahtzee
+    labels:
+        com.docker.compose.project: yahtzee
+        com.docker.compose.service: backend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: yahtzee
+            com.docker.compose.service: backend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: yahtzee
+                com.docker.compose.service: backend
+                com.docker.compose.network.default: "true"
+        spec:
+            containers:
+                - name: yhtz-backend
+                  image: samyeuh/yhtz-backend:latest
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: SUPABASE_KEY
+                      value: "your-supabase-key-here"
+                    - name: SUPABASE_URL
+                      value: "your-supabase-url-here"
+                    - name: VITE_BACKURL_LOCAL
+                      value: "http://localhost:5000"
+                    - name: VITE_FRONTURL_LOCAL
+                      value: "http://localhost:8080"
+                  ports:
+                    - name: backend-5000
+                      containerPort: 5000

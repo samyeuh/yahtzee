@@ -1,0 +1,8 @@
+#! 0-yahtzee-namespace.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: yahtzee
+    labels:
+        com.docker.compose.project: yahtzee

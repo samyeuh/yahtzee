@@ -1,0 +1,41 @@
+#! frontend-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend
+    namespace: yahtzee
+    labels:
+        com.docker.compose.project: yahtzee
+        com.docker.compose.service: frontend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: yahtzee
+            com.docker.compose.service: frontend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: yahtzee
+                com.docker.compose.service: frontend
+                com.docker.compose.network.default: "true"
+        spec:
+            containers:
+                - name: yhtz-frontend
+                  image: samyeuh/yhtz-frontend:latest
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: SUPABASE_KEY
+                      value: "your-supabase-key-here"
+                    - name: SUPABASE_URL
+                      value: "your-supabase-url-here"
+                    - name: VITE_BACKURL_LOCAL
+                      value: "http://localhost:5000"
+                    - name: VITE_FRONTURL_LOCAL
+                      value: "http://localhost:8080"
+                  ports:
+                    - name: frontend-80
+                      containerPort: 80
