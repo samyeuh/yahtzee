@@ -1,0 +1,14 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'back/**'
+
+jobs:
+  deploy-back:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Backend
+        run: curl -f ${{ secrets.BACK_DEPLOY_URL }}

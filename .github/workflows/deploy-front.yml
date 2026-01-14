@@ -1,0 +1,16 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+
+jobs:
+  deploy-front:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Frontend
+        run: curl -f ${{ secrets.FRONT_DEPLOY_URL }}
