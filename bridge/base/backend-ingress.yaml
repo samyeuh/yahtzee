@@ -1,0 +1,21 @@
+# 1. INGRESS POUR LE BACKEND (Avec Rewrite)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  namespace: yahtzee
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1  # Le rewrite ne s'applique QU'ICI
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: yahtzee.local
+    http:
+      paths:
+      - path: /api/?(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: backend
+            port:
+              number: 5000

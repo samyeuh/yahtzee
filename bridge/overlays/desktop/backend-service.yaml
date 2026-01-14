@@ -1,13 +1,7 @@
-# check if there is at least one published port
-
-#! backend-service.yaml
-# Generated code, do not edit
 apiVersion: v1
 kind: Service
 metadata:
-    name: backend-published
-    namespace: yahtzee
+  name: backend
+  namespace: yahtzee
 spec:
-    type: LoadBalancer
-
-# check if there is at least one published port
+  type: LoadBalancer

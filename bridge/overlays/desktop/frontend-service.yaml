@@ -1,9 +1,7 @@
-#! frontend-service.yaml
-# Generated code, do not edit
 apiVersion: v1
 kind: Service
 metadata:
-    name: frontend-published
-    namespace: yahtzee
+  name: frontend
+  namespace: yahtzee
 spec:
-    type: LoadBalancer
+  type: LoadBalancer

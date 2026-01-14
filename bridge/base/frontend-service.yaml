@@ -1,19 +1,12 @@
-#! frontend-service.yaml
-# Generated code, do not edit
 apiVersion: v1
 kind: Service
 metadata:
-    name: frontend-published
-    namespace: yahtzee
-    labels:
-        com.docker.compose.project: yahtzee
-        com.docker.compose.service: frontend
+  name: frontend
+  namespace: yahtzee
 spec:
-    selector:
-        com.docker.compose.project: yahtzee
-        com.docker.compose.service: frontend
-    ports:
-        - name: frontend-8080
-          port: 8080
-          protocol: TCP
-          targetPort: frontend-80
+  selector:
+    app: frontend # <-- Doit être identique au label du dessus
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

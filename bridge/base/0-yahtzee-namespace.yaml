@@ -5,4 +5,4 @@ kind: Namespace
 metadata:
     name: yahtzee
     labels:
-        com.docker.compose.project: yahtzee
+        project: yahtzee

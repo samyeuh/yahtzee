@@ -1,23 +1,12 @@
-# check if there is at least one published port
-
-#! backend-service.yaml
-# Generated code, do not edit
 apiVersion: v1
 kind: Service
 metadata:
-    name: backend-published
-    namespace: yahtzee
-    labels:
-        com.docker.compose.project: yahtzee
-        com.docker.compose.service: backend
+  name: backend
+  namespace: yahtzee
 spec:
-    selector:
-        com.docker.compose.project: yahtzee
-        com.docker.compose.service: backend
-    ports:
-        - name: backend-5000
-          port: 5000
-          protocol: TCP
-          targetPort: backend-5000
-
-# check if there is at least one published port
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

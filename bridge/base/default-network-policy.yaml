@@ -8,7 +8,7 @@ metadata:
 spec:
     podSelector:
         matchLabels:
-            com.docker.compose.network.default: "true"
+            network.default: "true"
     policyTypes:
         - Ingress
         - Egress
