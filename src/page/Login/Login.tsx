@@ -14,7 +14,7 @@ export function Login() {
 
   const [handleFadeComplete, setHandleFadeComplete] = useState<(() => void) | null>(null);
   const [waitServer, setWaitServer] = useState<boolean>(false);
-  const [trophyDisabled, setTrophyDisabled] = useState<boolean>(false);
+  const [trophyDisabled, setTrophyDisabled] = useState<boolean>(true);
   const { testSupabase } = YahtzeeAPI();
 
   useEffect(() => {
@@ -36,7 +36,9 @@ export function Login() {
             } else {
                 setTrophyDisabled(false);
             }
+            console.log("Checking Supabase connection..." + status);
         };
+        
         checkSupabase();
     }, []);
 
