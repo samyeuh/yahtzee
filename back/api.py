@@ -1,3 +1,4 @@
+from supabase import create_client
 from scoreManager import ScoreManager
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -14,7 +15,16 @@ allowed_origins = list(filter(None, [
 
 app = Flask(__name__)
 CORS(app, origins=allowed_origins)
-scoreManager = ScoreManager()
+
+_manager = None
+
+def get_manager():
+    global _manager
+    # Si le manager n'existe pas ou s'il n'est pas connecté, on tente une (re)connexion
+    if _manager is None or not _manager.isSupabaseConnected():
+        print("Tentative de connexion à Supabase...", flush=True)
+        _manager = ScoreManager()
+    return _manager
 
 @app.route("/testServer", methods=["GET"])
 def testServer():
@@ -22,6 +32,7 @@ def testServer():
 
 @app.route("/testSupabase", methods=["GET"])
 def testSupabase():
+    scoreManager = get_manager()
     if scoreManager.isSupabaseConnected():
         return jsonify({"message": "Supabase connected"}), 200
     else:
@@ -29,6 +40,7 @@ def testSupabase():
 
 @app.route("/getScores", methods=["GET"])
 def getScores():
+    scoreManager = get_manager()
     if not scoreManager.isSupabaseConnected():
         return jsonify({"message": "Supabase not connected"}), 500
     scores = scoreManager.getScores()
@@ -40,6 +52,7 @@ def getScores():
 
 @app.route("/addScore", methods=["POST"])
 def addScore():
+    scoreManager = get_manager()
     if not scoreManager.isSupabaseConnected():
         return jsonify({"message": "Supabase not connected"}), 500
     data = request.json
@@ -48,8 +61,7 @@ def addScore():
 
     scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['date'], data['formatDuration'], data['details'])
     return jsonify({"message": "Score added"}), 200
-
-
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
