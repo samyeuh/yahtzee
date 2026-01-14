@@ -1,10 +1,9 @@
-# 2. INGRESS POUR LE FRONTEND (Sans Rewrite)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend-ingress
   namespace: yahtzee
-  # Pas d'annotation de rewrite ici !
+
 spec:
   ingressClassName: nginx
   rules:

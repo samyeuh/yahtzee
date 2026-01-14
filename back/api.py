@@ -20,7 +20,6 @@ _manager = None
 
 def get_manager():
     global _manager
-    # Si le manager n'existe pas ou s'il n'est pas connecté, on tente une (re)connexion
     if _manager is None or not _manager.isSupabaseConnected():
         print("Tentative de connexion à Supabase...", flush=True)
         _manager = ScoreManager()

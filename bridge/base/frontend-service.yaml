@@ -5,7 +5,7 @@ metadata:
   namespace: yahtzee
 spec:
   selector:
-    app: frontend # <-- Doit être identique au label du dessus
+    app: frontend
   ports:
     - protocol: TCP
       port: 80

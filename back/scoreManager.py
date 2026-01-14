@@ -29,8 +29,8 @@ class ScoreManager:
             score["Nom"] = score.pop("name")
             score["Score"] = score.pop("score")
             score["Date"] = datetime.strptime(score["game_date"], "%Y-%d-%m").strftime("%d/%m/%Y")
-            score["Duration"] = score.pop("game_duration", "N/A") # Assuming game_duration is optional
-            score["Details"] = score.pop("details")  # JSON direct
+            score["Duration"] = score.pop("game_duration", "N/A")
+            score["Details"] = score.pop("details")
 
         paris_tz = pytz.timezone('Europe/Paris')
         today = datetime.now(paris_tz).date()
@@ -46,7 +46,7 @@ class ScoreManager:
         weekly = filter_by_date_range(all_scores, week_start, today)
         monthly = [s for s in all_scores if datetime.strptime(s["Date"], "%d/%m/%Y").month == today.month]
 
-        # Trie par score
+        
         all_scores.sort(key=lambda s: s["Score"], reverse=True)
         daily.sort(key=lambda s: s["Score"], reverse=True)
         weekly.sort(key=lambda s: s["Score"], reverse=True)
