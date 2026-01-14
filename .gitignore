@@ -28,3 +28,7 @@ __pycache__/
 *.env
 *.json
 *.csv
+
+supabase-secret.yaml
+.terraform/
+.tfstate
