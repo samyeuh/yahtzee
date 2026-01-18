@@ -32,7 +32,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
     try {
       const details = { simple: combiSimplesFinal, complexe: combiComplexesFinal };
       setSaving(true);
-      await addScore(currentIcon, name, score, date, time, details);
+      await addScore(currentIcon, name, score, time, details);
     } catch (error) {
       console.error("Erreur: " + error);
     } finally {
