@@ -65,13 +65,12 @@ class ScoreManager:
         }
 
     
-    def addScore(self, icon, playerName, score, date, duration, details):
+    def addScore(self, icon, playerName, score, duration, details):
         try:
             self.supabase.table("game_scores").insert({
                 "icon": icon,
                 "name": playerName,
                 "score": score,
-                "game_date": date,
                 "game_duration": duration,
                 "details": json.dumps(details)
             }).execute()

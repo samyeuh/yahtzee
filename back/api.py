@@ -58,7 +58,7 @@ def addScore():
     if not all(k in data for k in ("icon", "playerName", "score", "formatDuration", "details")):
         return jsonify({"error": "Missing fields"}), 400
 
-    scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['date'], data['formatDuration'], data['details'])
+    scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['formatDuration'], data['details'])
     return jsonify({"message": "Score added"}), 200
     
 if __name__ == '__main__':
