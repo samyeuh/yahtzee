@@ -33,9 +33,9 @@ export function YahtzeeAPI() {
               });
     }, []);
 
-    const addScore = useCallback((icon: string, playerName: string, score: number, date: string, duration: any, details: any) => {
+    const addScore = useCallback((icon: string, playerName: string, score: number, duration: any, details: any) => {
       let formatDuration = formatTime(duration);
-      return axios.post(`${API_BASE_URL}/addScore`, {icon, playerName, score, date, formatDuration, details})
+      return axios.post(`${API_BASE_URL}/addScore`, {icon, playerName, score, formatDuration, details})
                 .then((response: AxiosResponse<any>) => {
                   return response.data;
                 }).catch((error: any) => {

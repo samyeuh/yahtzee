@@ -24,16 +24,21 @@ class ScoreManager:
             return None
 
         all_scores = response.data
+
+        paris_tz = pytz.timezone("Europe/Paris")
+        today = datetime.now(paris_tz).date()
         for score in all_scores:
+            # date conversion to Paris timezone
+            date_utc = datetime.fromisoformat(score["save_at"].replace('Z', '+00:00'))
+            date_paris = date_utc.astimezone(paris_tz)
+            
             score["Icon"] = score.pop("icon")
             score["Nom"] = score.pop("name")
             score["Score"] = score.pop("score")
-            score["Date"] = datetime.strptime(score["game_date"], "%Y-%d-%m").strftime("%d/%m/%Y")
+            score["Date"] = date_paris.strftime("%d/%m/%Y à %H:%M")
             score["Duration"] = score.pop("game_duration", "N/A")
             score["Details"] = score.pop("details")
 
-        paris_tz = pytz.timezone('Europe/Paris')
-        today = datetime.now(paris_tz).date()
 
         def filter_by_date_range(scores, start_date, end_date):
             return [
