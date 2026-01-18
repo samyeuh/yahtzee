@@ -35,7 +35,7 @@ class ScoreManager:
             score["Icon"] = score.pop("icon")
             score["Nom"] = score.pop("name")
             score["Score"] = score.pop("score")
-            score["Date"] = date_paris.strftime("%d/%m/%Y à %H:%M")
+            score["Date"] = date_paris.strftime("%d/%m/%Y")
             score["Duration"] = score.pop("game_duration", "N/A")
             score["Details"] = score.pop("details")
 
