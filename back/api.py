@@ -55,7 +55,7 @@ def addScore():
     if not scoreManager.isSupabaseConnected():
         return jsonify({"message": "Supabase not connected"}), 500
     data = request.json
-    if not all(k in data for k in ("icon", "playerName", "score", "date", "formatDuration", "details")):
+    if not all(k in data for k in ("icon", "playerName", "score", "formatDuration", "details")):
         return jsonify({"error": "Missing fields"}), 400
 
     scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['date'], data['formatDuration'], data['details'])
