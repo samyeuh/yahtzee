@@ -39,7 +39,7 @@ export function YahtzeeAPI() {
                 .then((response: AxiosResponse<any>) => {
                   return response.data;
                 }).catch((error: any) => {
-                  console.error("Erreur: " + error);
+                  throw error;
                 });
     }, []);
 

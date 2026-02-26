@@ -12,9 +12,8 @@ type EndRollingProps = {
 export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRollingProps) {
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
     const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
-    const {score, time} = useYahtzeeContext();
+    const {score, time, isSaved, setIsSaved} = useYahtzeeContext();
     const { formatTime, testSupabase } = YahtzeeAPI();
-    const [isSaved, setIsSaved] = useState<boolean>(false);
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -23,7 +22,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         updateDicesSRC();
     }, [score]);
 
-    useEffect(() => {
+   useEffect(() => {
         const checkSupabase = async () => {
             const status =  await testSupabase();
             if (status !== 200){
@@ -61,7 +60,6 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
 
     const handleOnSave = () => {
         openScoreSaving();
-        setIsSaved(true);
     }
 
     return (

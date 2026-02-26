@@ -24,6 +24,8 @@ interface YahtzeeContextType {
     setYahtzeeLogic: (yahtzee: Yahtzee) => void;
     time: number;
     setTime: (time: number) => void;
+    isSaved: boolean;
+    setIsSaved: (saved: boolean) => void;
 }
 
 const YahtzeeContext = createContext<YahtzeeContextType | undefined>(undefined);
@@ -50,12 +52,13 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
   {nom: 'threes', score: -1, hover: "sum of the three", hoverDices: ["/dices/dice3.png"] },
   {nom: 'fours', score: -1, hover: "sum of the four", hoverDices: ["/dices/dice4.png"] },
   {nom: 'fives', score: -1, hover: "sum of the five", hoverDices: ["/dices/dice5.png"] },
-  {nom: 'sixes', score: -1, hover: "sum of the six", hoverDices: ["/dices/dice6.png"] }      
+  {nom: 'sixes', score: -1, hover: "sum of the six", hoverDices: ["/dices/dice6.png"] }
 ]);
   const [loading, setLoading] = useState(false);
   const [resetTab, setResetTab] = useState(false);
   const [yahtzeeLogic, setYahtzeeLogic] = useState(() => new Yahtzee());
   const [time, setTime] = useState(0);
+  const [isSaved, setIsSaved] = useState(false);
 
 
   const value = {
@@ -79,7 +82,9 @@ const [defaultCombiSimples] = useState<{nom: string, score: number, hover: strin
     yahtzeeLogic,
     setYahtzeeLogic,
     time,
-    setTime
+    setTime,
+    isSaved,
+    setIsSaved
   };
 
   return (
