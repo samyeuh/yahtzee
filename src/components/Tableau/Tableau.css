@@ -1,89 +1,220 @@
-.captionTableau {
-  width: 500px;
-  border-collapse: collapse;
-  overflow: hidden;
-  box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.5);
-  border-radius: '10px'
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --bg-card: #ffffff;
+  --border: rgba(0,0,0,0.07);
+  --accent: #7a9bb5;
+  --accent-soft: rgba(122, 155, 181, 0.10);
+  --accent-hover: rgba(122, 155, 181, 0.18);
+  --text-main: #2e3d4a;
+  --text-dim: #c0cfd9;
+  --text-score: #7a9bb5;
+  --special-bg: rgba(122, 155, 181, 0.08);
+  --special-border: rgba(122, 155, 181, 0.20);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-hover: 0 6px 20px rgba(122, 155, 181, 0.18), 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.shadow {
-  box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.5);;
-}
-
-.captionT, td {
-  padding: 15px;
-  background-color: rgba(255,255,255,0.2);
-  color: black;
-}
-
-.captionHead {
-  width: 100%
-}
-
-.combi {
-  font-family: "VT323", monospace;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.combi:hover {
-  color: #ff0000;
-  cursor: pointer;
+.tableauWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Nunito', sans-serif;
 }
 
 .captionT {
-  text-align: center;
-  background: linear-gradient(to top, white, lightblue)
+  writing-mode: horizontal-tb;
+  transform: none;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(122, 155, 181, 0.10);
+  border: 1.5px solid rgba(122, 155, 181, 0.25);
+  border-radius: 20px;
+  padding: 6px 18px;
+  white-space: nowrap;
+  font-family: 'Nunito', sans-serif;
+}
+
+.captionTableau {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 340px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-collapse: unset;
+  border-spacing: unset;
+  border-radius: 0;
+  font-family: 'Nunito', sans-serif;
+  margin-bottom: 24px;
+}
+
+.captionTableau,
+.captionTableau tbody,
+.captionTableau tr {
+  display: flex;
+  flex-direction: column;
+}
+
+.captionTableau tbody {
+  gap: 6px;
+}
+
+.captionTableau tr {
+  flex-direction: row;
+  align-items: center;
+  background: var(--bg-card);
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-card);
+  padding: 0 4px;
+  transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.15s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.captionTableau tr:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px) scale(1.01);
+  background: #fafcff;
+}
+
+.specialRow {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 6px 20px rgba(122, 155, 181, 0.35) !important;
+  margin-top: 8px !important;
+  transform: scale(1.02);
+}
+
+.specialRow:hover {
+  background: var(--accent) !important;
+  transform: scale(1.03) translateY(-1px) !important;
+  box-shadow: 0 10px 28px rgba(122, 155, 181, 0.4) !important;
+}
+
+.captionTableau td {
+  background: transparent !important;
+  border: none !important;
+  padding: 12px 14px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.combi {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-main) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start !important;
+  gap: 10px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.combi::before {
+  content: '⚄';
+  font-size: 1.1rem;
+  opacity: 0.35;
+  transition: opacity 0.15s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.captionTableau tr:hover .combi::before {
+  opacity: 0.7;
+  transform: rotate(20deg);
+}
+
+.combi:hover {
+  color: var(--accent) !important;
 }
 
 .scoreWithHover {
-  text-align: center;
-  user-select: none;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-score);
+  text-align: right;
+  min-width: 40px;
+  padding: 12px 16px 12px 8px;
+  transition: color 0.15s ease;
   cursor: pointer;
-  padding: 10px;
-  transition: background-color 0.2s;
-}
-
-.scoreWithHover:hover{
-  background-color: lightblue;
-}
-
-.scoreWithoutHover{
-  text-align: center;
   user-select: none;
-  padding: 10px;
 }
 
-/* Apply border-radius to top corners */
-thead tr:first-child th:first-child {
-  border-top-left-radius: 10px;
+.scoreWithHover:hover {
+  color: var(--accent);
 }
 
-thead tr:first-child th:last-child {
-  border-top-right-radius: 10px;
+.scoreWithoutHover {
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--text-dim);
+  text-align: right;
+  min-width: 40px;
+  padding: 12px 16px 12px 8px;
+  user-select: none;
 }
 
-/* Apply border-radius to bottom corners */
-tr:last-child td:first-child {
-  border-bottom-left-radius: 10px;
+.specialRow .scoreWithoutHover,
+.specialRow .scoreWithHover {
+  color: #fff !important;
+  font-weight: 900;
+  font-size: 1.2rem;
 }
 
-tr:last-child td:last-child {
-  border-bottom-right-radius: 10px;
+.specialRow .combi {
+  color: #fff !important;
+  font-weight: 700;
+  opacity: 0.85;
 }
 
+.specialRow .combi::before {
+  display: none;
+}
+
+.captionTableau thead { display: none; }
+
+/* ── Responsive ── */
 @media screen and (max-width: 768px) {
-  .captionTableau {
-    width: 90vw;
-  }
+  .captionTableau { width: 100%; }
+  .tableauWrapper { gap: 10px; }
 }
 
 @media screen and (max-width: 500px) {
-  .captionTableau {
-    width: 90vw;
-  }
+  .captionTableau { width: 100%; }
+  .tableauWrapper { gap: 8px; }
+}
 
-  .shadow {
-    box-shadow: 8px 8px 10px 0 rgba(0,0,0,0.0);
-  }
+.selectedRow {
+  opacity: 0.45;
+  transform: scale(0.97);
+  box-shadow: none !important;
+  background: #f4f4f4 !important;
+  border-color: rgba(0,0,0,0.05) !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+.selectedRow .combi::before {
+  content: '✓';
+  opacity: 0.4;
+  font-size: 0.85rem;
+}
+
+.bestRow {
+  background: #fff !important;
+  border-color: rgba(122, 155, 181, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(122, 155, 181, 0.25), 0 4px 16px rgba(122, 155, 181, 0.2) !important;
+  animation: gentleGlow 2s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(122, 155, 181, 0.2), 0 4px 16px rgba(122, 155, 181, 0.15); }
+  50%       { box-shadow: 0 0 0 3px rgba(122, 155, 181, 0.4), 0 6px 20px rgba(122, 155, 181, 0.28); }
 }

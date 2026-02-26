@@ -8,94 +8,88 @@ const Tableau: React.FC<{combis: Combi[], caption: string, clickFunc(combi: Comb
     const [styleOfCombi, setStyleOfCombi] = useState<CSSProperties[]>(defaultCombiStyle);
     const [tooltipInfo, setTooltipInfo] = useState<{description: string, imageUrl: string[], posX: number, posY: number} | null>(null);
     const tooltipRef = useRef<HTMLDivElement | null>(null);
-    
+
     useEffect(() => {
-        if (resetTab == true){
-            setStyleOfCombi(defaultCombiStyle)
-        }
+        if (resetTab == true) setStyleOfCombi(defaultCombiStyle)
     }, [resetTab])
 
-    useEffect(() => {
-        
-    }, [selectedCombi])
+    useEffect(() => {}, [selectedCombi])
 
     const handleClickCombi = (combi: Combi, index: number) => {
-        if (!wantedGrey) {
-            return;
-        }
-        if ((combi.score === -1) || (combi.nom === 'Total score')){
+        if (!wantedGrey) return;
+        if ((combi.score === -1) || (combi.nom === 'Total score')) {
             console.error("Not time to choose !");
         } else {
             clickFunc(combi);
-            setStyleOfCombi((soc) => soc.map((s, i) => {
-                return (i === index) ? {color: 'black'} : s;
-            }));    
+            setStyleOfCombi((soc) => soc.map((s, i) => (i === index) ? {color: 'black'} : s));
         }
     }
 
     const handleMouseOver = (event: React.MouseEvent, description: string, imageUrl: string[]) => {
         const rect = event.currentTarget.getBoundingClientRect();
-        setTooltipInfo({
-            description,
-            imageUrl,
-            posX: rect.x + window.scrollX + rect.width / 2,
-            posY: rect.y + window.scrollY - 10
-        });
+        setTooltipInfo({ description, imageUrl, posX: rect.x + window.scrollX + rect.width / 2, posY: rect.y + window.scrollY - 10 });
     };
 
     const handleMouseOut = (event: React.MouseEvent) => {
         const toElement = event.relatedTarget as Node;
-        if (tooltipRef.current && tooltipRef.current.contains(toElement)) {
-            return;
-        }
+        if (tooltipRef.current && tooltipRef.current.contains(toElement)) return;
         setTooltipInfo(null);
     };
 
-    return(
-        <div>
-        <table className={wantedGrey ? "captionTableau" : "captionTableau shadow"} style={{borderRadius: '20px'}}>
-            <thead className="captionHead">
-                <tr>
-                    <th className="captionT" colSpan={2} style={{borderRadius: '10px', fontWeight: 'bold', textAlign: 'center'}}>{caption}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {combis.map((ligne, index) => {
-                    const isTotalRow = ligne.nom == "total score";
-                    const isChanceRow = ligne.nom === 'chance';
-                    const isAlreadySelected = selectedCombi.includes(ligne.nom);
-                    const notHaveScore = ligne.score == -1;
-                    return (
-                        <tr key={isTotalRow ? 'total' : index} style={isTotalRow || isChanceRow ? {background: 'linear-gradient(to bottom, white, lightblue)'} : {backgroundColor: 'white'}}>
-                            <td 
-                                className="combi" 
-                                style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: "black"}}
-                                onMouseOver={(e) => handleMouseOver(e, ligne.hover, ligne.hoverDices)}
-                                onMouseOut={handleMouseOut}
-                                onClick={!isTotalRow ? () => handleClickCombi(ligne, index) : undefined}
+    const bestScore = Math.max(
+        ...combis
+            .filter(c => c.score > 0 && !selectedCombi.includes(c.nom) && c.nom !== 'total score' && c.nom !== 'chance')
+            .map(c => c.score)
+    );
+
+    return (
+        <div className="tableauWrapper">
+            <div className="captionT">{caption}</div>
+            <table className={wantedGrey ? "captionTableau" : "captionTableau shadow"}>
+                <tbody>
+                    {combis.map((ligne, index) => {
+                        const isTotalRow = ligne.nom === "total score";
+                        const isAlreadySelected = selectedCombi.includes(ligne.nom);
+                        const notHaveScore = ligne.score === -1;
+                        const isBest = wantedGrey && !isAlreadySelected && ligne.score === bestScore && bestScore > 0 && !isTotalRow;
+
+                        let rowClass = '';
+                        if (isTotalRow) rowClass = 'specialRow';
+                        else if (isAlreadySelected) rowClass = 'selectedRow';
+                        else if (isBest) rowClass = 'bestRow';
+
+                        return (
+                            <tr
+                                key={isTotalRow ? 'total' : index}
+                                className={rowClass}
                             >
-                                {ligne.nom}
-                            </td>
-                            <td 
-                                className={isAlreadySelected || notHaveScore || isTotalRow ? 'scoreWithoutHover' : 'scoreWithHover'}
-                                style={isTotalRow ? {color: 'black', cursor: 'default'} : styleOfCombi[index]} 
-                                onClick={!isTotalRow ? () => handleClickCombi(ligne, index) : undefined}
-                            >
-                                {ligne.score !== -1 ? ligne.score : null}
-                            </td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
-        {tooltipInfo && tooltipInfo.description != "" && (
-            <div ref={tooltipRef} style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }} onMouseLeave={() => setTooltipInfo(null)}>
-                <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl}/>
-            </div>
-        )}
-    </div>
+                                <td
+                                    className="combi"
+                                    onMouseOver={(e) => handleMouseOver(e, ligne.hover, ligne.hoverDices)}
+                                    onMouseOut={handleMouseOut}
+                                    onClick={!isTotalRow ? () => handleClickCombi(ligne, index) : undefined}
+                                >
+                                    {ligne.nom}
+                                </td>
+                                <td
+                                    className={isAlreadySelected || notHaveScore || isTotalRow ? 'scoreWithoutHover' : 'scoreWithHover'}
+                                    style={isTotalRow ? {cursor: 'default'} : styleOfCombi[index]}
+                                    onClick={!isTotalRow ? () => handleClickCombi(ligne, index) : undefined}
+                                >
+                                    {ligne.score !== -1 ? ligne.score : null}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+            {tooltipInfo && tooltipInfo.description != "" && (
+                <div ref={tooltipRef} style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }} onMouseLeave={() => setTooltipInfo(null)}>
+                    <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl}/>
+                </div>
+            )}
+        </div>
     );
 }
 
 export default Tableau;
-
