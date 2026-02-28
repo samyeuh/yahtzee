@@ -1,99 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
 .detailsContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-    
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(46, 61, 74, 0.4);
+  z-index: 999;
+}
+
 .detailsBox {
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    border-radius: 10px;
-    width: 75%;
-    max-width: 90%;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-height: 600px;
-    overflow-y: hidden;
-    gap: 15px;
+  background: #fffdf7;
+  padding: 20px 24px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 1000;
+  border-radius: 24px;
+  border: 1px solid rgba(0,0,0,0.07);
+  width: 700px;
+  max-width: 94vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
 }
-  
+
+/* ── Header ── */
+.detailsHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+.detailsBox img.playerIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  background: #fff;
+}
+
+.detailsBox h1 {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #2e3d4a;
+  margin: 0;
+}
+
+.detailsBox p.detailsSub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #aabfcc;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* ── Total badge ── */
+.totalBadge {
+  color: #7a9bb5;
+  border-radius: 14px;
+  padding: 6px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.totalBadge span.totalLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.totalBadge span.totalScore {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* ── Sections ── */
+.detailsTabs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.detailsTabs::-webkit-scrollbar { display: none; }
+
+.detailsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.detailsSectionTitle {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a9bb5;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.detailsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.detailsRow span.combiName {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #2e3d4a;
+}
+
+.detailsRow span.combiScore {
+  font-size: 0.85rem;
+  min-width: 28px;
+  text-align: right;
+}
+
+.scoreHigh { color: #4caf7d; font-weight: 800; }
+.scoreMid  { color: #f0a500; font-weight: 700; }
+.scoreLow  { color: #e07070; font-weight: 600; }
+.scoreZero { color: #ccc;    font-weight: 400; }
+
+/* ── Bouton ── */
 .fermerButton {
-    position: relative;
-    padding: 10px 22px;
-    border-radius: 6px;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    background-color: #f1807e;
+  padding: 8px 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.09);
+  color: #9aacb8;
+  cursor: pointer;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background 0.15s ease;
+  margin-top: 2px;
 }
 
-.detailsTabs{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    gap: 15px;
+.fermerButton:hover { background: rgba(0,0,0,0.04); }
+
+/* ── Responsive ── */
+@media screen and (max-width: 900px) {
+  .detailsTabs { flex-direction: column; overflow-y: auto; max-height: 55vh; }
+  .detailsBox { width: 92vw; padding: 16px 14px 14px; }
 }
 
-
-  
-@keyframes greentopBubbles {
-    0% {
-        background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
-        40% 90%, 55% 90%, 70% 90%;
-    }
-
-    50% {
-        background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
-        50% 50%, 65% 20%, 90% 30%;
-    }
-
-    100% {
-        background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
-        50% 40%, 65% 10%, 90% 20%;
-        background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
-    }
+/* ── Légende ── */
+.detailsLegend {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 1100px) {
-
-    .detailsTabs {
-        flex-direction: column;
-        gap: 15px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 20px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        max-height: 100%;
-        align-items: center;
-    }
-
-    .detailsTabs::-webkit-scrollbar {
-        display: none;
-    }
-
-    .detailsBox {
-        width: 85%;
-        gap: 5px;
-        display: flex;
-        align-items: center;
-        overflow-x: hidden;
-    }
-
-    .scoreTableau {
-        width: 90%; 
-        text-align: center;
-    }
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #aabfcc;
 }
 
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
