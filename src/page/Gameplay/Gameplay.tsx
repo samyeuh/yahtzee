@@ -35,6 +35,11 @@ export function Gameplay() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => document.body.classList.remove('no-scroll');
+  }, []);
+
     const tick = () => {
         if (startTimeRef.current !== null) {
         const now = Date.now();

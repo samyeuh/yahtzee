@@ -19,7 +19,11 @@ export function Login() {
 
   useEffect(() => {
     whenLoading();
+  }, []);
 
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => document.body.classList.remove('no-scroll');
   }, []);
 
   useEffect(() => {
