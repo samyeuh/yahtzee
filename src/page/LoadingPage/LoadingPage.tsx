@@ -27,6 +27,11 @@ export function LoadingPage({ onFadeComplete, waitServer }: LoadingPageProps) {
   };
 
   useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => document.body.classList.remove('no-scroll');
+  }, []);
+
+  useEffect(() => {
     if (waitServer) {
       intervalId = setInterval(() => {
         handleWaitServer();

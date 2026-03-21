@@ -9,6 +9,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
+  overflow: hidden;
 }
 
 .GameplayPage {
@@ -26,6 +27,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
+  overflow: hidden;
 }
 
 .navBar{
