@@ -30,3 +30,5 @@ __pycache__/
 supabase-secret.yaml
 .terraform/
 .tfstate
+
+back/venv/*

@@ -11,21 +11,23 @@ type EndRollingProps = {
 
 export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRollingProps) {
     const initialSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
-    const [dicesSRC, setDicesSRC] = useState<string[]>(["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"]);
-    const {score, time, isSaved, setIsSaved} = useYahtzeeContext();
+    const [dicesSRC, setDicesSRC] = useState<string[]>(initialSRC);
+    const { score, time, isSaved, setIsSaved } = useYahtzeeContext();
     const { formatTime, testSupabase } = YahtzeeAPI();
+    const [scoreDisplayDone, setScoreDisplayDone] = useState(false);
 
     useEffect(() => {
         const updateDicesSRC = async () => {
-            setDicesSRC(await displayScore(score));
+            await displayScore(score);
+            setScoreDisplayDone(true);
         };
         updateDicesSRC();
     }, [score]);
 
-   useEffect(() => {
+    useEffect(() => {
         const checkSupabase = async () => {
-            const status =  await testSupabase();
-            if (status !== 200){
+            const status = await testSupabase();
+            if (status !== 200) {
                 setIsSaved(true);
             } else {
                 setIsSaved(false);
@@ -34,8 +36,15 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
         checkSupabase();
     }, []);
 
+    // Auto-open save modal once score animation is done and not already saved
+    useEffect(() => {
+        if (scoreDisplayDone && !isSaved) {
+            openScoreSaving();
+        }
+    }, [scoreDisplayDone, isSaved]);
+
     function delay(ms: number) {
-        return new Promise( resolve => setTimeout(resolve, ms) );
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     const displayScore = async (score: number): Promise<string[]> => {
@@ -49,37 +58,41 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
             "/score/heart.png"
         ];
 
-        for(var i = 0; i < tempList.length; i++){
+        for (var i = 0; i < tempList.length; i++) {
             await delay(1000);
             tempList[i] = resultList[i];
-            setDicesSRC([...tempList])
+            setDicesSRC([...tempList]);
         }
 
         return tempList;
     };
 
-    const handleOnSave = () => {
-        openScoreSaving();
-    }
-
     return (
         <>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div className='gif-rules'>
-                <img key="rules" alt="rules" src="/dices/rules.png" style={{height: '50px', width: '50px'}} onClick={openRules} />
+                <img key="rules" alt="rules" src="/dices/rules.png" style={{ height: '50px', width: '50px' }} onClick={openRules} />
             </div>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <h1 style={{fontWeight: 'bold'}}> your score </h1>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <h1 style={{ fontWeight: 'bold' }}> your score </h1>
                     <p>thanks for playing ♥ {formatTime(time)}</p>
-                        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
-                            {dicesSRC.map((src, index) => (
-                                <img key={index} src={src} alt="dice" className="dice"/>
-                            ))}
-                        </div>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px'}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '70%', padding: '10px' }}>
+                        {dicesSRC.map((src, index) => (
+                            <img key={index} src={src} alt="dice" className="dice" />
+                        ))}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px' }}>
                         <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
-                        <button className="button" onClick={handleOnSave} disabled={isSaved}>SAVE MY SCORE</button>
+                        {/* Save button kept as fallback if modal was closed without saving */}
+                        {!isSaved && scoreDisplayDone && (
+                            <button className="button" onClick={openScoreSaving}>SAVE MY SCORE</button>
+                        )}
+                        {isSaved && (
+                            <span style={{ fontWeight: 600, color: '#4caf6e', alignSelf: 'center', fontSize: '0.85rem' }}>
+                                ✅ score saved!
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
