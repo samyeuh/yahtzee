@@ -3,87 +3,76 @@ import Tableau from "../Tableau/Tableau";
 import { useYahtzeeContext } from "../../context/YahtzeeContext/YahtzeeContext";
 import { Combi } from "../../class/Combi";
 import './Combinations.css';
+
 interface Combinations {
     simple: Combi[];
     complexe: Combi[];
-  }
+}
 
+const UPPER_BONUS_THRESHOLD = 63;
+const UPPER_BONUS_VALUE = 35;
+const YAHTZEE_BONUS_VALUE = 100;
 
 export function Combinations({ stopTimer }: { stopTimer: () => void }) {
 
-    const { roundActive, setRoundActive, 
-        gameActive, setGameActive, 
-        score, setScore, 
-        setCombiSimplesFinal, 
-        setCombiComplexesFinal, 
-        defaultCombiComplexes, 
-        defaultCombiSimples, 
+    const { roundActive, setRoundActive,
+        gameActive, setGameActive,
+        score, setScore,
+        setCombiSimplesFinal,
+        setCombiComplexesFinal,
+        defaultCombiComplexes,
+        defaultCombiSimples,
         resetTab, setResetTab,
         yahtzeeLogic } = useYahtzeeContext();
 
-    const combiTotal = {nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: []};
-
+    const combiTotal = { nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: [] };
 
     const [combiComplexes, setCombiComplexes] = useState<Combi[]>(defaultCombiComplexes);
-    const [combiSimples, setCombiSimples] =  useState<Combi[]>(defaultCombiSimples);
+    const [combiSimples, setCombiSimples] = useState<Combi[]>(defaultCombiSimples);
     const [combiSimpleToDisplay, setCombiSimpleToDisplay] = useState<Combi[]>(combiSimples);
     const [combiComplexeToDisplay, setCombiComplexeToDisplay] = useState<Combi[]>(combiComplexes);
     const [combiSelected, setCombiSelected] = useState<String[]>([]);
     const [isGameFinished, setIsGameFinished] = useState(false);
 
+    // ── Bonus tracking ──
+    const [upperSum, setUpperSum] = useState(0);
+    const [upperBonusAwarded, setUpperBonusAwarded] = useState(false);
+    const [yahtzeeCount, setYahtzeeCount] = useState(0); // nb of yahtzees done (first included)
+
+    const upperBonus = upperSum >= UPPER_BONUS_THRESHOLD ? UPPER_BONUS_VALUE : 0;
+    const yahtzeeBonus = Math.max(0, yahtzeeCount - 1) * YAHTZEE_BONUS_VALUE; // bonus only from 2nd yahtzee
 
     const handleToolTip = async (): Promise<void> => {
         try {
-          const tooltip = yahtzeeLogic.getToolTipDice();
-          var combiComplexeCopy = defaultCombiComplexes.map((combi) => combi);
-          const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
-              switch (combi.nom){
-                  case 'three of a kind':
-                      return {...combi, hoverDices: tooltip['threeOfAKind']};
-                  case 'four of a kind':
-                      return {...combi, hoverDices: tooltip['fourOfAKind']};
-                  case 'full house':
-                      return {...combi, hoverDices: tooltip['fullHouse']};
-                  case 'small straight':
-                      return {...combi, hoverDices: tooltip['smallStraight']};
-                  case 'large straight':
-                      return {...combi, hoverDices: tooltip['largeStraight']};
-                  case 'yahtzee':
-                      return {...combi, hoverDices: tooltip['yahtzee']};
-                  case 'chance':
-                      return {...combi, hoverDices: tooltip['chance']};
-                  default:
-                      return combi;
-              }
-          });
-          setCombiComplexes(updatedCombiComplexes)
-          } catch (error) {
+            const tooltip = yahtzeeLogic.getToolTipDice();
+            var combiComplexeCopy = defaultCombiComplexes.map((combi) => combi);
+            const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
+                switch (combi.nom) {
+                    case 'three of a kind': return { ...combi, hoverDices: tooltip['threeOfAKind'] };
+                    case 'four of a kind':  return { ...combi, hoverDices: tooltip['fourOfAKind'] };
+                    case 'full house':      return { ...combi, hoverDices: tooltip['fullHouse'] };
+                    case 'small straight':  return { ...combi, hoverDices: tooltip['smallStraight'] };
+                    case 'large straight':  return { ...combi, hoverDices: tooltip['largeStraight'] };
+                    case 'yahtzee':         return { ...combi, hoverDices: tooltip['yahtzee'] };
+                    case 'chance':          return { ...combi, hoverDices: tooltip['chance'] };
+                    default:                return combi;
+                }
+            });
+            setCombiComplexes(updatedCombiComplexes);
+        } catch (error) {
             console.error("error" + error);
-          }
         }
-        
-        useEffect(() => {
-          handleToolTip();
-        }, [])
+    };
+
+    useEffect(() => { handleToolTip(); }, []);
+
+    useEffect(() => { setCombiSimpleToDisplay(combiSimples); }, [combiSimples]);
+    useEffect(() => { setCombiComplexeToDisplay(combiComplexes); }, [combiComplexes]);
+    useEffect(() => { getCombi(); }, [roundActive]);
 
     useEffect(() => {
-        setCombiSimpleToDisplay(combiSimples);
-    }, [combiSimples]);
-    
-    useEffect(() => {
-        setCombiComplexeToDisplay(combiComplexes);
-    }, [combiComplexes]);
-
-    useEffect(() => {
-        getCombi();
-    }, [roundActive]);
-
-    useEffect(() => {
-        if (combiSelected.length === 13) {
-            setIsGameFinished(true);
-        } else {
-            setIsGameFinished(false);
-        }
+        if (combiSelected.length === 13) setIsGameFinished(true);
+        else setIsGameFinished(false);
     }, [combiSelected]);
 
     useEffect(() => {
@@ -94,19 +83,28 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
             setCombiSimplesFinal([...combiSimpleToDisplay]);
             setCombiComplexesFinal([...combiComplexeToDisplay]);
         }
-        }, [isGameFinished]);
-    
+    }, [isGameFinished]);
 
     useEffect(() => {
         if (resetTab) {
             setCombiSimples(defaultCombiSimples.map(c => ({ ...c, score: -1 })));
             setCombiComplexes(defaultCombiComplexes.map(c => ({ ...c, score: -1 })));
             setCombiSelected([]);
+            setUpperSum(0);
+            setUpperBonusAwarded(false);
+            setYahtzeeCount(0);
             setResetTab(false);
         }
     }, [resetTab]);
-    
 
+    // ── Award upper bonus when threshold is crossed ──
+    useEffect(() => {
+        if (!upperBonusAwarded && upperSum >= UPPER_BONUS_THRESHOLD) {
+            setUpperBonusAwarded(true);
+            setScore(score + UPPER_BONUS_VALUE);
+            yahtzeeLogic.addScore(UPPER_BONUS_VALUE);
+        }
+    }, [upperSum]);
 
     const updateTheScore = async (combi: Combi): Promise<void> => {
         try {
@@ -117,32 +115,19 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         }
     };
 
-
-    const addCombi = (combi: Combi): number => {
-
-        return combi.score;
-    };
+    const addCombi = (combi: Combi): number => combi.score;
 
     const getCombi = async (): Promise<void> => {
-        if ((roundActive == true) && (gameActive == false)) {
-            return;
-        }
+        if (roundActive === true && gameActive === false) return;
         try {
             const possibleCombinations = yahtzeeLogic.getCombinations();
             setCombiSimpleToDisplay((combiSimples) => combiSimples.map(combi => {
-                const found = possibleCombinations.simple.find((c: Combi) => (combi.nom === c.nom) && (!combiSelected.includes(c.nom)));
-                return {
-                    ...combi,
-                    score: found ? found.score : combi.score
-                };
+                const found = possibleCombinations.simple.find((c: Combi) => combi.nom === c.nom && !combiSelected.includes(c.nom));
+                return { ...combi, score: found ? found.score : combi.score };
             }));
-
             setCombiComplexeToDisplay((combiComplexes) => combiComplexes.map(combi => {
-                const found = possibleCombinations.complexe.find((c: Combi) => (combi.nom === c.nom) && (!combiSelected.includes(c.nom)));
-                return {
-                    ...combi,
-                    score: found ? found.score : combi.score
-                };
+                const found = possibleCombinations.complexe.find((c: Combi) => combi.nom === c.nom && !combiSelected.includes(c.nom));
+                return { ...combi, score: found ? found.score : combi.score };
             }));
         } catch (error) {
             console.error("Error: ", error);
@@ -150,68 +135,88 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
     };
 
     const chooseThisCombination = async (combi: Combi): Promise<void> => {
-        if (combiSelected?.includes(combi.nom)){
+        if (combiSelected?.includes(combi.nom)) {
             console.error("Combinaison déjà choisie");
-        }else{
-            
-            const updateScore = addCombi(combi);
-            const updatedSimples = combiSimples.map(c => {
-                return {
-                    ...c,
-                    score: (c.nom === combi.nom) ? updateScore : c.score
-                }
-            });
-            setCombiSimples(updatedSimples);
-
-            const updatedComplexes = combiComplexes.map(c => {
-                return {
-                    ...c,
-                    score: (c.nom === combi.nom) ? updateScore : c.score
-                }
-            });
-            setCombiComplexes(updatedComplexes);
-
-            setCombiSelected((prevSelected) => [...prevSelected, combi.nom]);
-
-            if (combi.nom === 'yahtzee' && combi.score === 50) {
-                yahtzeeLogic.playSound("yahtzee");
-            } else {
-                yahtzeeLogic.playSound("scoring");
-            }
-
-            updateTheScore(combi);
-            setCombiComplexeToDisplay(combiComplexes);
-            setCombiSimpleToDisplay(combiSimples);
-            const combinations: Combinations = {simple: combiSimples, complexe: combiComplexes};
-            yahtzeeLogic.setCombinations(combinations);
-            setRoundActive(true);
+            return;
         }
+
+        const updateScore = addCombi(combi);
+
+        // ── Upper section sum tracking ──
+        const isSimple = defaultCombiSimples.some(c => c.nom === combi.nom);
+        if (isSimple) {
+            setUpperSum(prev => prev + updateScore);
+        }
+
+        // ── Yahtzee bonus tracking ──
+        // Check if current dice form a yahtzee
+        const currentCombinations = yahtzeeLogic.getCombinations();
+        const currentYahtzeeScore = currentCombinations.complexe.find((c: Combi) => c.nom === 'yahtzee')?.score;
+        const isCurrentlyYahtzee = currentYahtzeeScore === 50;
+
+        if (combi.nom === 'yahtzee' && isCurrentlyYahtzee) {
+            // First yahtzee — just track it, score handled by updateTheScore
+            setYahtzeeCount(1);
+        } else if (combi.nom !== 'yahtzee' && combiSelected.includes('yahtzee') && isCurrentlyYahtzee) {
+            // Extra yahtzee — award +100 bonus once
+            setYahtzeeCount(prev => prev + 1);
+            yahtzeeLogic.addScore(YAHTZEE_BONUS_VALUE);
+           setScore(score + YAHTZEE_BONUS_VALUE);
+        }
+
+        const updatedSimples = combiSimples.map(c => ({
+            ...c, score: c.nom === combi.nom ? updateScore : c.score
+        }));
+        setCombiSimples(updatedSimples);
+
+        const updatedComplexes = combiComplexes.map(c => ({
+            ...c, score: c.nom === combi.nom ? updateScore : c.score
+        }));
+        setCombiComplexes(updatedComplexes);
+
+        setCombiSelected((prevSelected) => [...prevSelected, combi.nom]);
+
+        if (combi.nom === 'yahtzee' && combi.score === 50) {
+            yahtzeeLogic.playSound("yahtzee");
+        } else {
+            yahtzeeLogic.playSound("scoring");
+        }
+
+        updateTheScore(combi);
+        setCombiComplexeToDisplay(combiComplexes);
+        setCombiSimpleToDisplay(combiSimples);
+        const combinations: Combinations = { simple: combiSimples, complexe: combiComplexes };
+        yahtzeeLogic.setCombinations(combinations);
+        setRoundActive(true);
     };
 
-    return(
+    return (
         <>
             <div className='tab-container'>
-                <div style={{marginRight: '5px'}}>
-                    <Tableau 
-                        combis={combiComplexeToDisplay} 
-                        caption={"lower section"} 
+                <div style={{ marginRight: '5px' }}>
+                    <Tableau
+                        combis={combiComplexeToDisplay}
+                        caption={"lower section"}
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
                         wantedGrey={true}
+                        yahtzeeBonus={yahtzeeBonus}
                     />
                 </div>
-                <div style={{marginLeft: '5px'}}>
-                    <Tableau 
-                        combis={[...combiSimpleToDisplay, combiTotal]} 
-                        caption={"upper section"} 
+                <div style={{ marginLeft: '5px' }}>
+                    <Tableau
+                        combis={[...combiSimpleToDisplay, combiTotal]}
+                        caption={"upper section"}
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
                         wantedGrey={true}
+                        upperSum={upperSum}
+                        upperBonus={upperBonus}
                     />
                 </div>
             </div>
         </>
-    )
+    );
 }

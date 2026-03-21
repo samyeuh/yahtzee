@@ -10,8 +10,13 @@ const Tableau: React.FC<{
   resetTab: boolean,
   selectedCombi: String[],
   wantedGrey: boolean,
-  displayMode?: boolean
-}> = ({ combis, caption, clickFunc, resetTab, selectedCombi, wantedGrey, displayMode = false }) => {
+  displayMode?: boolean,
+  // upper section bonus props
+  upperSum?: number,
+  upperBonus?: number,
+  // yahtzee bonus props
+  yahtzeeBonus?: number,
+}> = ({ combis, caption, clickFunc, resetTab, selectedCombi, wantedGrey, displayMode = false, upperSum, upperBonus, yahtzeeBonus }) => {
 
   const defaultCombiStyle = wantedGrey
     ? new Array(combis.length).fill({ color: "grey" })
@@ -49,16 +54,65 @@ const Tableau: React.FC<{
     setTooltipInfo(null);
   };
 
-  // Meilleur score dispo (seulement en mode jeu)
   const bestScore = displayMode ? -1 : Math.max(
     ...combis
       .filter(c => c.score > 0 && !selectedCombi.includes(c.nom) && c.nom !== 'total score' && c.nom !== 'chance')
       .map(c => c.score)
   );
 
+  // ── Upper section bonus display ──
+  const showUpperBonus = upperSum !== undefined && upperBonus !== undefined;
+  const upperBonusAchieved = (upperBonus ?? 0) > 0;
+  const upperProgress = showUpperBonus ? Math.min(upperSum!, 63) : 0;
+
+  // ── Yahtzee bonus display ──
+  const showYahtzeeBonus = yahtzeeBonus !== undefined && yahtzeeBonus > 0;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div className="captionT">{caption}</div>
+
+      {/* ── Caption with bonus badge ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+        <div className="captionT">{caption}</div>
+
+        {/* Upper section bonus badge */}
+        {showUpperBonus && (
+          <div
+            className="captionT"
+            title={upperBonusAchieved ? '+35 bonus unlocked!' : `${upperProgress}/63 for +35 bonus`}
+            style={{
+              background: upperBonusAchieved
+                ? 'rgba(76, 175, 110, 0.15)'
+                : 'rgba(122, 155, 181, 0.08)',
+              borderColor: upperBonusAchieved
+                ? 'rgba(76, 175, 110, 0.5)'
+                : 'rgba(122, 155, 181, 0.25)',
+              color: upperBonusAchieved ? '#2d8a52' : 'var(--accent)',
+              cursor: 'default',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            {upperBonusAchieved ? '✓ +35' : `${upperProgress}/63`}
+          </div>
+        )}
+
+        {/* Yahtzee bonus badge */}
+        {showYahtzeeBonus && (
+          <div
+            className="captionT"
+            title={`Yahtzee bonus: +${yahtzeeBonus} pts`}
+            style={{
+              background: 'rgba(201, 162, 23, 0.15)',
+              borderColor: 'rgba(201, 162, 23, 0.5)',
+              color: '#a07a00',
+              cursor: 'default',
+            }}
+          >
+            🎲 +{yahtzeeBonus}
+          </div>
+        )}
+      </div>
+
       <table className={wantedGrey ? "captionTableau" : "captionTableau shadow"}>
         <tbody>
           {combis.map((ligne, index) => {
@@ -94,6 +148,7 @@ const Tableau: React.FC<{
           })}
         </tbody>
       </table>
+
       {tooltipInfo && tooltipInfo.description != "" && (
         <div ref={tooltipRef} style={{ position: 'absolute', top: tooltipInfo.posY, left: tooltipInfo.posX, transform: 'translateX(-50%)' }} onMouseLeave={() => setTooltipInfo(null)}>
           <CombiTooltip description={tooltipInfo.description} imageUrls={tooltipInfo.imageUrl} />
