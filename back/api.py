@@ -5,7 +5,7 @@ from flask_cors import CORS
 from flask import Flask, jsonify, request
 import os
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 allowed_origins = list(filter(None, [
     os.getenv("VITE_FRONTURL_RENDER"),
@@ -43,7 +43,6 @@ def getScores():
     if not scoreManager.isSupabaseConnected():
         return jsonify({"message": "Supabase not connected"}), 500
     scores = scoreManager.getScores()
-    print(scores)
     if not scores:
         return jsonify({"message": "No scores found"}), 404
     else:
@@ -58,9 +57,24 @@ def addScore():
     if not all(k in data for k in ("icon", "playerName", "score", "formatDuration", "details")):
         return jsonify({"error": "Missing fields"}), 400
 
-    scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['formatDuration'], data['details'])
-    return jsonify({"message": "Score added"}), 200
-    
+    score_id = scoreManager.addScore(data['icon'], data['playerName'], data['score'], data['formatDuration'], data['details'])
+    if score_id is None:
+        return jsonify({"error": "Failed to save score"}), 500
+    return jsonify({"message": "Score added", "id": score_id}), 200
+
+@app.route("/updateScore", methods=["PUT"])
+def updateScore():
+    scoreManager = get_manager()
+    if not scoreManager.isSupabaseConnected():
+        return jsonify({"message": "Supabase not connected"}), 500
+    data = request.json
+    if not all(k in data for k in ("id", "icon", "playerName")):
+        return jsonify({"error": "Missing fields"}), 400
+
+    success = scoreManager.updateScore(data['id'], data['icon'], data['playerName'])
+    if not success:
+        return jsonify({"error": "Failed to update score"}), 500
+    return jsonify({"message": "Score updated"}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-
