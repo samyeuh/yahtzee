@@ -1,0 +1,38 @@
+{
+    "_legend": "types: new ✨ | improved ⚡ | fix 🐛",
+    "version": "1.1.0",
+    "entries": [
+        {
+            "type": "new",
+            "text": "auto-save your score at the end of each game"
+        },
+        {
+            "type": "new",
+            "text": "upper section bonus (+35 pts) when you reach 63"
+        },
+        {
+            "type": "new",
+            "text": "yahtzee bonus (+100 pts) for each extra yahtzee"
+        },
+        {
+            "type": "improved",
+            "text": "leaderboard redesign with weekly top & all-time champion"
+        },
+        {
+            "type": "improved",
+            "text": "score saving with custom name & icon"
+        },
+        {
+            "type": "improved",
+            "text": "score combinations table prettier"
+        },
+        {
+            "type": "improved",
+            "text": "modals redesigned and more responsive"
+        },
+        {
+            "type": "fix",
+            "text": "fixed scroll on leaderboard page"
+        }
+    ]
+}
