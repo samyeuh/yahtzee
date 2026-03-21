@@ -31,4 +31,4 @@ supabase-secret.yaml
 .terraform/
 .tfstate
 
-back/venv/*
+venv/
