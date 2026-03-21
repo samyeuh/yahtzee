@@ -19,9 +19,10 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
 
   const icons = import.meta.glob("/src/assets/icons/*.png", { eager: true });
   const iconsArray = Object.values(icons).map((icon: any) => icon.default);
+  const { settings } = useYahtzeeContext();
 
   const [currentIcon, setCurrentIcon] = useState<string>(iconsArray[0]);
-  const [name, setName] = useState<string>('');
+  const [name, setName] = useState<string>(settings.defaultName);
   const [saveState, setSaveState] = useState<SaveState>('saving');
   const [scoreId, setScoreId] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -38,7 +39,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
     const autoSave = async () => {
       try {
         const details = { simple: combiSimplesFinal, complexe: combiComplexesFinal };
-        const id = await addScore(iconsArray[0], randomFunnyName(), score, time, details);
+        const id = await addScore(iconsArray[0], settings.defaultName || randomFunnyName(), score, time, details);
         setScoreId(id);
         setIsSaved(true);
         setSaveState('personalizing');
