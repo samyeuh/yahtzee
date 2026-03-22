@@ -1,0 +1,129 @@
+{
+    "global": {
+        "yahtzee": "yahtzee"
+    },
+    "components": {
+        "combinations": {
+            "lower section": "lower section",
+            "upper section": "upper section"
+        },
+        "end_rolling": {
+            "your score": "your score",
+            "thanks for playing": "thanks for playing",
+            "play again": "PLAY AGAIN",
+            "score saved": "score saved"
+        },
+        "rolling_dices": {
+            "your dices": "your dices",
+            "remaining rolls": "remaining rolls",
+            "roll": "ROLL"
+        }
+    },
+    "context": {
+        "yahtzee_context": {
+            "combinations": {
+                "names" : {
+                    "aces": "aces",
+                    "twos": "twos",
+                    "threes": "threes",
+                    "fours": "fours",
+                    "fives": "fives",
+                    "sixes": "sixes",
+                    "three of a kind": "three of a kind",
+                    "four of a kind": "four of a kind",
+                    "full house": "full house",
+                    "small straight": "small straight",
+                    "large straight": "large straight",
+                    "yahtzee": "yahtzee",
+                    "chance": "chance"
+                },
+                "descriptions": {
+                    "aces": "score the one",
+                    "twos": "sum of the two",
+                    "threes": "sum of the three",
+                    "fours": "sum of the four",
+                    "fives": "sum of the five",
+                    "sixes": "sum of the six",
+                    "three of a kind": "sum of the dice you have in triplicate",
+                    "four of a kind": "sum of the dice you have in quadruple",
+                    "full house": "three of one dice and two of another (25pts)",
+                    "small straight": "four sequential dice (30 pts)",
+                    "large straight": "five sequential dice (40 pts)",
+                    "yahtzee": "all five dice the same (50 pts)",
+                    "chance": "sum of all your dices"
+                }
+            }
+        }
+    },
+    "modals": {
+        "rules": {
+            "rules": "rules",
+            "welcome": "welcome to the best web adaptation of",
+            "you_have": "you have",
+            "dices": "5 dices",
+            "click_to_roll": "- click to roll them !",
+            "goal": "your goal is to make",
+            "combinations": "combinations",
+            "with_your_dices": "with your dices",
+            "combo": "combo",
+            "description": "description",
+            "example": "example",
+            "you_can_roll_up": "you can roll up to",
+            "times_per_turn": "3 times",
+            "per_turn": "per turn",
+            "click_dice_to": "click a dice to",
+            "keep_it": "keep it",
+            "before_rolling": "before rolling again",
+            "good_luck": "good luck",
+            "ready_to_play": "ready to play",
+            "play": "play"
+        },
+        "score_details": {
+            "great": "great",
+            "ok": "ok",
+            "low": "low",
+            "none": "none",
+            "close": "close"
+        },
+        "score_saving":{
+            "saving_score": "saving your score...",
+            "score_already_saved": "your score is already saved, personalize it or skip!",
+            "select_icon": "select an icon",
+            "enter_name": "enter your name",
+            "name_placeholder": "your name...",
+            "icon": "icon",
+            "name": "name",
+            "score": "score",
+            "save": "save",
+            "skip": "skip",
+            "score_saved": "score saved"
+        },
+        "settings": {
+            "settings": "settings",
+            "sound": "sound",
+            "mute": "mute",
+            "volume": "volume",
+            "language": "language",
+            "lang": "lang",
+            "background": "background",
+            "color": "color",
+            "default_name": "default name",
+            "name": "name",
+            "close": "close"
+         }
+    },
+    "pages": {
+        "login": {
+            "whats_new": "what's new ?"
+        },
+        "scores": {
+            "all_time_champion": "goat",
+            "this_week": "this week",
+            "weekly": "weekly",
+            "details": "details",
+            "no_score": "no score this week, play to be the first one !",
+            "points": "pts",
+            "refresh": "refresh"
+        }
+    }
+}

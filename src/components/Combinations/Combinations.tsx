@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Tableau from "../Tableau/Tableau";
 import { useYahtzeeContext } from "../../context/YahtzeeContext/YahtzeeContext";
 import { Combi } from "../../class/Combi";
+import { useTranslation } from "../../i18n/useTranslation";
 import './Combinations.css';
 
 interface Combinations {
@@ -24,6 +25,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         defaultCombiSimples,
         resetTab, setResetTab,
         yahtzeeLogic } = useYahtzeeContext();
+    const { t } = useTranslation();
 
     const combiTotal = { nom: 'total score', imageUrls: [], score: score, hover: "", hoverDices: [] };
 
@@ -196,7 +198,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
                 <div style={{ marginRight: '5px' }}>
                     <Tableau
                         combis={combiComplexeToDisplay}
-                        caption={"lower section"}
+                        caption={t.components.combinations["lower section"]}
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}
@@ -207,7 +209,7 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
                 <div style={{ marginLeft: '5px' }}>
                     <Tableau
                         combis={[...combiSimpleToDisplay, combiTotal]}
-                        caption={"upper section"}
+                        caption={t.components.combinations["upper section"]}
                         clickFunc={chooseThisCombination}
                         resetTab={resetTab}
                         selectedCombi={combiSelected}

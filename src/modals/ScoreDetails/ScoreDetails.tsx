@@ -1,5 +1,6 @@
 import './ScoreDetails.css';
 import { Combi, Combinations } from '../../class/Combi';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type DetailsProps = {
   closeFunction: () => void;
@@ -15,6 +16,8 @@ const getScoreClass = (score: number, max: number): string => {
 };
 
 export function ScoreDetails({ closeFunction, playerDetails }: DetailsProps) {
+
+  const { t } = useTranslation();
 
   const transformDetails = (playerDetails: any): Combinations => {
     let parsedData;
@@ -67,13 +70,13 @@ export function ScoreDetails({ closeFunction, playerDetails }: DetailsProps) {
         </div>
 
         <div className="detailsLegend">
-          <div className="legendItem"><div className="legendDot" style={{background:'#4caf7d'}}/> great</div>
-          <div className="legendItem"><div className="legendDot" style={{background:'#f0a500'}}/> ok</div>
-          <div className="legendItem"><div className="legendDot" style={{background:'#e07070'}}/> low</div>
-          <div className="legendItem"><div className="legendDot" style={{background:'#ccc'}}/> none</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#4caf7d'}}/> {t.modals.score_details["great"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#f0a500'}}/> {t.modals.score_details["ok"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#e07070'}}/> {t.modals.score_details["low"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#ccc'}}/> {t.modals.score_details["none"]}</div>
         </div>
 
-        <button className="fermerButton" onClick={closeFunction}>close</button>
+        <button className="fermerButton" onClick={closeFunction}>{t.modals.score_details["close"]}</button>
       </div>
     </div>
   );

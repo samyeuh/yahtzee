@@ -4,6 +4,10 @@
     "entries": [
         {
             "type": "new",
+            "text": "settings page with sound control, background color, language selection, and default name"
+        },
+        {
+            "type": "new",
             "text": "auto-save your score at the end of each game"
         },
         {

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 import './Scores.css';
 import { ScoreDetails } from '../../modals/ScoreDetails/ScoreDetails';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface PlayerScore {
   Icon: string;
@@ -23,6 +24,7 @@ export function Scores() {
   const [lifetimeTop1,   setLifetimeTop1]   = useState<PlayerScore | null>(null);
   const [detailsOpen,    setDetailsOpen]    = useState(false);
   const [detailsIndex,   setDetailsIndex]   = useState(-1);
+  const { t } = useTranslation();
 
   const fetchScores = async () => {
     try {
@@ -64,17 +66,17 @@ export function Scores() {
             <div className="champion-crown">👑</div>
             <img src={lifetimeTop1.Icon} alt="champion" className="champion-icon" />
             <div className="champion-info">
-              <div className="champion-label">all-time champion</div>
+              <div className="champion-label">{t.pages.scores["all_time_champion"]}</div>
               <div className="champion-name">{lifetimeTop1.Nom}</div>
-              <div className="champion-score">{lifetimeTop1.Score} pts · {lifetimeTop1.Date}</div>
+              <div className="champion-score">{lifetimeTop1.Score} {t.pages.scores.points} · {lifetimeTop1.Date}</div>
             </div>
           </div>
         )}
 
         {/* ── WEEKLY SECTION ── */}
         <div className="section-header">
-          <span className="section-title">this week</span>
-          <span className="section-badge">weekly</span>
+          <span className="section-title">{t.pages.scores["this_week"]}</span>
+          <span className="section-badge">{t.pages.scores["weekly"]}</span>
         </div>
 
         {/* ── WEEKLY TOP 1 CARD ── */}
@@ -97,17 +99,17 @@ export function Scores() {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>icon</th>
-                  <th>name</th>
-                  <th>score</th>
-                  <th>details</th>
+                  <th>{t.modals.score_saving["icon"]}.</th>
+                  <th>{t.modals.score_saving["name"]}</th>
+                  <th>{t.modals.score_saving["score"]}</th>
+                  <th>{t.pages.scores["details"]}</th>
                 </tr>
               </thead>
             )}
             <tbody>
               {weeklyScores.length === 0 ? (
                 <tr className="empty-row">
-                  <td colSpan={5}>no scores this week :(</td>
+                  <td colSpan={5}>{t.pages.scores["no_score"]}</td>
                 </tr>
               ) : (
                 weeklyScores.map((player, index) => (
@@ -133,7 +135,7 @@ export function Scores() {
           </table>
         </div>
 
-        <button className="scoreButton" onClick={fetchScores}>↻ refresh</button>
+        <button className="scoreButton" onClick={fetchScores}>↻ {t.pages.scores["refresh"]}</button>
       </div>
 
       {/* ── MODAL ── */}

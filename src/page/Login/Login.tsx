@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 import changelog from '../../assets/utils/changelog.json';
+import { SettingsModal } from '../../modals/SettingsModal/SettingsModal';
+import { useTranslation } from '../../i18n/useTranslation';
 
 export function Login() {
   const { setRoundActive, setGameActive, setScore, loading, setLoading, yahtzeeLogic } = useYahtzeeContext();
@@ -15,6 +17,9 @@ export function Login() {
   const [waitServer, setWaitServer] = useState<boolean>(false);
   const [trophyDisabled, setTrophyDisabled] = useState<boolean>(true);
   const [showChangelog, setShowChangelog] = useState<boolean>(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { t } = useTranslation();
+
   const popoverRef = useRef<HTMLDivElement>(null);
   const { testSupabase } = YahtzeeAPI();
 
@@ -105,6 +110,7 @@ export function Login() {
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px' }}>
           <img src={trophyDisabled ? "/dices/trophy_disabled.png" : "/dices/trophy.png"} onClick={openTrophy} className='other-icon' alt="trophy" />
           <img src="/dices/github.png" onClick={openGithub} className='other-icon' alt="github link" />
+          <img src="/dices/settings.png" onClick={() => setSettingsOpen(true)} className='other-icon' alt="github link" />
         </div>
 
         {/* ── VERSION BADGE ── */}
@@ -120,7 +126,7 @@ export function Login() {
           {showChangelog && (
             <div className="changelog-popover">
               <div className="changelog-header">
-                <span className="changelog-title">what's new</span>
+                <span className="changelog-title">{t.pages.login["whats_new"]}</span>
                 <span className="changelog-version">v{changelog.version}</span>
               </div>
               <ul className="changelog-list">
@@ -132,6 +138,10 @@ export function Login() {
                 ))}
               </ul>
             </div>
+          )}
+
+          {settingsOpen && (
+            <SettingsModal closeFunction={() => setSettingsOpen(false)} />
           )}
         </div>
       </div>
