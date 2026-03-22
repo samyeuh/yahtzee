@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './EndRolling.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type EndRollingProps = {
     openScoreSaving: () => void;
@@ -15,6 +16,7 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
     const { score, time, isSaved, setIsSaved } = useYahtzeeContext();
     const { formatTime, testSupabase } = YahtzeeAPI();
     const [scoreDisplayDone, setScoreDisplayDone] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const updateDicesSRC = async () => {
@@ -75,22 +77,18 @@ export function EndRolling({ openScoreSaving, openRules, handleReplay }: EndRoll
             </div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <h1 style={{ fontWeight: 'bold' }}> your score </h1>
-                    <p>thanks for playing ♥ {formatTime(time)}</p>
+                    <h1 style={{ fontWeight: 'bold' }}> {t.components.end_rolling["your score"]} </h1>
+                    <p>{t.components.end_rolling["thanks for playing"]} ♥ {formatTime(time)}</p>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '70%', padding: '10px' }}>
                         {dicesSRC.map((src, index) => (
                             <img key={index} src={src} alt="dice" className="dice" />
                         ))}
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '15px' }}>
-                        <button className="button" onClick={handleReplay}>PLAY AGAIN</button>
-                        {/* Save button kept as fallback if modal was closed without saving */}
-                        {!isSaved && scoreDisplayDone && (
-                            <button className="button" onClick={openScoreSaving}>SAVE MY SCORE</button>
-                        )}
+                        <button className="button" onClick={handleReplay}>{t.components.end_rolling["play again"]} </button>
                         {isSaved && (
                             <span style={{ fontWeight: 600, color: '#4caf6e', alignSelf: 'center', fontSize: '0.85rem' }}>
-                                ✅ score saved!
+                                ✅ {t.components.end_rolling["score saved"]}
                             </span>
                         )}
                     </div>

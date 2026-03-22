@@ -2,6 +2,8 @@ import './ScoreSaving.css';
 import { useEffect, useRef, useState } from 'react';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
+import funnyNames from '../../assets/utils/funny_names.json';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type RulesProps = {
   closeFunction: () => void;
@@ -11,8 +13,6 @@ type RulesProps = {
 
 type SaveState = 'saving' | 'personalizing' | 'updating' | 'saved' | 'error';
 
-import funnyNames from '../../assets/utils/funny_names.json';
-
 const randomFunnyName = () => funnyNames[Math.floor(Math.random() * funnyNames.length)];
 
 export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesProps) {
@@ -20,6 +20,7 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
   const icons = import.meta.glob("/src/assets/icons/*.png", { eager: true });
   const iconsArray = Object.values(icons).map((icon: any) => icon.default);
   const { settings } = useYahtzeeContext();
+  const { t } = useTranslation();
 
   const [currentIcon, setCurrentIcon] = useState<string>(iconsArray[0]);
   const [name, setName] = useState<string>(settings.defaultName);
@@ -107,15 +108,15 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
       return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
           <span style={{ fontSize: '1.8rem' }}>✅</span>
-          <span style={{ fontSize: '0.65rem', color: '#4caf6e', fontFamily: "'Press Start 2P', monospace" }}>score saved!</span>
+          <span style={{ fontSize: '0.65rem', color: '#4caf6e', fontFamily: "'Press Start 2P', monospace" }}>{t.modals.score_saving["score_saved"]}</span>
         </div>
       );
     }
     if (saveState === 'personalizing') {
       return (
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-          <button className="saveButton" onClick={handlePersonalize}>save</button>
-          <button className="saveButton saveButtonSecondary" onClick={handleSkip}>skip</button>
+          <button className="saveButton" onClick={handlePersonalize}>{t.modals.score_saving["save"]}</button>
+          <button className="saveButton saveButtonSecondary" onClick={handleSkip}>{t.modals.score_saving["skip"]}</button>
         </div>
       );
     }
@@ -134,20 +135,20 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
           {saveState === 'saving' ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '2rem' }}>
               <img src='/dices/nonumber.gif' style={{ height: '60px', width: '60px' }} />
-              <h1>saving your score...</h1>
+              <h1>{t.modals.score_saving["saving_score"]}</h1>
             </div>
           ) : (
             <>
               <h1>{saveState === 'saved' ? 'all done! ✅' : 'customize your entry'}</h1>
               {saveState === 'personalizing' && (
                 <p style={{ fontSize: '0.75rem', color: '#5a8fa8', marginBottom: '0.5rem' }}>
-                  your score is already saved — personalize it or skip!
+                  {t.modals.score_saving["saving_score"]}
                 </p>
               )}
 
               <div className="saveColumns">
                 <div className="saveIconCol">
-                  <h3>select an icon</h3>
+                  <h3>{t.modals.score_saving["select_icon"]}</h3>
                   <div className="saveIconPicker">
                     <button className="arrowBtn" onClick={() => onClickArrow(true)} disabled={!isInteractive}>
                       <img src='/utils/left_arrow.png' alt="left" style={{ height: '28px' }} />
@@ -160,13 +161,13 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
                 </div>
 
                 <div className="saveNameCol">
-                  <h3>enter your name</h3>
+                  <h3>{t.modals.score_saving["enter_name"]}</h3>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     maxLength={11}
-                    placeholder="your name..."
+                    placeholder={t.modals.score_saving["name_placeholder"]}
                     disabled={!isInteractive}
                   />
                 </div>
@@ -175,11 +176,9 @@ export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesPr
               <table className="scoreTableau">
                 <thead>
                   <tr>
-                    <th>icon</th>
-                    <th>name</th>
-                    <th>score</th>
-                    <th>date</th>
-                    <th>duration</th>
+                    <th>{t.modals.score_saving["icon"]}</th>
+                    <th>{t.modals.score_saving["name"]}</th>
+                    <th>{t.modals.score_saving["score"]}</th>
                   </tr>
                 </thead>
                 <tbody>

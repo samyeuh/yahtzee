@@ -11,10 +11,8 @@ const Tableau: React.FC<{
   selectedCombi: String[],
   wantedGrey: boolean,
   displayMode?: boolean,
-  // upper section bonus props
   upperSum?: number,
   upperBonus?: number,
-  // yahtzee bonus props
   yahtzeeBonus?: number,
 }> = ({ combis, caption, clickFunc, resetTab, selectedCombi, wantedGrey, displayMode = false, upperSum, upperBonus, yahtzeeBonus }) => {
 

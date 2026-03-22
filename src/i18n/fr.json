@@ -1,0 +1,129 @@
+{
+    "global": {
+        "yahtzee": "yams"
+    },
+    "components": {
+        "combinations": {
+            "lower section": "partie mineure",
+            "upper section": "partie majeure"
+        },
+        "end_rolling": {
+            "your score": "ton score",
+            "thanks for playing": "merci d'avoir joué",
+            "play again": "REJOUER",
+            "score saved": "score sauvegardé"
+        },
+        "rolling_dices": {
+            "your dices": "tes dés",
+            "remaining rolls": "lancers restants",
+            "roll": "LANCER"
+        }
+    },
+    "context": {
+        "yahtzee_context": {
+            "combinations": {
+                "names" : {
+                    "aces": "as",
+                    "twos": "deux",
+                    "threes": "trois",
+                    "fours": "quatre",
+                    "fives": "cinq",
+                    "sixes": "six",
+                    "three of a kind": "three of a kind",
+                    "four of a kind": "four of a kind",
+                    "full house": "full house",
+                    "small straight": "small straight",
+                    "large straight": "large straight",
+                    "yahtzee": "yahtzee",
+                    "chance": "chance"
+                },
+                "descriptions": {
+                    "aces": "score the one",
+                    "twos": "sum of the two",
+                    "threes": "sum of the three",
+                    "fours": "sum of the four",
+                    "fives": "sum of the five",
+                    "sixes": "sum of the six",
+                    "three of a kind": "sum of the dice you have in triplicate",
+                    "four of a kind": "sum of the dice you have in quadruple",
+                    "full house": "three of one dice and two of another (25pts)",
+                    "small straight": "four sequential dice (30 pts)",
+                    "large straight": "five sequential dice (40 pts)",
+                    "yahtzee": "all five dice the same (50 pts)",
+                    "chance": "sum of all your dices"
+                }
+            }
+        }
+    },
+    "modals": {
+        "rules": {
+            "rules": "règles",
+            "welcome": "bienvenue sur la meilleure adaptation web du",
+            "you_have": "tu as",
+            "dices": "5 dés",
+            "click_to_roll": "- clique pour les lancer !!",
+            "goal": "ton objectif est de faire des",
+            "combinations": "combinaisons",
+            "with_your_dices": "avec les dés",
+            "combo": "combi",
+            "description": "description",
+            "example": "exemple",
+            "you_can_roll_up": "tu peux lancer tes dés jusqu'à",
+            "times_per_turn": "3 fois",
+            "per_turn": "par tour",
+            "click_dice_to": "clique sur un dé pour",
+            "keep_it": "le garder",
+            "before_rolling": "avant de relancer",
+            "good_luck": "bonne chance",
+            "ready_to_play": "prêt",
+            "play": "jouer"
+        },
+        "score_details": {
+            "great": "bien",
+            "ok": "ok",
+            "low": "nul",
+            "none": "-",
+            "close": "fermer"
+        },
+        "score_saving":{
+            "saving_score": "sauvegarde",
+            "score_already_saved": "ton score est déjà sauvegardé, personnalise ou passe!",
+            "select_icon": "choisis une icône",
+            "enter_name": "entre ton nom",
+            "name_placeholder": "ton nom...",
+            "icon": "icône",
+            "name": "nom",
+            "score": "score",
+            "save": "sauvegarder",
+            "skip": "passer",
+            "score_saved": "score sauvegardé !"
+        },
+        "settings": {
+            "settings": "paramètres",
+            "sound": "son",
+            "mute": "couper le son",
+            "volume": "volume",
+            "language": "langage",
+            "lang": "langue",
+            "background": "fond",
+            "color": "couleur",
+            "default_name": "nom par défaut",
+            "name": "nom",
+            "close": "fermer"
+         }
+    },
+    "pages": {
+        "login": {
+            "whats_new": "quoi d'neuf? (en)"
+        },
+        "scores": {
+            "all_time_champion": "goat",
+            "this_week": "cette semaine",
+            "weekly": "hebdo",
+            "details": "détails",
+            "no_score": "pas de score cette semaine, sois le premier!",
+            "points": "pts",
+            "refresh": "mettre à jour"
+        }
+    }
+}

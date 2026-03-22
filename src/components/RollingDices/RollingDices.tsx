@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './RollingDices.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext'
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type RollingDicesProps = {
     openRules: () => void;
@@ -19,6 +20,8 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
     const [isBlurred, setIsBlurred] = useState<boolean>(true);
     const { formatTime } = YahtzeeAPI();
     const { roundActive, setRoundActive, yahtzeeLogic, time } = useYahtzeeContext();
+    const { t } = useTranslation();
+    
 
     // TODO: if yams confettis ?
 
@@ -165,8 +168,8 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
             </div> 
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                    <h1 style={{fontWeight: 'bold'}}> your dices </h1>
-                    <p>remaining rolls: {nbTurns} • <span className="timer" onClick={handleToggleBlur} style={{filter: isBlurred ? 'blur(5px)' : 'none', cursor: 'pointer'}}>{isBlurred ? formatTime(0) : formatTime(time)}</span></p>
+                    <h1 style={{fontWeight: 'bold'}}> {t.components.rolling_dices["your dices"]} </h1>
+                    <p>{t.components.rolling_dices["remaining rolls"]}: {nbTurns} • <span className="timer" onClick={handleToggleBlur} style={{filter: isBlurred ? 'blur(5px)' : 'none', cursor: 'pointer'}}>{isBlurred ? formatTime(0) : formatTime(time)}</span></p>
                         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width:'70%', padding: '10px'}}>
                             {dicesSRC.map((src, index) => (
                                 <img
@@ -178,7 +181,7 @@ export function RollingDices({ openRules, startTimer }: RollingDicesProps) {
                                 />
                             ))}
                         </div>
-                    <button className="button" onClick={handleRoll} disabled={isRollDisabled}>ROLL</button>
+                    <button className="button" onClick={handleRoll} disabled={isRollDisabled}>{t.components.rolling_dices["roll"]}</button>
                 </div>
             </div>
         </div>

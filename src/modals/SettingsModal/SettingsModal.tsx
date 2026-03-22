@@ -1,6 +1,7 @@
 import './SettingsModal.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import { BG_COLORS } from '../../hooks/useSettings';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type SettingsModalProps = {
   closeFunction: () => void;
@@ -8,6 +9,7 @@ type SettingsModalProps = {
 
 export function SettingsModal({ closeFunction }: SettingsModalProps) {
   const { settings, updateSetting } = useYahtzeeContext();
+  const { t } = useTranslation();
 
   return (
     <div className="settings-overlay" onClick={closeFunction}>
@@ -20,10 +22,10 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
 
         {/* ── SOUND ── */}
         <div className="settings-section">
-          <div className="settings-section-label">🔊 sound</div>
+          <div className="settings-section-label">🔊 {t.modals.settings["sound"]}</div>
 
           <div className="settings-row">
-            <span className="settings-label">mute</span>
+            <span className="settings-label">{t.modals.settings["mute"]}</span>
             <button
               className={`settings-toggle ${settings.muted ? 'active' : ''}`}
               onClick={() => updateSetting('muted', !settings.muted)}
@@ -33,7 +35,7 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
           </div>
 
           <div className="settings-row">
-            <span className="settings-label">volume</span>
+            <span className="settings-label">{t.modals.settings["volume"]}</span>
             <div className="settings-slider-wrapper">
               <input
                 type="range"
@@ -54,9 +56,9 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
 
         {/* ── THEME ── */}
         <div className="settings-section">
-        <div className="settings-section-label">🎨 background</div>
+        <div className="settings-section-label">🎨 {t.modals.settings["background"]}</div>
         <div className="settings-row">
-            <span className="settings-label">color</span>
+            <span className="settings-label">{t.modals.settings["color"]}</span>
             <div className="settings-colors">
             {BG_COLORS.map(color => (
                 <button
@@ -73,9 +75,9 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
 
         {/* ── LANGUAGE ── */}
         <div className="settings-section">
-          <div className="settings-section-label">🌍 language</div>
+          <div className="settings-section-label">🌍 {t.modals.settings["language"]}</div>
           <div className="settings-row">
-            <span className="settings-label">lang</span>
+            <span className="settings-label">{t.modals.settings["lang"]}</span>
             <div className="settings-segmented">
               <button
                 className={`settings-seg-btn ${settings.language === 'en' ? 'active' : ''}`}
@@ -84,7 +86,8 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
                 EN
               </button>
               <button
-                className={`settings-seg-btn disabled`}
+                className={`settings-seg-btn ${settings.language === 'fr' ? 'active' : ''}`}
+                onClick={() => updateSetting('language', 'fr')}
               >
                 FR
               </button>
@@ -94,14 +97,14 @@ export function SettingsModal({ closeFunction }: SettingsModalProps) {
 
         {/* ── DEFAULT NAME ── */}
         <div className="settings-section">
-          <div className="settings-section-label">✏️ default name</div>
+          <div className="settings-section-label">✏️ {t.modals.settings["default_name"]}</div>
           <div className="settings-row">
-            <span className="settings-label">name</span>
+            <span className="settings-label">{t.modals.settings["name"]}</span>
             <input
               type="text"
               className="settings-input"
               maxLength={11}
-              placeholder="your name..."
+              placeholder={t.modals.score_saving["name_placeholder"]}
               value={settings.defaultName}
               onChange={e => updateSetting('defaultName', e.target.value)}
             />

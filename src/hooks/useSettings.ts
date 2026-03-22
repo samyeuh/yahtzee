@@ -13,7 +13,7 @@ export interface Settings {
   volume: number;       // 0 to 1
   muted: boolean;
   bgColor: BgColorValue;
-  language: 'en';  // | 'fr';
+  language: 'en' | 'fr';
   defaultName: string;
 }
 

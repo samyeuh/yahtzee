@@ -6,6 +6,7 @@ import { LoadingPage } from '../LoadingPage/LoadingPage';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 import changelog from '../../assets/utils/changelog.json';
 import { SettingsModal } from '../../modals/SettingsModal/SettingsModal';
+import { useTranslation } from '../../i18n/useTranslation';
 
 export function Login() {
   const { setRoundActive, setGameActive, setScore, loading, setLoading, yahtzeeLogic } = useYahtzeeContext();
@@ -17,6 +18,7 @@ export function Login() {
   const [trophyDisabled, setTrophyDisabled] = useState<boolean>(true);
   const [showChangelog, setShowChangelog] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const { testSupabase } = YahtzeeAPI();
@@ -124,7 +126,7 @@ export function Login() {
           {showChangelog && (
             <div className="changelog-popover">
               <div className="changelog-header">
-                <span className="changelog-title">what's new</span>
+                <span className="changelog-title">{t.pages.login["whats_new"]}</span>
                 <span className="changelog-version">v{changelog.version}</span>
               </div>
               <ul className="changelog-list">
