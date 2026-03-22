@@ -36,7 +36,7 @@
         },
         {
             "type": "fix",
-            "text": "fixed scroll on leaderboard page"
+            "text": "fixed scroll on gameplay page on mobile devices"
         }
     ]
 }
