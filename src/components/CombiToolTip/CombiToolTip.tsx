@@ -15,7 +15,6 @@ const CombiTooltip: React.FC<{ description: string, imageUrls: string[] }> = ({ 
                 <div className="tooltip-text">
                     <p>{description}</p>
                 </div>
-                {/* Affiche les images à côté du texte */}
             </div>
         </div>
     );

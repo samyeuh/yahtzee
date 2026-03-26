@@ -6,8 +6,10 @@
 }
 
 @media screen and (max-width: 768px) {
-    .tab-container{
+    .tab-container {
         flex-direction: column;
         gap: 15px;
+        width: 100%;
+        padding: 0 10px;
     }
 }

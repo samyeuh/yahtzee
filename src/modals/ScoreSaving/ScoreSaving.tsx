@@ -1,7 +1,9 @@
 import './ScoreSaving.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
 import { YahtzeeAPI } from '../../api/YahtzeeAPI';
+import funnyNames from '../../assets/utils/funny_names.json';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type RulesProps = {
   closeFunction: () => void;
@@ -9,108 +11,196 @@ type RulesProps = {
   openSaveModal: boolean;
 };
 
+type SaveState = 'saving' | 'personalizing' | 'updating' | 'saved' | 'error';
+
+const randomFunnyName = () => funnyNames[Math.floor(Math.random() * funnyNames.length)];
+
 export function ScoreSaving({ closeFunction, openModal, openSaveModal }: RulesProps) {
 
   const icons = import.meta.glob("/src/assets/icons/*.png", { eager: true });
-
   const iconsArray = Object.values(icons).map((icon: any) => icon.default);
+  const { settings } = useYahtzeeContext();
+  const { t } = useTranslation();
+
   const [currentIcon, setCurrentIcon] = useState<string>(iconsArray[0]);
-  const [currentLeftArrow, setCurrentLeftArrow] = useState<string>('/utils/left_arrow.png');
-  const [currentRightArrow, setCurrentRightArrow] = useState<string>('/utils/right_arrow.png');
-  const [saving , setSaving] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
+  const [name, setName] = useState<string>(settings.defaultName);
+  const [saveState, setSaveState] = useState<SaveState>('saving');
+  const [scoreId, setScoreId] = useState<number | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const hasSaved = useRef(false);
+
   const date = new Date().toLocaleDateString();
-  const { addScore, formatTime } = YahtzeeAPI();
+  const { addScore, updateScore, formatTime } = YahtzeeAPI();
+  const { score, time, combiSimplesFinal, combiComplexesFinal, setIsSaved } = useYahtzeeContext();
 
-  const { score, time, combiSimplesFinal, combiComplexesFinal } = useYahtzeeContext();
+  // Auto-save immediately when modal opens
+  useEffect(() => {
+    if (!openModal || !openSaveModal || hasSaved.current) return;
+    hasSaved.current = true;
+    const autoSave = async () => {
+      try {
+        const details = { simple: combiSimplesFinal, complexe: combiComplexesFinal };
+        const id = await addScore(iconsArray[0], settings.defaultName || randomFunnyName(), score, time, details);
+        setScoreId(id);
+        setIsSaved(true);
+        setSaveState('personalizing');
+      } catch (error) {
+        console.error("Auto-save failed:", error);
+        setSaveState('error');
+        setErrorMsg('Auto-save failed. Please try again.');
+      }
+    };
+    autoSave();
+  }, [openModal, openSaveModal]);
 
-  const handleSave = async (): Promise<void> => {
-    if (name === '' || name.length > 15) {
-      alert('Name incorrect (too long or empty)');
+  const handlePersonalize = async (): Promise<void> => {
+    if (scoreId === null) return;
+    const finalName = name.trim() === '' ? randomFunnyName() : name;
+    if (finalName.length > 15) {
+      setErrorMsg('Name must be 15 characters max.');
       return;
     }
     try {
-      const details = { simple: combiSimplesFinal, complexe: combiComplexesFinal };
-      setSaving(true);
-      await addScore(currentIcon, name, score, time, details);
+      setErrorMsg(null);
+      setSaveState('updating');
+      await updateScore(scoreId, currentIcon, finalName);
+      setSaveState('saved');
+      setTimeout(() => { closeFunction(); }, 1800);
     } catch (error) {
-      console.error("Erreur: " + error);
-    } finally {
-      closeFunction();
+      console.error("Update failed:", error);
+      setSaveState('error');
+      setErrorMsg('Update failed. Your score is saved but without customization.');
+      setTimeout(() => { closeFunction(); }, 2500);
     }
+  };
+
+  const handleSkip = () => {
+    closeFunction();
   };
 
   const onClickArrow = (left: boolean): void => {
     const currentIndex = iconsArray.indexOf(currentIcon);
-    
     if (left) {
-      if (currentIndex === 0) {
-        setCurrentIcon(iconsArray[iconsArray.length - 1]);
-      } else {
-        setCurrentIcon(iconsArray[currentIndex - 1]);
-      }
-    } else if (!left) {
-      if (currentIndex === iconsArray.length - 1) {
-        setCurrentIcon(iconsArray[0]);
-      } else {
-        setCurrentIcon(iconsArray[currentIndex + 1]);
-      }
+      setCurrentIcon(currentIndex === 0 ? iconsArray[iconsArray.length - 1] : iconsArray[currentIndex - 1]);
+    } else {
+      setCurrentIcon(currentIndex === iconsArray.length - 1 ? iconsArray[0] : iconsArray[currentIndex + 1]);
     }
   };
-  
-  // 81eca0 (clair) / 48ce64 (normal) / 1e6d35
+
+  const renderActions = () => {
+    if (saveState === 'saving') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+          <img src='/dices/nonumber.gif' style={{ height: '40px', width: '40px' }} />
+          <span style={{ fontSize: '0.65rem', color: '#5a8fa8', fontFamily: "'Press Start 2P', monospace" }}>saving...</span>
+        </div>
+      );
+    }
+    if (saveState === 'updating') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+          <img src='/dices/nonumber.gif' style={{ height: '40px', width: '40px' }} />
+          <span style={{ fontSize: '0.65rem', color: '#5a8fa8', fontFamily: "'Press Start 2P', monospace" }}>updating...</span>
+        </div>
+      );
+    }
+    if (saveState === 'saved') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '1.8rem' }}>✅</span>
+          <span style={{ fontSize: '0.65rem', color: '#4caf6e', fontFamily: "'Press Start 2P', monospace" }}>{t.modals.score_saving["score_saved"]}</span>
+        </div>
+      );
+    }
+    if (saveState === 'personalizing') {
+      return (
+        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+          <button className="saveButton" onClick={handlePersonalize}>{t.modals.score_saving["save"]}</button>
+          <button className="saveButton saveButtonSecondary" onClick={handleSkip}>{t.modals.score_saving["skip"]}</button>
+        </div>
+      );
+    }
+    if (saveState === 'error') {
+      return <button className="saveButton" onClick={handlePersonalize}>retry</button>;
+    }
+  };
+
+  const isInteractive = saveState === 'personalizing' || saveState === 'error';
 
   return (
-        openModal && openSaveModal && (
-            <div className="saveContainer">
-              <div className="saveBox">
-                <h1 style={{fontWeight: 'bold'}}>save your score</h1>
-                <h3>select an icon </h3>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
-                  <img src={currentLeftArrow} alt="left arrow" onClick={() => onClickArrow(true)} onMouseOver={() => {setCurrentLeftArrow('/utils/left_arrow_selected.png')}} onMouseLeave={() => {setCurrentLeftArrow('/utils/left_arrow.png')}} style={{ height: '30px', width: '46px', paddingRight: '5px' }} />
-                  <img src={currentIcon} alt="score" style={{ height: '75px', width: '75px' }} />
-                  <img src={currentRightArrow} alt="right arrow" onClick={() => onClickArrow(false)} onMouseOver={() => {setCurrentRightArrow('/utils/right_arrow_selected.png')}} onMouseLeave={() => {setCurrentRightArrow('/utils/right_arrow.png')}} style={{ height: '30px', width: '46px',  }} />
+    openModal && openSaveModal && (
+      <div className="saveContainer">
+        <div className="saveBox" onClick={(e) => e.stopPropagation()}>
+
+          {saveState === 'saving' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '2rem' }}>
+              <img src='/dices/nonumber.gif' style={{ height: '60px', width: '60px' }} />
+              <h1>{t.modals.score_saving["saving_score"]}</h1>
+            </div>
+          ) : (
+            <>
+              <h1>{saveState === 'saved' ? 'all done! ✅' : 'customize your entry'}</h1>
+              {saveState === 'personalizing' && (
+                <p style={{ fontSize: '0.75rem', color: '#5a8fa8', marginBottom: '0.5rem' }}>
+                  {t.modals.score_saving["saving_score"]}
+                </p>
+              )}
+
+              <div className="saveColumns">
+                <div className="saveIconCol">
+                  <h3>{t.modals.score_saving["select_icon"]}</h3>
+                  <div className="saveIconPicker">
+                    <button className="arrowBtn" onClick={() => onClickArrow(true)} disabled={!isInteractive}>
+                      <img src='/utils/left_arrow.png' alt="left" style={{ height: '28px' }} />
+                    </button>
+                    <img className="icon" src={currentIcon} alt="icon" />
+                    <button className="arrowBtn" onClick={() => onClickArrow(false)} disabled={!isInteractive}>
+                      <img src='/utils/right_arrow.png' alt="right" style={{ height: '28px' }} />
+                    </button>
+                  </div>
                 </div>
-                <div style={{textAlign: 'center', marginBottom: '15px', marginTop: '15px'}}>
-                  <h3>enter your name</h3>
-                  <input type="text" style={{marginTop: '15px'}} onChange={(e) => setName(e.target.value)} maxLength={11} required/>
-                </div>
-                <table className="scoreTableau" style={{ border: '1px solid lightgray', borderCollapse: 'collapse'}}>
-                  <thead>
-                    <tr style={{ backgroundColor: 'white', border: '1px solid lightgray' }}>
-                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>icon</th>
-                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>name</th>
-                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>score</th>
-                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>date</th>
-                      <th style={{fontWeight: 'bold', border: '1px solid lightgray'}}>duration</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td style={{ border: '1px solid lightgray', width: '10%', textAlign: 'left' }}>
-                        <img src={currentIcon} alt="score" style={{ height: '25px', width: '25px' }} />
-                      </td>
-                      <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
-                        <p>{name}</p>
-                      </td>
-                      <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
-                        <p style={{ fontSize: '1.2rem' }}>{score}</p>
-                      </td>
-                      <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
-                        <p>{date}</p>
-                      </td>
-                      <td style={{ border: '1px solid lightgray', width: '50px', textAlign: 'center' }}>
-                        <p>{formatTime(time)}</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div style={{display: 'flex', flexDirection: 'row', gap: '10px', paddingBottom: '10px'}}>
-                  { saving ? <img src='/dices/nonumber.gif' style={{ height: '40px', width: '40px'}} /> : <button className="saveButton" onClick={handleSave}>save</button> }
-                  <button className="fermerButton" onClick={closeFunction}>cancel</button>
+
+                <div className="saveNameCol">
+                  <h3>{t.modals.score_saving["enter_name"]}</h3>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    maxLength={11}
+                    placeholder={t.modals.score_saving["name_placeholder"]}
+                    disabled={!isInteractive}
+                  />
                 </div>
               </div>
-            </div>
+
+              <table className="scoreTableau">
+                <thead>
+                  <tr>
+                    <th>{t.modals.score_saving["icon"]}</th>
+                    <th>{t.modals.score_saving["name"]}</th>
+                    <th>{t.modals.score_saving["score"]}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img src={currentIcon} alt="score" style={{ height: '24px', width: '24px' }} /></td>
+                    <td>{name || '???'}</td>
+                    <td style={{ fontSize: '1rem', fontWeight: 800, color: '#7a9bb5' }}>{score}</td>
+                    <td>{date}</td>
+                    <td>{formatTime(time)}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {errorMsg && <p className="saveError">{errorMsg}</p>}
+            </>
+          )}
+
+          <div className="saveActions">
+            {renderActions()}
+          </div>
+        </div>
+      </div>
     )
   );
 }

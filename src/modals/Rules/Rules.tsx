@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Rules.css';
 import { useYahtzeeContext } from '../../context/YahtzeeContext/YahtzeeContext';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type RulesProps = {
   closeFunction: () => void;
@@ -10,137 +11,134 @@ type RulesProps = {
 
 export function Rules({ closeFunction, openModal, openRuleModal }: RulesProps) {
 
-  const initialSRC = ["/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png", "/dices/nonumber.png"];
-  const gifSRC = ["/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif", "/dices/nonumber.gif"];
+  const initialSRC = Array(5).fill("/dices/nonumber.png");
+  const gifSRC     = Array(5).fill("/dices/nonumber.gif");
   const [dicesSRC, setDicesSRC] = useState(initialSRC);
   const { defaultCombiComplexes, setDefaultCombiComplexes, defaultCombiSimples, yahtzeeLogic } = useYahtzeeContext();
+  const { t } = useTranslation();
 
-  function randomInt(min: number, max: number): number {
+  function randomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  const handleRoll = async (): Promise<void> => {
+  const handleRoll = async () => {
     setDicesSRC(gifSRC);
-    await delay(1000);
-    let diceList = dicesSRC.map(() => {
-      return "/dices/dice" + randomInt(1, 6) + ".png";
-    });
-    setDicesSRC(diceList);
+    await new Promise(r => setTimeout(r, 1000));
+    setDicesSRC(dicesSRC.map(() => "/dices/dice" + randomInt(1, 6) + ".png"));
   };
 
-  const handleToolTip = async (): Promise<void> => {
+  const handleToolTip = async () => {
     try {
       const tooltip = yahtzeeLogic.getToolTipDice();
-      var combiComplexeCopy = defaultCombiComplexes;
-      const updatedCombiComplexes = combiComplexeCopy.map((combi) => {
-        switch (combi.nom) {
-          case 'three of a kind':
-            return { ...combi, hoverDices: tooltip.threeOfAKind };
-          case 'four of a kind':
-            return { ...combi, hoverDices: tooltip.fourOfAKind };
-          case 'full house':
-            return { ...combi, hoverDices: tooltip.fullHouse };
-          case 'small straight':
-            return { ...combi, hoverDices: tooltip.smallStraight };
-          case 'large straight':
-            return { ...combi, hoverDices: tooltip.largeStraight };
-          case 'yahtzee':
-            return { ...combi, hoverDices: tooltip.yahtzee };
-          case 'chance':
-            return { ...combi, hoverDices: tooltip.chance };
-          default:
-            return combi;
-        }
-      });
-      setDefaultCombiComplexes(updatedCombiComplexes);
+      setDefaultCombiComplexes(defaultCombiComplexes.map((combi) => {
+        const map: Record<string, string[]> = {
+          'three of a kind': tooltip.threeOfAKind,
+          'four of a kind': tooltip.fourOfAKind,
+          'full house': tooltip.fullHouse,
+          'small straight': tooltip.smallStraight,
+          'large straight': tooltip.largeStraight,
+          'yahtzee': tooltip.yahtzee,
+          'chance': tooltip.chance,
+        };
+        return map[combi.nom] ? { ...combi, hoverDices: map[combi.nom] } : combi;
+      }));
     } catch (error) {
       console.error("error" + error);
     }
   };
 
-  useEffect(() => {
-    handleToolTip();
-  }, []);
+  useEffect(() => { handleToolTip(); }, []);
+
+  if (!openModal || !openRuleModal) return null;
 
   return (
-    openModal && openRuleModal && (
-      <div className="rulesContainer">
-        <div className="rulesBox">
-          <h1 style={{ fontWeight: 'bold', textAlign: 'center', backgroundColor: 'white' }}>rules</h1>
-          <p style={{ textAlign: 'center', backgroundColor: 'white' }}>welcome to the best web adaptation of </p> <p style={{fontWeight: 'bold'}}> yahtzee :D</p>
-          <img src="/dices/nonumber.gif" className='gif' style={{ maxWidth: '80px', maxHeight: '80px', backgroundColor: 'white' }} alt="GIF" />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <p style={{ backgroundColor: 'white' }}>in front of you, you have five dices that you can</p>
-              <button className='rollButton' onClick={handleRoll}>Roll</button>
+    <div className="rulesContainer">
+      <div className="rulesBox">
+
+        {/* ── Contenu scrollable ── */}
+        <div className="rulesContent">
+
+          {/* Header */}
+          <img src="/dices/nonumber.gif" className='gif' style={{ width: '60px', height: '60px' }} alt="dice gif" />
+          <h1>{t.modals.rules["rules"]}</h1>
+          <p>{t.modals.rules["welcome"]} <strong>{t.global.yahtzee}</strong> 🎲</p>
+
+          <div className="rulesDivider" />
+
+          {/* Dés */}
+          <p>{t.modals.rules["you_have"]} <strong>{t.modals.rules["dices"]}</strong> {t.modals.rules["click_to_roll"]}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button className='rollButton' onClick={handleRoll}>Roll</button>
+            <div className="dicesRow">
+              {dicesSRC.map((src, i) => <img key={i} src={src} alt="dice" className="fakeDice" />)}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '10px', flexWrap: 'wrap' }}>
-              {dicesSRC.map((src, index) => (
-                <img key={index} src={src} alt="dice" className="fakeDice" />
-              ))}
-            </div>
-            <p>your objective in the round is to create a combination with dices</p>
-            <div className='tableau'>
-              <table style={{ border: '1px solid lightgray', borderCollapse: 'collapse', width: '100%' }}>
-                <tbody>
-                  {defaultCombiComplexes.map((ligne, index) => {
-                    const isTotalRow = ligne.nom === "total score";
-                    return (
-                      <tr key={isTotalRow ? 'total' : index} style={isTotalRow ? { background: 'linear-gradient(to bottom, white, lightblue)' } : { backgroundColor: 'white' }}>
-                        <td style={{ fontWeight: 'bold', border: '1px solid lightgray' }}>
-                          {ligne.nom}
-                        </td>
-                        <td style={{ border: '1px solid lightgray' }}>
-                          {ligne.hover}
-                        </td>
-                        <td style={{ border: '1px solid lightgray' }}>
-                          {ligne.hoverDices.map((url, index) => (
-                            <img key={index} src={url} alt="dice" className="fakeDice" style={{ width: '20px', height: '20px' }} />
-                          ))}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              <table style={{ border: '1px solid lightgray', borderCollapse: 'collapse', width: '100%' }}>
-                <tbody>
-                  {defaultCombiSimples.map((ligne, index) => {
-                    const isTotalRow = ligne.nom === "total score";
-                    return (
-                      <tr key={isTotalRow ? 'total' : index} style={isTotalRow ? { background: 'linear-gradient(to bottom, white, lightblue)' } : { backgroundColor: 'white' }}>
-                        <td style={{ fontWeight: 'bold', border: '1px solid lightgray' }}>
-                          {ligne.nom}
-                        </td>
-                        <td style={{ border: '1px solid lightgray' }}>
-                          {ligne.hover}
-                        </td>
-                        <td style={{ border: '1px solid lightgray' }}>
-                          {ligne.hoverDices.map((url, index) => (
-                            <img key={index} src={url} alt="dice" className="fakeDice" style={{ width: '20px', height: '20px' }} />
-                          ))}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '5px', flexWrap: 'wrap' }}>
-              <p>during each round, you can roll your dices only</p>
-              <p style={{ fontWeight: 'bold' }}>three</p>
-              <p>times</p>
-            </div>
-            <p>to help you create a combination with your dices, you can keep some dices before rolling by clicking on it !!</p>
-            <p style={{ fontWeight: 'bold' }}>good luck now :p</p>
           </div>
-          <button className="closeButton" onClick={closeFunction} style={{ marginTop: "10px" }}>play</button>
+
+          <div className="rulesDivider" />
+
+          {/* Combos */}
+          <p>{t.modals.rules["goal"]} <strong>{t.modals.rules["combinations"]}</strong> {t.modals.rules["with_your_dices"]} :</p>
+          <div className="tableau">
+            <table className="rulesTable">
+              <thead>
+                <tr><th>{t.modals.rules["combo"]}</th><th>{t.modals.rules["description"]}</th><th>{t.modals.rules["example"]}</th></tr>
+              </thead>
+              <tbody>
+                {defaultCombiComplexes.map((ligne, i) => (
+                  <tr key={i}>
+                    <td><strong>{ligne.nom}</strong></td>
+                    <td>{ligne.hover}</td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      {ligne.hoverDices.map((url, j) => (
+                        <img key={j} src={url} alt="dice" style={{ width: '18px', height: '18px' }} />
+                      ))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <table className="rulesTable">
+              <thead>
+                <tr><th>{t.modals.rules["combo"]}</th><th>{t.modals.rules["description"]}</th><th>{t.modals.rules["example"]}</th></tr>
+              </thead>
+              <tbody>
+                {defaultCombiSimples.map((ligne, i) => (
+                  <tr key={i}>
+                    <td><strong>{ligne.nom}</strong></td>
+                    <td>{ligne.hover}</td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      {ligne.hoverDices.map((url, j) => (
+                        <img key={j} src={url} alt="dice" style={{ width: '18px', height: '18px' }} />
+                      ))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="rulesDivider" />
+
+          {/* Tips */}
+          <div className="rulesTip">
+            🎯 {t.modals.rules["you_can_roll_up"]} <strong>{t.modals.rules["times_per_turn"]}</strong> {t.modals.rules["per_turn"]}
+          </div>
+          <div className="rulesTip">
+            🔒 {t.modals.rules["click_dice_to"]} <strong>{t.modals.rules["keep_it"]}</strong> {t.modals.rules["before_rolling"]}
+          </div>
+          <div className="rulesTip">
+            ✨ <strong>{t.modals.rules["good_luck"]} !</strong>
+          </div>
+
         </div>
+
+        {/* ── Footer sticky avec bouton play ── */}
+        <div className="rulesFooter">
+          <span className="rulesFooterHint">{t.modals.rules["ready_to_play"]} ?</span>
+          <button className="closeButton" onClick={closeFunction}>▶ {t.modals.rules["play"]}</button>
+        </div>
+
       </div>
-    )
+    </div>
   );
 }

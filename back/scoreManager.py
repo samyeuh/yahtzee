@@ -28,7 +28,6 @@ class ScoreManager:
         paris_tz = pytz.timezone("Europe/Paris")
         today = datetime.now(paris_tz).date()
         for score in all_scores:
-            # date conversion to Paris timezone
             date_utc = datetime.fromisoformat(score["save_at"].replace('Z', '+00:00'))
             date_paris = date_utc.astimezone(paris_tz)
             
@@ -38,7 +37,6 @@ class ScoreManager:
             score["Date"] = date_paris.strftime("%d/%m/%Y")
             score["Duration"] = score.pop("game_duration", "N/A")
             score["Details"] = score.pop("details")
-
 
         def filter_by_date_range(scores, start_date, end_date):
             return [
@@ -51,7 +49,6 @@ class ScoreManager:
         weekly = filter_by_date_range(all_scores, week_start, today)
         monthly = [s for s in all_scores if datetime.strptime(s["Date"], "%d/%m/%Y").month == today.month]
 
-        
         all_scores.sort(key=lambda s: s["Score"], reverse=True)
         daily.sort(key=lambda s: s["Score"], reverse=True)
         weekly.sort(key=lambda s: s["Score"], reverse=True)
@@ -64,16 +61,28 @@ class ScoreManager:
             "lifetime": all_scores
         }
 
-    
     def addScore(self, icon, playerName, score, duration, details):
         try:
-            self.supabase.table("game_scores").insert({
+            response = self.supabase.table("game_scores").insert({
                 "icon": icon,
                 "name": playerName,
                 "score": score,
                 "game_duration": duration,
                 "details": json.dumps(details)
             }).execute()
+            # Return the ID of the inserted row
+            return response.data[0]["id"] if response.data else None
         except Exception as e:
             print(f"Error adding score: {e}")
+            return None
+
+    def updateScore(self, score_id, icon, playerName):
+        try:
+            self.supabase.table("game_scores").update({
+                "icon": icon,
+                "name": playerName,
+            }).eq("id", score_id).execute()
+            return True
+        except Exception as e:
+            print(f"Error updating score: {e}")
             return False

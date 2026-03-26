@@ -24,9 +24,10 @@ dist-ssr
 __pycache__/
 
 *.env
-*.json
 *.csv
 
 supabase-secret.yaml
 .terraform/
 .tfstate
+
+venv/

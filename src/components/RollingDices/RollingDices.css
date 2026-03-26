@@ -53,6 +53,10 @@
   right: 100px;
 }
 
+.timer {
+  font-variant-numeric: tabular-nums;
+}
+
 @media screen and (max-width: 768px) {
 
   .gif-rules{

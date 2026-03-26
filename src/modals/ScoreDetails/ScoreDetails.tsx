@@ -1,56 +1,83 @@
 import './ScoreDetails.css';
-import Tableau from '../../components/Tableau/Tableau';
 import { Combi, Combinations } from '../../class/Combi';
+import { useTranslation } from '../../i18n/useTranslation';
 
 type DetailsProps = {
   closeFunction: () => void;
   playerDetails: any;
 };
 
-export function ScoreDetails({ closeFunction, playerDetails}: DetailsProps) {
+const getScoreClass = (score: number, max: number): string => {
+  if (score === 0) return 'scoreZero';
+  const ratio = score / max;
+  if (ratio >= 0.7) return 'scoreHigh';
+  if (ratio >= 0.35) return 'scoreMid';
+  return 'scoreLow';
+};
 
-    const combiTotal = {nom: 'total score', imageUrls: [], score: playerDetails["Score"], hover: "", hoverDices: []};
+export function ScoreDetails({ closeFunction, playerDetails }: DetailsProps) {
 
-    const transformDetails = (playerDetails: any): Combinations => {
-        console.log("📢 Contenu brut de playerDetails.Details :", playerDetails.Details);
-    
-        let parsedData;
-    
-        // Vérifier si `Details` est déjà un objet JSON
-        if (typeof playerDetails.Details === "object") {
-            parsedData = playerDetails.Details;
-        } else {
-            try {
-                parsedData = JSON.parse(playerDetails.Details);
-            } catch (error) {
-                console.error("Erreur JSON.parse(Details):", error);
-                return { simple: [], complexe: [] };
-            }
-        }
-    
-        console.log("📢 JSON parsé :", parsedData);
-    
-        const combiSimples: Combi[] = parsedData.simple || [];
-        const combiComplexes: Combi[] = parsedData.complexe || [];
-    
-        return { simple: combiSimples, complexe: combiComplexes };
-    };
-    
+  const { t } = useTranslation();
 
-    const playerDetailsTransformed = transformDetails(playerDetails);
+  const transformDetails = (playerDetails: any): Combinations => {
+    let parsedData;
+    if (typeof playerDetails.Details === "object") {
+      parsedData = playerDetails.Details;
+    } else {
+      try { parsedData = JSON.parse(playerDetails.Details); }
+      catch { return { simple: [], complexe: [] }; }
+    }
+    return { simple: parsedData.simple || [], complexe: parsedData.complexe || [] };
+  };
+
+  const { simple, complexe } = transformDetails(playerDetails);
+  const allCombis = [...simple, ...complexe].filter(c => c.score > 0);
+  const maxScore = allCombis.length > 0 ? Math.max(...allCombis.map(c => c.score)) : 1;
+
+  const renderSection = (combis: Combi[], title: string) => (
+    <div className="detailsSection">
+      <div className="detailsSectionTitle">{title}</div>
+      {combis.map((ligne, i) => (
+        <div key={i} className="detailsRow">
+          <span className="combiName">{ligne.nom}</span>
+          <span className={`combiScore ${getScoreClass(ligne.score, maxScore)}`}>
+            {ligne.score > 0 ? ligne.score : '—'}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
-            <div className="detailsContainer">
-              <div className="detailsBox">
-                <h1 style={{fontWeight: 'bold'}}>{playerDetails['Nom']}</h1>
-                <p style={{marginTop:'-5px'}}>{playerDetails['Date']} • {playerDetails["Duration"]}</p>
-                <img src={playerDetails['Icon']} alt="icon" style={{width: '75px', height: '75px'}}/>
-                    <div className="detailsTabs">
-                        <Tableau combis={playerDetailsTransformed.complexe} caption={"lower section"} clickFunc={() => Promise.resolve()} resetTab={false} selectedCombi={playerDetailsTransformed.complexe.map(combi => combi.nom)} wantedGrey={false}/>
-                        <Tableau combis={[...playerDetailsTransformed.simple, combiTotal]} caption={"upper section"} clickFunc={() => Promise.resolve()} resetTab={false} selectedCombi={playerDetailsTransformed.simple.map(combi => combi.nom)} wantedGrey={false}/>
-                    </div>
-                <button className="fermerButton" onClick={closeFunction}>close</button>
-              </div>
-            </div>
-    );
+    <div className="detailsContainer" onClick={closeFunction}>
+      <div className="detailsBox" onClick={(e) => e.stopPropagation()}>
+
+        <div className="detailsHeader">
+          <img className="playerIcon" src={playerDetails['Icon']} alt="icon" />
+          <div>
+            <h1>{playerDetails['Nom']}</h1>
+            <p className="detailsSub">{playerDetails['Date']} • {playerDetails["Duration"]}</p>
+          </div>
+        </div>
+
+        <div className="totalBadge">
+          <span className="totalScore">{playerDetails["Score"]}</span>
+        </div>
+
+        <div className="detailsTabs">
+          {renderSection(complexe, "lower section")}
+          {renderSection(simple, "upper section")}
+        </div>
+
+        <div className="detailsLegend">
+          <div className="legendItem"><div className="legendDot" style={{background:'#4caf7d'}}/> {t.modals.score_details["great"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#f0a500'}}/> {t.modals.score_details["ok"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#e07070'}}/> {t.modals.score_details["low"]}</div>
+          <div className="legendItem"><div className="legendDot" style={{background:'#ccc'}}/> {t.modals.score_details["none"]}</div>
+        </div>
+
+        <button className="fermerButton" onClick={closeFunction}>{t.modals.score_details["close"]}</button>
+      </div>
+    </div>
+  );
 }

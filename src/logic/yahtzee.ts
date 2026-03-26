@@ -128,22 +128,28 @@ class Yahtzee{
     }
 
     public playSound(name: string): void {
-    const baseSound = this.sounds[name];
+        const baseSound = this.sounds[name];
 
-    if (!baseSound) {
-        console.warn(`Sound '${name}' not preloaded.`);
-        return;
+        if (!baseSound) {
+            console.warn(`Sound '${name}' not preloaded.`);
+            return;
+        }
+
+        try {
+            const clone = baseSound.cloneNode(true) as HTMLAudioElement;
+            clone.play().catch(e => {
+                console.warn(`Playback failed for sound '${name}':`, e);
+            });
+        } catch (error) {
+            console.error("Error playing sound:", error);
+        }
     }
 
-    try {
-        const clone = baseSound.cloneNode(true) as HTMLAudioElement;
-        clone.play().catch(e => {
-            console.warn(`Playback failed for sound '${name}':`, e);
-        });
-    } catch (error) {
-        console.error("Error playing sound:", error);
+    public setVolume(volume: number): void {
+        for (const sound in this.sounds) {
+            this.sounds[sound].volume = Math.max(0, Math.min(1, volume));
+        }
     }
-}
 
         
 }
