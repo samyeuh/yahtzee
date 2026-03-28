@@ -1,7 +1,11 @@
 {
     "_legend": "types: new ✨ | improved ⚡ | fix 🐛",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "entries": [
+        {
+            "type": "fix",
+            "text": "yahtzee bonus (+100 pts) if there a second yahtzee is rolled after the first one has been scored in the yahtzee category"
+        },
         {
             "type": "new",
             "text": "settings page with sound control, background color, language selection, and default name"
@@ -13,10 +17,6 @@
         {
             "type": "new",
             "text": "upper section bonus (+35 pts) when you reach 63"
-        },
-        {
-            "type": "new",
-            "text": "yahtzee bonus (+100 pts) for each extra yahtzee"
         },
         {
             "type": "improved",
