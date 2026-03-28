@@ -54,7 +54,7 @@ class Yahtzee{
     public rollDice(): {nbTurn: number; dice: number[];} {
         for(let i = 0; i < 5; i++){
             if(this.diceKeep.indexOf(i) === -1){
-                this.dice[i] = 6//Math.floor(Math.random() * 6) + 1;
+                this.dice[i] = Math.floor(Math.random() * 6) + 1;
             }
         }
         this.nbTurn--;
