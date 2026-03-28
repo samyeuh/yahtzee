@@ -76,7 +76,19 @@
             "before_rolling": "before rolling again",
             "good_luck": "good luck",
             "ready_to_play": "ready to play",
-            "play": "play"
+            "play": "play",
+            "bonus intro p1": "there are",
+            "bonus intro p2": "2 bonuses",
+            "bonus intro p3": "you can earn during the game",
+            "tab bonus": "bonus",
+            "tab condition": "condition",
+            "tab value": "value",
+            "bonus 1 name": "upper bonus",
+            "bonus 1 condition": "need to have more than 63 in the upper section",
+            "bonus 1 value": "+35 pts",
+            "bonus 2 name": "yahtzee bonus",
+            "bonus 2 condition": "roll a yahtzee a second time",
+            "bonus 2 value": "+100 pts"
         },
         "score_details": {
             "great": "great",

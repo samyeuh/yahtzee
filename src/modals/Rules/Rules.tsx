@@ -119,6 +119,28 @@ export function Rules({ closeFunction, openModal, openRuleModal }: RulesProps) {
 
           <div className="rulesDivider" />
 
+          {/* Bonuses */}
+          <p>{t.modals.rules["bonus intro p1"]} <strong>{t.modals.rules["bonus intro p2"]}</strong> {t.modals.rules["bonus intro p3"]}</p>
+          <table className="rulesTable">
+            <thead>
+              <tr><th>{t.modals.rules["tab bonus"]}</th><th>{t.modals.rules["tab condition"]}</th><th>{t.modals.rules["tab value"]}</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>{t.modals.rules["bonus 1 name"]}</strong></td>
+                <td>{t.modals.rules["bonus 1 condition"]}</td>
+                <td><strong>{t.modals.rules["bonus 1 value"]}</strong></td>
+              </tr>
+              <tr>
+                <td><strong>{t.modals.rules["bonus 2 name"]}</strong></td>
+                <td>{t.modals.rules["bonus 2 condition"]}</td>
+                <td><strong>{t.modals.rules["bonus 2 value"]}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+        <div className="rulesDivider" />
+
           {/* Tips */}
           <div className="rulesTip">
             🎯 {t.modals.rules["you_can_roll_up"]} <strong>{t.modals.rules["times_per_turn"]}</strong> {t.modals.rules["per_turn"]}
