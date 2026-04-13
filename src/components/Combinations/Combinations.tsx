@@ -99,15 +99,13 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         }
     }, [resetTab]);
 
-    // ── Award upper bonus when threshold is crossed ──
     useEffect(() => {
         if (!upperBonusAwarded && upperSum >= UPPER_BONUS_THRESHOLD) {
             setUpperBonusAwarded(true);
-            setScore(score + UPPER_BONUS_VALUE);
-            yahtzeeLogic.addScore(UPPER_BONUS_VALUE);
+            const newScore = yahtzeeLogic.addScore(UPPER_BONUS_VALUE);
+            setScore(newScore);
         }
     }, [upperSum]);
-
     const updateTheScore = async (combi: Combi): Promise<void> => {
         try {
             let newScore = yahtzeeLogic.addScore(combi.score);
@@ -157,13 +155,11 @@ export function Combinations({ stopTimer }: { stopTimer: () => void }) {
         const isCurrentlyYahtzee = currentYahtzeeScore === 50;
 
         if (combi.nom === 'yahtzee' && isCurrentlyYahtzee) {
-            // First yahtzee — just track it, score handled by updateTheScore
             setYahtzeeCount(1);
-        } else if (combi.nom !== 'yahtzee' && combiSelected.includes('yahtzee') && isCurrentlyYahtzee) {
-            // Extra yahtzee — award +100 bonus once
-            setYahtzeeCount(prev => prev + 1);
-            yahtzeeLogic.addScore(YAHTZEE_BONUS_VALUE);
-           setScore(score + YAHTZEE_BONUS_VALUE);
+        } else if (combi.nom !== 'yahtzee' && combiSelected.includes('yahtzee') && isCurrentlyYahtzee && yahtzeeCount === 1) {
+            setYahtzeeCount(2);
+            const newScore = yahtzeeLogic.addScore(YAHTZEE_BONUS_VALUE);
+            setScore(newScore);
         }
 
         const updatedSimples = combiSimples.map(c => ({

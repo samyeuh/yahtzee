@@ -28,7 +28,7 @@ function checkKind(dice: number[], combinations: Combinations): Combinations {
         let found = false;
         dice.forEach((val) => {
             if (dice.filter((v) => v === val).length >= 3){
-                combinations.complexe[0].score = val * 3;
+                combinations.complexe[0].score = dice.reduce((total, num) => total + num, 0);
                 found = true;
             }
         });
@@ -39,7 +39,7 @@ function checkKind(dice: number[], combinations: Combinations): Combinations {
         let found = false;
         dice.forEach((val) => { 
             if (dice.filter((v) => v === val).length >= 4){
-                combinations.complexe[1].score = val * 4;
+                combinations.complexe[1].score = dice.reduce((total, num) => total + num, 0);
                 found = true;
             }
         });

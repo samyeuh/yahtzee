@@ -76,7 +76,19 @@
             "before_rolling": "avant de relancer",
             "good_luck": "bonne chance",
             "ready_to_play": "prêt",
-            "play": "jouer"
+            "play": "jouer",
+            "bonus intro p1": "il y a",
+            "bonus intro p2": "2 bonus",
+            "bonus intro p3": "que tu peux avoir pendant la partie",
+            "tab bonus": "bonus",
+            "tab condition": "condition",
+            "tab value": "valeur",
+            "bonus 1 name": "bonus mineur",
+            "bonus 1 condition": "avoir plus de 63 points dans la partie mineure",
+            "bonus 1 value": "+35 pts",
+            "bonus 2 name": "bonus yahtzee",
+            "bonus 2 condition": "avoir un deuxième yahtzee",
+            "bonus 2 value": "+100 pts"
         },
         "score_details": {
             "great": "bien",
