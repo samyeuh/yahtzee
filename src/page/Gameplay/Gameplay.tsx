@@ -48,6 +48,12 @@ export function Gameplay() {
         }
     };
 
+  useEffect(() => {
+      yahtzeeLogic.setVolume(settings.volume);
+      yahtzeeLogic.setMuted(settings.muted);
+  }, [settings.volume, settings.muted]);
+
+
       const handleStart = () => {
         startTimeRef.current = Date.now() - time;
         setIsTimerActive(true);
