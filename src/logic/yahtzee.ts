@@ -129,27 +129,31 @@ class Yahtzee{
 
     public playSound(name: string): void {
         const baseSound = this.sounds[name];
-
-        if (!baseSound) {
-            console.warn(`Sound '${name}' not preloaded.`);
-            return;
-        }
-
+        if (!baseSound) return;
+    
         try {
             const clone = baseSound.cloneNode(true) as HTMLAudioElement;
-            clone.play().catch(e => {
-                console.warn(`Playback failed for sound '${name}':`, e);
-            });
+            clone.volume = baseSound.volume;
+            clone.muted = baseSound.muted;
+            clone.play().catch(e => console.warn(`Playback failed:`, e));
         } catch (error) {
             console.error("Error playing sound:", error);
         }
     }
+
 
     public setVolume(volume: number): void {
         for (const sound in this.sounds) {
             this.sounds[sound].volume = Math.max(0, Math.min(1, volume));
         }
     }
+
+    public setMuted(muted: boolean): void {
+        for (const sound in this.sounds) {
+            this.sounds[sound].muted = muted;
+        }
+    }
+
 
         
 }
