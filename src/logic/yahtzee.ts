@@ -131,15 +131,12 @@ class Yahtzee{
         const baseSound = this.sounds[name];
         if (!baseSound) return;
     
-        try {
-            const clone = baseSound.cloneNode(true) as HTMLAudioElement;
-            clone.volume = baseSound.volume;
-            clone.muted = baseSound.muted;
-            clone.play().catch(e => console.warn(`Playback failed:`, e));
-        } catch (error) {
-            console.error("Error playing sound:", error);
-        }
+        const clone = baseSound.cloneNode(true) as HTMLAudioElement;
+        clone.volume = baseSound.volume;  // copie le volume du parent
+        clone.muted = baseSound.muted;    // copie le muted du parent
+        clone.play().catch(e => console.warn(e));
     }
+
 
 
     public setVolume(volume: number): void {
