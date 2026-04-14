@@ -11,7 +11,7 @@ import { YahtzeeAPI } from '../../api/YahtzeeAPI';
 
 export function Gameplay() {
 
-  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic, time, setTime } = useYahtzeeContext();
+  const { gameActive, setGameActive, setRoundActive, setScore, setResetTab, yahtzeeLogic, time, setTime, settings } = useYahtzeeContext();
   const { testServer } = YahtzeeAPI();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openRuleModal, setOpenRuleModal] = useState<boolean>(false);
