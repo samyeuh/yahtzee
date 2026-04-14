@@ -75,8 +75,10 @@ export const YahtzeeProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   // ── Apply volume to yahtzeeLogic on settings change ──
   useEffect(() => {
-    yahtzeeLogic.setVolume(settings.muted ? 0 : settings.volume);
-  }, [settings.volume, settings.muted]);
+        yahtzeeLogic.setVolume(settings.volume);
+        yahtzeeLogic.setMuted(settings.muted);
+    }, [settings.volume, settings.muted]);
+
 
   const value = {
     roundActive, setRoundActive,
